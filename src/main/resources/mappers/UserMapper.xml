@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gzsf.operation.dao.UserMapper">
+    <update id="update" parameterType="com.gzsf.operation.model.User" >
+        UPDATE user
+        <set>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHART},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHART},
+            </if>
+            <if test="role != null">
+                password = #{role,jdbcType=VARCHART},
+            </if>
+            updated_at=now(),
+        </set>
+        where user_id = #{userId,jdbcType=VARCHART} OR user_name= #{userName,jdbcType=VARCHART}
+    </update>
+</mapper>
