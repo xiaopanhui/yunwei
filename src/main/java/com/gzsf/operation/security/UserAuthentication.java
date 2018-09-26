@@ -16,7 +16,6 @@ public class UserAuthentication implements Authentication {
     private boolean authenticated=false;
     private String name;
     private String credentials;
-    private String principal;
 
     public UserAuthentication(LoginInfo details) {
         setDetails(details);
@@ -58,7 +57,7 @@ public class UserAuthentication implements Authentication {
 
     @Override
     public Object getPrincipal() {
-        return principal;
+        return details==null?null:details.getUser();
     }
 
     @Override
@@ -78,9 +77,5 @@ public class UserAuthentication implements Authentication {
 
     public void setCredentials(String credentials) {
         this.credentials = credentials;
-    }
-
-    public void setPrincipal(String principal) {
-        this.principal = principal;
     }
 }

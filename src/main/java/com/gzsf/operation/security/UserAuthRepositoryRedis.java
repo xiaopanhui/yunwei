@@ -58,7 +58,7 @@ public class UserAuthRepositoryRedis implements UserAuthRepository{
 
     @Override
     public void expire(String token,Long time, TimeUnit timeUnit) {
-        this.stringRedisTemplate.expire(token,time,timeUnit);
+        this.stringRedisTemplate.expire(tokenPrefix+token,time,timeUnit);
     }
 
     @Override

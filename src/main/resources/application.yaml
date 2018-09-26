@@ -4,6 +4,11 @@ spring:
     password: operation
     url: jdbc:mysql://127.0.0.1:3306/operation?characterEncoding=utf-8&useSSL=false
     username: operation
+  cache:
+    redis:
+      time-to-live: 30m
+  jackson:
+    default-property-inclusion: non_null
 mybatis:
   configuration:
     auto-mapping-behavior: full
