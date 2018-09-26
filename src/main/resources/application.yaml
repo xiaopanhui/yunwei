@@ -17,3 +17,5 @@ mybatis:
     map-underscore-to-camel-case: true
   mapper-locations: classpath*:mappers/*.xml
   type-aliases-package: com.gzsf.operation.model
+server:
+  port: 5000
