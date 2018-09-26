@@ -7,7 +7,7 @@ spring:
 mybatis:
   configuration:
     auto-mapping-behavior: full
-    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler #½«Ã¶¾ÙÓ³Éä³ÉÎªÊıÖµ
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler #å°†æšä¸¾æ˜ å°„æˆä¸ºæ•°å€¼
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
   mapper-locations: classpath*:mappers/*.xml
