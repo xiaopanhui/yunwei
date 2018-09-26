@@ -2,10 +2,12 @@ package com.gzsf.operation.model;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class User {
+public class User implements Serializable {
+
     private long userId;
     private String userName;
     private String password;

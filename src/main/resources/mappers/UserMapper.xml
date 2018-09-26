@@ -17,4 +17,11 @@
         </set>
         where user_id = #{userId,jdbcType=VARCHART} OR user_name= #{userName,jdbcType=VARCHART}
     </update>
+
+    <select id="getUserById" resultType="com.gzsf.operation.model.User" parameterType="java.lang.Long">
+        select * from  user where user_id=#{userId}
+    </select>
+    <select id="login" resultType="com.gzsf.operation.model.User">
+        select user_id, user_name, role, created_at, updated_at from operation.user where user_name=#{userName} and password=#{password}
+    </select>
 </mapper>
