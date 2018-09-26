@@ -10,4 +10,6 @@ public interface UserMapper {
     int update(User user);
     User getUserById(Long userId);
     User login(@Param("userName")String userName,@Param("password")String password);
+    int insert(User user);
+    void delete(Long userId);
 }
