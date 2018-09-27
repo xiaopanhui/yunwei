@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class Response<T> {
-    private int code;
+    private int status;
     private String msg;
     private T data;
 
@@ -12,12 +12,12 @@ public class Response<T> {
     }
 
     public Response(int code, String msg) {
-        this.code = code;
+        this.status = code;
         this.msg = msg;
     }
 
     public Response(int code, String msg, T data) {
-        this.code = code;
+        this.status = code;
         this.msg = msg;
         this.data = data;
     }
