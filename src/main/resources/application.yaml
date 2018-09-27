@@ -19,3 +19,11 @@ mybatis:
   type-aliases-package: com.gzsf.operation.model
 server:
   port: 5000
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+  rowBoundsWithCount: true
+  pageSizeZero: true
