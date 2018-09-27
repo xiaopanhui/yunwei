@@ -24,10 +24,10 @@
     </update>
 
     <select id="getUserById" resultType="com.gzsf.operation.model.User" parameterType="java.lang.Long">
-        select user_id, user_name, role, created_at, updated_at,description from  user where user_id=#{userId} and is_del=1
+        select user_id, user_name, role, created_at, updated_at,description from  user where user_id=#{userId} and is_del=0
     </select>
     <select id="login" resultType="com.gzsf.operation.model.User">
-        select user_id, user_name, role, created_at, updated_at,description from operation.user where user_name=#{userName} and password=#{password} and is_del=1
+        select user_id, user_name, role, created_at, updated_at,description from operation.user where user_name=#{userName} and password=#{password} and is_del=0
     </select>
     <insert id="insert" parameterType="com.gzsf.operation.model.User">
         insert into user
