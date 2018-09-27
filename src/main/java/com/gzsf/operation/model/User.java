@@ -14,6 +14,8 @@ public class User implements Serializable {
     private Date createdAt;
     private Date updatedAt;
     private Role role;
+    private String description;
+    private Long createdBy;
 
     public enum Role{
         SYSTEM,ADMIN,USER,READONLY

@@ -16,15 +16,18 @@
             <if test="updatedAt != null">
                 updated_at = #{updatedAt},
             </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
         </set>
-        where user_id = #{userId} OR user_name= #{userName}
+        where (user_id = #{userId} OR user_name= #{userName}) and is_del=0
     </update>
 
     <select id="getUserById" resultType="com.gzsf.operation.model.User" parameterType="java.lang.Long">
-        select user_id, user_name, role, created_at, updated_at from  user where user_id=#{userId}
+        select user_id, user_name, role, created_at, updated_at,description from  user where user_id=#{userId} and is_del=1
     </select>
     <select id="login" resultType="com.gzsf.operation.model.User">
-        select user_id, user_name, role, created_at, updated_at from operation.user where user_name=#{userName} and password=#{password}
+        select user_id, user_name, role, created_at, updated_at,description from operation.user where user_name=#{userName} and password=#{password} and is_del=1
     </select>
     <insert id="insert" parameterType="com.gzsf.operation.model.User">
         insert into user
@@ -40,6 +43,12 @@
             <if test="updatedAt != null">
                 updated_at,
             </if>
+            <if test="description!=null">
+                description
+            </if>
+            <if test="createdBy!=null">
+                created_by
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             #{userName},
@@ -53,9 +62,15 @@
             <if test="updatedAt != null">
                 #{updatedAt},
             </if>
+            <if test="description!=null">
+                #{description},
+            </if>
+            <if test="createdBy!=null">
+                #{createdBy},
+            </if>
         </trim>
     </insert>
-    <delete id="delete">
-        delete from user where user_id=#{userId}
-    </delete>
+    <update id="delete">
+        update user set is_del=1 where user_id=#{userId}
+    </update>
 </mapper>
