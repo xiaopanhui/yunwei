@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: org.gjt.mm.mysql.Driver
-    password: operation
+    password: root
     url: jdbc:mysql://127.0.0.1:3306/operation?characterEncoding=utf-8&useSSL=false
-    username: operation
+    username: root
   cache:
     redis:
       time-to-live: 30m

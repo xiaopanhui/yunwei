@@ -73,4 +73,23 @@
     <update id="delete">
         update user set is_del=1 where user_id=#{userId}
     </update>
+
+<!--    &lt;!&ndash;未完成&ndash;&gt;
+    <select id="findAll"  resultType="com.gzsf.operation.model.User">
+        select
+        <include refid="Base_Column_List" />
+        from user
+    </select>
+&lt;!&ndash;未完成&ndash;&gt;
+    <select id="findByuserId" resultType="com.gzsf.operation.model.User">
+        select
+        <include refid="Base_Column_List" />
+        from user where user_id=#{userId}
+    </select>
+
+    <select id="getUsersByRole" resultType="com.gzsf.operation.model.User">
+        select user_id, user_name, role, created_at, updated_at,description from  user
+  </select>-->
+
+
 </mapper>

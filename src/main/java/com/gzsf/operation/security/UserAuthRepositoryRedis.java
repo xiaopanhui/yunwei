@@ -87,6 +87,8 @@ public class UserAuthRepositoryRedis implements UserAuthRepository{
         info.setLoginAt(new Date());
         info.setUsrId(user.getUserId());
         info.setUserName(user.getUserName());
+        //添加了一条角色的添加
+        info.setRole(user.getRole());
         String token= UUID.randomUUID().toString();
         try {
             String data= objectMapper.writeValueAsString(info);
