@@ -38,8 +38,8 @@ public class UserAuthRepositoryRedis implements UserAuthRepository{
         if (data==null||data.isEmpty())return new UserAuthentication();
         try {
             LoginInfo loginInfo= objectMapper.readValue(data, LoginInfo.class);
-            executorService.submit(()->clear(loginInfo.getUsrId()));
-            loginInfo.setUser(userCache.getUserById(loginInfo.getUsrId()));
+            executorService.submit(()->clear(loginInfo.getUserId()));
+            loginInfo.setUser(userCache.getUserById(loginInfo.getUserId()));
             return new UserAuthentication(loginInfo);
         } catch (IOException e) {
             return new UserAuthentication();
@@ -85,7 +85,7 @@ public class UserAuthRepositoryRedis implements UserAuthRepository{
     public String save(User user) {
         LoginInfo info=new LoginInfo();
         info.setLoginAt(new Date());
-        info.setUsrId(user.getUserId());
+        info.setUserId(user.getUserId());
         info.setUserName(user.getUserName());
         //添加了一条角色的添加
         info.setRole(user.getRole());

@@ -31,6 +31,7 @@ public class UserCache {
      * 插入或者更新用户信息
      * @param user 用户信息
      * @return 变更行数
+     *  @CacheEvict注解用来清理缓存
      */
     @CacheEvict(value = "user",key = "#{user.userId}")
     public int save(User user){
@@ -46,6 +47,8 @@ public class UserCache {
     /**
      * 删除用户
      * @param userId 用户Id
+     *
+     *   @CacheEvict注解用来清理缓存
      */
     @CacheEvict(value = "user",key = "#{userId}")
     public void deleteUser(Long userId){

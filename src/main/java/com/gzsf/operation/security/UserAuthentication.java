@@ -28,7 +28,7 @@ public class UserAuthentication implements Authentication {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
     }
-
+    //获取用户的role
     public void addAuthority(User.Role role){
         for (int i = 0; i < User.Role.values().length; i++) {
             User.Role item=User.Role.values()[i];
@@ -37,10 +37,11 @@ public class UserAuthentication implements Authentication {
             }
         }
     }
-
+//设置进detail
     public void setDetails(LoginInfo details) {
         this.details = details;
         name=details.getUserName();
+
         authenticated=true;
         addAuthority(details.getUser().getRole());
     }

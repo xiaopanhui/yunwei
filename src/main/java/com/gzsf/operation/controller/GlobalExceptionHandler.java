@@ -22,6 +22,7 @@ import java.util.function.BiFunction;
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
+    //日志记录
     private final Logger logger= LoggerFactory.getLogger(this.getClass());
     private DefaultDataBufferFactory defaultDataBufferFactory=new DefaultDataBufferFactory();
     @ExceptionHandler(Exception.class)

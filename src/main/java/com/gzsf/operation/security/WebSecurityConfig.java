@@ -22,7 +22,7 @@ public class WebSecurityConfig {
             ServerHttpSecurity http)
     {
         return http.authorizeExchange()
-                .pathMatchers("/login","/add","/public/**","/api/**","/user/*","/test").permitAll()
+                .pathMatchers("/login","/add","/public/**","/api/**","/user/*","/test","/user").permitAll()
                 .anyExchange().authenticated()
                 .and()
                 .securityContextRepository(securityContextRepository)

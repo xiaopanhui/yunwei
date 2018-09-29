@@ -57,15 +57,16 @@ public class UserController {
     public Mono getUsers(
             @RequestParam(value = "size", defaultValue = "0") int size,
             @RequestParam(value = "page", defaultValue = "-1") int page,
-            UserAuthentication authentication){
+            UserAuthentication userAuthentication){
 
-        return userService.getUserList(((LoginInfo)authentication.getDetails()).
-                getRole(),page,size);
+        return userService.getUserList(((LoginInfo)userAuthentication.getDetails()).
+                getUser().getRole(),page,size).map(it->ResponseUtils.success(it));
     }
 
     @RequestMapping("test")
     public Mono<Response> test(Authentication authentication) throws Exception {
 //        throw new Exception("ddddd");
+        //nneg得到user所有xx
         User user= (User) authentication.getPrincipal();
         return Mono.just(ResponseUtils.success(user));
     }

@@ -85,11 +85,11 @@
         select
         <include refid="Base_Column_List" />
         from user where user_id=#{userId}
-    </select>
+    </select>-->
 
     <select id="getUsersByRole" resultType="com.gzsf.operation.model.User">
         select user_id, user_name, role, created_at, updated_at,description from  user
-  </select>-->
+  </select>
 
 
 </mapper>

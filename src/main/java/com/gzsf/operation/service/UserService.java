@@ -46,10 +46,10 @@ public class UserService extends MonoService{
            return loginInfo;
         });
     }
-    public Mono getUserList(User.Role role,int pageNum,int pageSize){
+    public Mono<Page> getUserList(User.Role role,int pageNum,int pageSize){
         return async(() -> {
-            Page<User> Users = userMapper.getUsersByRole(role, pageNum, pageSize);
-            return ResponseUtils.success(Users);
+            Page<User> users = userMapper.getUsersByRole(role, pageNum, pageSize);
+            return users;
         });
     }
 
