@@ -27,7 +27,8 @@
         select user_id, user_name, role, created_at, updated_at,description from  user where user_id=#{userId} and is_del=0
     </select>
     <select id="login" resultType="com.gzsf.operation.model.User">
-        select user_id, user_name, role, created_at, updated_at,description from operation.user where user_name=#{userName} and password=#{password} and is_del=0
+        select user_id, user_name, role, created_at, updated_at,description from operation.user
+        where user_name=#{userName} and password=#{password} and is_del=0
     </select>
     <insert id="insert" parameterType="com.gzsf.operation.model.User">
         insert into user
@@ -74,22 +75,42 @@
         update user set is_del=1 where user_id=#{userId}
     </update>
 
-<!--    &lt;!&ndash;未完成&ndash;&gt;
-    <select id="findAll"  resultType="com.gzsf.operation.model.User">
-        select
-        <include refid="Base_Column_List" />
-        from user
-    </select>
-&lt;!&ndash;未完成&ndash;&gt;
-    <select id="findByuserId" resultType="com.gzsf.operation.model.User">
-        select
-        <include refid="Base_Column_List" />
-        from user where user_id=#{userId}
-    </select>-->
+
 
     <select id="getUsersByRole" resultType="com.gzsf.operation.model.User">
         select user_id, user_name, role, created_at, updated_at,description from  user
-  </select>
+        where
+        <if test="role!=null">
+            role =#{role}
+        </if>
+        <if test="userName!=null and userName!=''">
+           and  user_name =#{userName}
+        </if>
+    </select>
+<!--
+&lt;!&ndash; int update(User user);&ndash;&gt;
+    <update id="update" parameterType="com.gzsf.operation.model.User">
+        update user
+        <set>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                `password` = #{password,jdbcType=VARCHAR},
+            </if>
 
+            <if test="createdAt != null">
+                created_at = #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedAt != null">
+                updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="role != null">
+                `role` = #{role,jdbcType=INTEGER},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+-->
 
 </mapper>

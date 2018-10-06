@@ -27,7 +27,7 @@ public class UserServiceTest {
 
     @Test
     public void getUserList() {
-        userService.getUserList(User.Role.ADMIN,1,10).map(it->{
+        userService.getUserList(User.Role.ADMIN,"hui"  ,1,10).map(it->{
             System.out.println(it);
             long total= it.getTotal();
             return "";

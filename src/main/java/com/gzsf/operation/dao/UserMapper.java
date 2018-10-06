@@ -17,8 +17,8 @@ public interface UserMapper {
     void delete(Long userId);
     //查询所有用户
 //    List<User> findAll();
-  Page<User> getUsersByRole(@Param("role") User.Role role, @Param("pageNum") int pageNum, @Param("pageSize") int pageSize);
-
+  Page<User> getUsersByRole(@Param("role") User.Role role,@Param("userName")String userName,
+                            @Param("pageNum") int pageNum, @Param("pageSize") int pageSize);
 
 
 }

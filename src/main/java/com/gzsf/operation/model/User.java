@@ -1,5 +1,6 @@
 package com.gzsf.operation.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -14,6 +15,7 @@ public class User implements Serializable {
     private Date createdAt;
     private Date updatedAt;
     private Role role;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String description;
     private Long createdBy;
 

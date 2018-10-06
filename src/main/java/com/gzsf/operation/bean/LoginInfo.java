@@ -12,10 +12,5 @@ public class LoginInfo {
     private String userName;
     private Date loginAt;
     private User user;
-    //添加登录的角色
-//    private  User.Role role;
-//    private Date createdAt;
-//    private Date updatedAt;
-
-
+    private  User.Role role;
 }

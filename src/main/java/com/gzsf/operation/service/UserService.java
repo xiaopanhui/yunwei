@@ -22,7 +22,7 @@ public class UserService extends MonoService{
     private UserMapper userMapper;
     @Autowired
     private UserAuthRepository userAuthRepository;
-//登录后信息做保存
+    //登录后信息做保存
     public Mono<String> login(String userName, String password){
         final String pwd= Utils.SHA1(password);
         return async(()->{
@@ -38,21 +38,52 @@ public class UserService extends MonoService{
         return  async(()->{
             User user=userMapper.getUserById(id);
             LoginInfo loginInfo=new LoginInfo();
-            loginInfo.setRole(user.getRole());
-            loginInfo.setUserName(user.getUserName());
-            loginInfo.setLoginAt(new Date());
-            loginInfo.setCreatedAt(user.getCreatedAt());
-            loginInfo.setUpdatedAt(user.getUpdatedAt());
+           loginInfo.setUser(user);
            return loginInfo;
         });
     }
-    public Mono<Page> getUserList(User.Role role,int pageNum,int pageSize){
+    //根据角色查询所有用户
+    public Mono<Page> getUserList(User.Role role,String userName,int pageNum,int pageSize){
         return async(() -> {
-            Page<User> users = userMapper.getUsersByRole(role, pageNum, pageSize);
+            Page<User> users = userMapper.getUsersByRole(role, userName, pageNum, pageSize);
             return users;
         });
-    }
 
+    }
+    //修改用户信息
+    public void updateUser(User user) {
+    /*    User newUser = new User();
+        newUser.setUserId(user.getUserId());
+        newUser.getRole(user.getRole());
+        newUser.setPhone(phone);
+        newUser.setEmail(email);
+        // 根据id查询;返回user对象
+        User user = userMapper.selectUserById(id);*/
+      /*  if (user == null) {
+            // 如果user==null;抛出异常
+            throw new UserNotFoundException("用户不存在");
+        } else {
+            // 根据用户名查询;返回user1
+            User user1 = userMapper.selectUserByUsername(username);
+            if (user1 != null) {
+
+                // 当前的用户名就是登陆的用户名
+                if (user1.getUsername().equals(user.getUsername())) {
+                } else {
+                    // 否则抛出异常
+                    throw new UsernameAlreadyExistException("用户名已存在");
+                }
+            } else {
+                // 数据库中没有相同的用户名,
+                // 设置用户名为newUser的属性.
+                newUser.setUsername(username);
+            }
+            // 修改用户信息
+            userMapper.updateUser(newUser);
+
+        }*/
+
+    }
 
 
 

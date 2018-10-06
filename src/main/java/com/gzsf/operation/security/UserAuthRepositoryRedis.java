@@ -25,6 +25,11 @@ public class UserAuthRepositoryRedis implements UserAuthRepository{
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    //ObjectMapper类是Jackson库的主要类。
+    // 它提供一些功能将转换成Java对象匹配JSON结构，反之亦然。
+    // 它使用JsonParser和JsonGenerator的实例实现JSON实际的读/写。
+
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
@@ -87,8 +92,7 @@ public class UserAuthRepositoryRedis implements UserAuthRepository{
         info.setLoginAt(new Date());
         info.setUserId(user.getUserId());
         info.setUserName(user.getUserName());
-        //添加了一条角色的添加
-        info.setRole(user.getRole());
+
         String token= UUID.randomUUID().toString();
         try {
             String data= objectMapper.writeValueAsString(info);
