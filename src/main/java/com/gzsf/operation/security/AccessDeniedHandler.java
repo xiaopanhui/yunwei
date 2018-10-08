@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gzsf.operation.ResponseUtils;
 import com.gzsf.operation.bean.Response;
-import org.omg.CORBA.Object;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferFactory;
@@ -18,8 +17,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 @Service
 public class AccessDeniedHandler implements ServerAccessDeniedHandler {
@@ -29,7 +30,7 @@ public class AccessDeniedHandler implements ServerAccessDeniedHandler {
     @Autowired
     public AccessDeniedHandler(ObjectMapper objectMapper) {
         contentType.add("application/json;charset=UTF-8");
-        Response response= ResponseUtils.accessDenied();
+        Response response= ResponseUtils.notLogin();
         try {
             byte[] bytes= objectMapper.writeValueAsBytes(response);
             dataBuffer= factory.wrap(bytes);
