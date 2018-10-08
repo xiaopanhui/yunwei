@@ -7,7 +7,6 @@ import com.gzsf.operation.ResponseUtils;
 import com.gzsf.operation.bean.LoginBean;
 import com.gzsf.operation.bean.LoginInfo;
 import com.gzsf.operation.bean.Response;
-import com.gzsf.operation.dao.UserMapper;
 import com.gzsf.operation.model.User;
 import com.gzsf.operation.security.UserAuthentication;
 import com.gzsf.operation.service.UserService;
@@ -16,15 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-import sun.rmi.runtime.Log;
-import sun.text.normalizer.ICUData;
-
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 @RestController
 public class UserController {
@@ -82,7 +74,14 @@ public class UserController {
                     .doOnError(throwable -> logger.error("getUsers",throwable));
     }
 
+    @RequestMapping("auth")
+    public Mono<Response> auth(){
+        return Mono.just(ResponseUtils.success(null));
+    }
+
+
     @RequestMapping("test")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public Mono<Response> test(Authentication authentication) throws Exception {
 //        throw new Exception("ddddd");
         //nneg得到user所有xx
