@@ -42,15 +42,30 @@ public class UserService extends MonoService{
            return loginInfo;
         });
     }
-    //根据角色查询所有用户
-    public Mono<Page> getUserList(User.Role role,String userName,int pageNum,int pageSize){
+
+    /**
+     *
+     * @param role
+     * @param userName
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    public Mono<Page> getUserList(User.Role role,String userName ,int pageNum,int pageSize){
         return async(() -> {
-            Page<User> users = userMapper.getUsersByRole(role, userName, pageNum, pageSize);
+            Page<User> users = userMapper.getUsers(role, userName, pageNum, pageSize);
             return users;
         });
 
     }
     //修改用户信息
+    public  void  updateUser(Long id, String newPassword, User.Role role){
+
+
+    }
+
+
+
     public void updateUser(User user) {
     /*    User newUser = new User();
         newUser.setUserId(user.getUserId());
@@ -59,7 +74,9 @@ public class UserService extends MonoService{
         newUser.setEmail(email);
         // 根据id查询;返回user对象
         User user = userMapper.selectUserById(id);*/
-      /*  if (user == null) {
+      /*
+
+       if (user == null) {
             // 如果user==null;抛出异常
             throw new UserNotFoundException("用户不存在");
         } else {

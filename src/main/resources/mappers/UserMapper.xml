@@ -77,34 +77,26 @@
 
 
 
-    <select id="getUsersByRole" resultType="com.gzsf.operation.model.User">
+    <select id="getUsers" resultType="com.gzsf.operation.model.User">
         select user_id, user_name, role, created_at, updated_at,description from  user
-        where
+        where role>1
         <if test="role!=null">
-            role =#{role}
+            and role =#{role}
         </if>
         <if test="userName!=null and userName!=''">
-           and  user_name =#{userName}
+            and  user_name like concat('%',#{userName},'%')
+
         </if>
     </select>
-<!--
-&lt;!&ndash; int update(User user);&ndash;&gt;
-    <update id="update" parameterType="com.gzsf.operation.model.User">
+<!--修改角色和新密码-->
+
+    <!--<update id="updateByPrimaryKey" parameterType="com.gzsf.operation.model.User">
         update user
         <set>
-            <if test="userName != null">
-                user_name = #{userName,jdbcType=VARCHAR},
-            </if>
             <if test="password != null">
                 `password` = #{password,jdbcType=VARCHAR},
             </if>
 
-            <if test="createdAt != null">
-                created_at = #{createdAt,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updatedAt != null">
-                updated_at = #{updatedAt,jdbcType=TIMESTAMP},
-            </if>
             <if test="role != null">
                 `role` = #{role,jdbcType=INTEGER},
             </if>
@@ -112,5 +104,4 @@
         where user_id = #{userId,jdbcType=INTEGER}
     </update>
 -->
-
 </mapper>

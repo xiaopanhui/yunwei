@@ -10,6 +10,7 @@ import java.util.List;
 
 @Mapper
 public interface UserMapper {
+    //修改用信息
     int update(User user);
     User getUserById(Long userId);
     User login(@Param("userName")String userName,@Param("password")String password);
@@ -17,8 +18,7 @@ public interface UserMapper {
     void delete(Long userId);
     //查询所有用户
 //    List<User> findAll();
-  Page<User> getUsersByRole(@Param("role") User.Role role,@Param("userName")String userName,
+  Page<User> getUsers(@Param("role") User.Role role,@Param("userName")String userName,
                             @Param("pageNum") int pageNum, @Param("pageSize") int pageSize);
-
 
 }

@@ -71,13 +71,15 @@ public class UserController {
             @RequestParam(value = "size", defaultValue = "0") int size,
             @RequestParam(value = "page", defaultValue = "-1") int page,
             UserAuthentication userAuthentication){
-
-        return userService.getUserList(((LoginInfo)userAuthentication.getDetails()).getUser().getRole(),
-                ((LoginInfo)userAuthentication.getDetails()).getUser().getUserName(),
-
-                page,size)
-                .map(it->ResponseUtils.successPage(it))
-                .doOnError(throwable -> logger.error("getUsers",throwable));
+            // TODO 把指定角色查出来
+            if (role.ordinal() <= User.Role.ADMIN.ordinal()){
+                return Mono.just(ResponseUtils.accessDenied());
+            }
+            return userService.getUserList(role,
+                    userName,
+                    page,size)
+                    .map(it->ResponseUtils.successPage(it))
+                    .doOnError(throwable -> logger.error("getUsers",throwable));
     }
 
     @RequestMapping("test")

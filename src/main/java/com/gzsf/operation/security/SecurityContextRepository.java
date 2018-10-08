@@ -16,6 +16,7 @@ public class SecurityContextRepository implements ServerSecurityContextRepositor
 
     @Autowired
     private UserAuthRepository userAuthRepository;
+
     @Override
     public Mono<Void> save(ServerWebExchange serverWebExchange, SecurityContext securityContext) {
         return Mono.empty();
@@ -24,12 +25,13 @@ public class SecurityContextRepository implements ServerSecurityContextRepositor
     @Override
     public Mono<SecurityContext> load(ServerWebExchange serverWebExchange) {
         List<String> authorization= serverWebExchange.getRequest().getHeaders().get("Authorization");
-        if (authorization==null||authorization.size()==0){
+        if (authorization==null ||authorization.size()==0){
             return Mono.just(new SecurityContextImpl(new UserAuthentication()));
         }
         Authentication userAuth= userAuthRepository.load(authorization.get(0));
         if (userAuth!=null&&userAuth.isAuthenticated()){
             userAuthRepository.expire(authorization.get(0));
+
         }
         return Mono.just(new SecurityContextImpl(userAuth));
     }
