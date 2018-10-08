@@ -31,7 +31,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    private Page<User> startPage;
+
 
     private final Logger logger= LoggerFactory.getLogger(getClass());
 
@@ -53,34 +53,32 @@ public class UserController {
                 .onErrorReturn(ResponseUtils.noUser());
     }
 
-
-/*
-    public PageInfo<User> page(String username) {
-//        startPage = PageHelper.<User>startPage(0, 8, "username asc");
-//        List<User> userList = userMapper.findByUsernameLike(username);
-//        PageInfo<User> pageInfo = PageInfo.of(userList);
-//        return pageInfo;
-    }
-*/
-
     @GetMapping("/user")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public Mono getUsers(
             @RequestParam(value = "role",required = false) User.Role role,
             @RequestParam(value = "userName",required = false) String userName,
             @RequestParam(value = "size", defaultValue = "0") int size,
-            @RequestParam(value = "page", defaultValue = "-1") int page,
-            UserAuthentication userAuthentication){
+            @RequestParam(value = "page", defaultValue = "-1") int page){
             // TODO 把指定角色查出来
             if (role.ordinal() <= User.Role.ADMIN.ordinal()){
                 return Mono.just(ResponseUtils.accessDenied());
             }
-            return userService.getUserList(role,
-                    userName,
-                    page,size)
+            return userService.getUserList(role, userName, page,size)
                     .map(it->ResponseUtils.successPage(it))
                     .doOnError(throwable -> logger.error("getUsers",throwable));
     }
+
+
+    @GetMapping ("putUser")
+    public Mono changeUser(@RequestParam(value = "userId") Long userId,
+                           @RequestParam(value = "newPassword") String newPassword,
+                           @RequestParam(value = "role") User.Role role
+                           ){
+            return userService.updateUser(userId,newPassword,role).map(it->ResponseUtils.success(it))
+                    .doOnError(throwable -> logger.error("changeUser",throwable));
+    }
+
 
     @RequestMapping("test")
     public Mono<Response> test(Authentication authentication) throws Exception {
