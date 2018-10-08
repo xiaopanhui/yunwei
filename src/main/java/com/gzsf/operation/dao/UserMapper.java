@@ -16,8 +16,7 @@ public interface UserMapper {
     User login(@Param("userName")String userName,@Param("password")String password);
     int insert(User user);
     void delete(Long userId);
-    //查询所有用户
-//    List<User> findAll();
+    //查询用户
   Page<User> getUsers(@Param("role") User.Role role,@Param("userName")String userName,
                             @Param("pageNum") int pageNum, @Param("pageSize") int pageSize);
 
