@@ -59,50 +59,17 @@ public class UserService extends MonoService{
 
     }
     //修改用户信息
-    public  void  updateUser(Long id, String newPassword, User.Role role){
-
-
-    }
-
-
-
-    public void updateUser(User user) {
-    /*    User newUser = new User();
-        newUser.setUserId(user.getUserId());
-        newUser.getRole(user.getRole());
-        newUser.setPhone(phone);
-        newUser.setEmail(email);
-        // 根据id查询;返回user对象
-        User user = userMapper.selectUserById(id);*/
-      /*
-
-       if (user == null) {
-            // 如果user==null;抛出异常
-            throw new UserNotFoundException("用户不存在");
-        } else {
-            // 根据用户名查询;返回user1
-            User user1 = userMapper.selectUserByUsername(username);
-            if (user1 != null) {
-
-                // 当前的用户名就是登陆的用户名
-                if (user1.getUsername().equals(user.getUsername())) {
-                } else {
-                    // 否则抛出异常
-                    throw new UsernameAlreadyExistException("用户名已存在");
-                }
-            } else {
-                // 数据库中没有相同的用户名,
-                // 设置用户名为newUser的属性.
-                newUser.setUsername(username);
+    public  Mono  updateUser(Long id, String newPassword, User.Role role){
+        return  async(() ->{
+            User user = userMapper.getUserById(id);
+            if(user==null){
+                throw new NoUserFoundException();
             }
-            // 修改用户信息
-            userMapper.updateUser(newUser);
-
-        }*/
-
+            user.setUserId(user.getUserId());
+            user.setPassword(Utils.SHA1(newPassword));
+            user.setRole(role);
+            return userMapper.update(user);
+        });
     }
-
-
-
 
 }

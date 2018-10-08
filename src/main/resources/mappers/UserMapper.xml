@@ -20,7 +20,7 @@
                 description = #{description},
             </if>
         </set>
-        where (user_id = #{userId} OR user_name= #{userName}) and is_del=0
+        where user_id = #{userId}  and is_del=0
     </update>
 
     <select id="getUserById" resultType="com.gzsf.operation.model.User" parameterType="java.lang.Long">

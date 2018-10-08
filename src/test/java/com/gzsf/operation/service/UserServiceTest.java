@@ -39,4 +39,16 @@ public class UserServiceTest {
         }).block();
     }
 
+    @Test
+    public void updateUser() {
+        userService.updateUser((long) 1,"654321", User.Role.READONLY).map(it->{
+            System.out.println(it);
+            return "";
+        }).doOnError(new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        }).block();
+    }
 }
