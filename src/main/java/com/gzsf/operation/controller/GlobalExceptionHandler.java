@@ -10,6 +10,7 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ServerWebInputException;
 import reactor.core.publisher.Mono;
 import reactor.ipc.netty.http.server.HttpServerRequest;
 
@@ -32,6 +33,9 @@ public class GlobalExceptionHandler {
     public Mono<Response> defaultErrorHandler(ServerHttpRequest req, Exception e)  {
         if (e instanceof AccessDeniedException){
             return Mono.just(ResponseUtils.accessDenied());
+        }
+        if (e instanceof ServerWebInputException){
+            return Mono.just(ResponseUtils.paramError());
         }
         logger.error("SystemError",e);
         logger.error("System Error remote:{} request path:{}",req.getRemoteAddress().getHostString(),req.getPath(),req.getQueryParams());
