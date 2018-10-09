@@ -3,10 +3,10 @@ package com.gzsf.operation.service;
 import com.github.pagehelper.Page;
 import com.gzsf.operation.ResponseUtils;
 import com.gzsf.operation.Utils;
-import com.gzsf.operation.bean.LoginBean;
 import com.gzsf.operation.bean.LoginInfo;
 import com.gzsf.operation.dao.UserMapper;
 import com.gzsf.operation.exception.NoUserFoundException;
+import com.gzsf.operation.exception.UsersAlreadyExist;
 import com.gzsf.operation.model.User;
 import com.gzsf.operation.security.UserAuthRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,14 +43,6 @@ public class UserService extends MonoService{
         });
     }
 
-    /**
-     *
-     * @param role
-     * @param userName
-     * @param pageNum
-     * @param pageSize
-     * @return
-     */
     public Mono<Page> getUserList(User.Role role,String userName ,int pageNum,int pageSize){
         return async(() -> {
             Page<User> users = userMapper.getUsers(role, userName, pageNum, pageSize);
@@ -65,13 +57,36 @@ public class UserService extends MonoService{
             if(user==null){
                 throw new NoUserFoundException();
             }
-            user.setUserId(user.getUserId());
+            user.setUserId(id);
             user.setPassword(Utils.SHA1(newPassword));
             user.setRole(role);
             userMapper.update(user);
 
-            return user;
+            LoginInfo loginInfo=new LoginInfo();
+            loginInfo.setUser(user);
+            return loginInfo;
+
         });
     }
+    //添加用户
+   public Mono addUser(User user){
+       return  async(() ->{
+           User user1=userMapper.getUserById(user.getUserId());
+           if(user1!=null){
+               throw new UsersAlreadyExist();
+           }
+           String password=Utils.SHA1(user.getPassword());
+           user.setPassword(password);
+           user.setUserName(user.getUserName());
+           user.setCreatedAt(new Date());
+           user.setRole(user.getRole());
+           user.setPassword(user.getPassword());
+           user.setUpdatedAt(new Date());
 
+           return  userMapper.insert(user);
+       });
+
+
+
+   }
 }

@@ -37,7 +37,6 @@ public class UserCache {
      *  @CacheEvict注解用来清理缓存
      */
     @CacheEvict(value = "user",key = "#{user.userId}")
-   //将返回数据类型由int 改为User
     public int save(User user){
         user.setUpdatedAt(new Date());
         if (user.getUserId()==null){

@@ -14,6 +14,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+
+import java.util.Date;
 import java.util.Map;
 
 @RestController
@@ -56,15 +58,16 @@ public class UserController {
             if (role.ordinal() <= User.Role.ADMIN.ordinal()){
                 return Mono.just(ResponseUtils.accessDenied());
             }
-            return userService.getUserList(role,
-                    userName,
-                    page,size)
+            return userService.getUserList(role, userName, page,size)
                     .map(it->ResponseUtils.successPage(it))
                     .doOnError(throwable -> logger.error("getUsers",throwable));
     }
     //更改用户信息
     @PatchMapping ("user")
-    public Mono changeUser(@RequestBody Map<String,Object> body, Authentication authentication) {
+    /**
+     * 要问为什么可以不加这个<Response<User>>
+     */
+    public Mono<Response<User>> changeUser(@RequestBody Map<String,Object> body, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
 
       Long userId = Long.valueOf( body.get("userId").toString());
@@ -77,6 +80,20 @@ public class UserController {
             return Mono.just(ResponseUtils.accessDenied());
         }
     }
+    //添加用户信息
+    @PostMapping("/user")
+    public  Mono<Response<User>> addUser(@RequestBody User user){
+//        user1.setUserName(user.getUserName());
+//        user1.setCreatedAt(new Date());
+//        user1.setRole(user.getRole());
+//        user1.setPassword(user.getPassword());
+//        user1.setUpdatedAt(new Date());
+
+        return userService.addUser(user).map(it->ResponseUtils.success(it))
+                .doOnError(throwable -> logger.error("addUser",throwable));
+    }
+
+
     @RequestMapping("auth")
     public Mono<Response> auth(){
         return Mono.just(ResponseUtils.success(null));
