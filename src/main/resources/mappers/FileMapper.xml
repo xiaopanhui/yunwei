@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gzsf.operation.dao.FileMapper">
+    <update id="update" parameterType="com.gzsf.operation.model.FileModel" >
+        UPDATE file
+        <set>
+            <if test="fileName != null">
+                file_name = #{fileName},
+            </if>
+            <if test="updatedAt != null">
+                updated_at = #{updatedAt},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+        </set>
+        where ( file_id = #{fileId} OR file_name= #{fileName}) and is_del=0
+    </update>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="file_id">
+        insert into file
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            file_name,
+            <if test="createdBy!=null">
+                created_by,
+            </if>
+            <if test="description">
+                description,
+            </if>
+            created_at,
+            updated_at,
+            is_del,
+        </trim>
+        value
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{fileName},
+            <if test="createdBy!=null">
+                #{createdBy},
+            </if>
+            <if test="description">
+                #{description},
+            </if>
+            #{createdAt},
+            #{updatedAt},
+            0,
+        </trim>
+    </insert>
+    <update id="delete">
+        update file set is_del=1 where file_id=#{fileId}
+    </update>
+    <select id="getList" resultType="com.gzsf.operation.model.FileModel">
+        select file_id,file_name,description,created_at,created_by,updated_at from file
+        where is_del=0
+        <if test="keyword!=null and keyword!=''">
+            and (file_name like "%"#{keyword}"%"  or description like "%"#{keyword}"%")
+        </if>
+        order by created_at desc
+    </select>
+
+    <select id="getRecordById" resultType="com.gzsf.operation.model.FileModel">
+        select file_id,file_name,description,created_at,created_by,updated_at from file
+        where file_id=#{fileId} and is_del=0
+    </select>
+</mapper>
