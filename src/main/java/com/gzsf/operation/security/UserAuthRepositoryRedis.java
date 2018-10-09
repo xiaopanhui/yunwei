@@ -73,17 +73,13 @@ public class UserAuthRepositoryRedis implements UserAuthRepository{
 
     @Override
     public void delete(Long userId) {
-        String data= stringRedisTemplate.opsForValue().get(userPrefix+userId);
-        try {
-            List<String> tokens= objectMapper.readValue(data, ArrayList.class);
-            if (tokens==null)return;
-            for(String item:tokens){
-                stringRedisTemplate.delete(tokenPrefix+item);
-            }
-            stringRedisTemplate.delete(userPrefix+userId);
-        } catch (IOException e) {
-            return;
+        String data = stringRedisTemplate.opsForValue().get(userPrefix + userId);
+        if (data==null)return;
+        String tokens[] = data.split(",");
+        for (String item : tokens) {
+            stringRedisTemplate.delete(tokenPrefix + item);
         }
+        stringRedisTemplate.delete(userPrefix + userId);
     }
 
     @Override
@@ -104,40 +100,30 @@ public class UserAuthRepositoryRedis implements UserAuthRepository{
         }
     }
 
-    private void addTokenForUser(String token,Long userId){
-        String data= stringRedisTemplate.opsForValue().get(userPrefix+userId);
-        List<String> tokens=new ArrayList<String>();
-        try {
-            if (data!=null&&!data.isEmpty()){
-                tokens= objectMapper.readValue(data, ArrayList.class);
-            }
-
-        } catch (IOException e) {
-
+    private void addTokenForUser(String token,Long userId) {
+        String data = stringRedisTemplate.opsForValue().get(userPrefix + userId);
+        StringBuffer tokens = new StringBuffer(token);
+        if (data != null) {
+            tokens.append(',');
+            tokens.append(data);
         }
-        tokens.add(token);
-        try {
-            stringRedisTemplate.opsForValue().set(userPrefix+userId,objectMapper.writeValueAsString(tokens));
-        } catch (JsonProcessingException e) {
-
-        }
+        stringRedisTemplate.opsForValue().set(userPrefix + userId, tokens.toString());
     }
 
     @Override
     public void clear(Long userId) {
-        String data= stringRedisTemplate.opsForValue().get(userPrefix+userId);
-        try {
-            List<String> tokens= objectMapper.readValue(data, ArrayList.class);
-            if (tokens==null)return;
-           for(String item:tokens){
-               if (stringRedisTemplate.hasKey(tokenPrefix+item)){
-                   continue;
-               }
-               tokens.remove(item);
-           }
-           stringRedisTemplate.opsForValue().set(userPrefix+userId,objectMapper.writeValueAsString(tokens));
-        } catch (IOException e) {
-            return;
+        String data = stringRedisTemplate.opsForValue().get(userPrefix + userId);
+        StringBuffer newTokens = new StringBuffer();
+        String tokens[] = data.split(",");
+        for (int i = 0; i < tokens.length; i++) {
+            if (stringRedisTemplate.hasKey(tokenPrefix + tokens[i])) {
+                newTokens.append(tokens[i]);
+                newTokens.append(',');
+            }
         }
+        if (newTokens.length()>0){
+            newTokens.deleteCharAt(newTokens.length()-1);
+        }
+        stringRedisTemplate.opsForValue().set(userPrefix + userId, newTokens.toString());
     }
 }
