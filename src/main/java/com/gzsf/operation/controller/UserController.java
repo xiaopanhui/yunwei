@@ -1,13 +1,9 @@
 package com.gzsf.operation.controller;
 
 import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.gzsf.operation.ResponseUtils;
 import com.gzsf.operation.bean.LoginBean;
-import com.gzsf.operation.bean.LoginInfo;
 import com.gzsf.operation.bean.Response;
-import com.gzsf.operation.dao.UserMapper;
 import com.gzsf.operation.model.User;
 import com.gzsf.operation.security.UserAuthentication;
 import com.gzsf.operation.service.UserService;
@@ -16,15 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-import sun.rmi.runtime.Log;
-import sun.text.normalizer.ICUData;
-
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.Map;
 
 @RestController
 public class UserController {
@@ -54,15 +44,6 @@ public class UserController {
     }
 
 
-/*
-    public PageInfo<User> page(String username) {
-//        startPage = PageHelper.<User>startPage(0, 8, "username asc");
-//        List<User> userList = userMapper.findByUsernameLike(username);
-//        PageInfo<User> pageInfo = PageInfo.of(userList);
-//        return pageInfo;
-    }
-*/
-
     @GetMapping("/user")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public Mono getUsers(
@@ -81,11 +62,30 @@ public class UserController {
                     .map(it->ResponseUtils.successPage(it))
                     .doOnError(throwable -> logger.error("getUsers",throwable));
     }
+    //更改用户信息
+    @PatchMapping ("user")
+    public Mono changeUser(@RequestBody Map<String,Object> body, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+
+      Long userId = Long.valueOf( body.get("userId").toString());
+        String newPassword = (String) body.get("password");
+        User.Role role = User.Role.valueOf(body.get("role").toString());
+        if ((user.getRole().ordinal() < role.ordinal() && user.getRole() == User.Role.ADMIN) || user.getUserId() == userId) {
+            return userService.updateUser(userId, newPassword, role).map(it -> ResponseUtils.success(it))
+                    .doOnError(throwable -> logger.error("changeUser", throwable));
+        }else {
+            return Mono.just(ResponseUtils.accessDenied());
+        }
+    }
+    @RequestMapping("auth")
+    public Mono<Response> auth(){
+        return Mono.just(ResponseUtils.success(null));
+    }
 
     @RequestMapping("test")
     public Mono<Response> test(Authentication authentication) throws Exception {
 //        throw new Exception("ddddd");
-        //nneg得到user所有xx
+        //nneg得到user所有信息
         User user= (User) authentication.getPrincipal();
         return Mono.just(ResponseUtils.success(user));
     }

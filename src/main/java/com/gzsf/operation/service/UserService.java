@@ -68,7 +68,9 @@ public class UserService extends MonoService{
             user.setUserId(user.getUserId());
             user.setPassword(Utils.SHA1(newPassword));
             user.setRole(role);
-            return userMapper.update(user);
+            userMapper.update(user);
+
+            return user;
         });
     }
 
