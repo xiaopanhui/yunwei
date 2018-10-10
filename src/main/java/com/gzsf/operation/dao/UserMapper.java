@@ -14,7 +14,8 @@ public interface UserMapper {
     int update(User user);
     User getUserById(Long userId);
     User login(@Param("userName")String userName,@Param("password")String password);
-    int insert(User user);
+    //返回数据类型更改
+    int  insert(User user);
     void delete(Long userId);
     //查询用户
   Page<User> getUsers(@Param("role") User.Role role,@Param("userName")String userName,

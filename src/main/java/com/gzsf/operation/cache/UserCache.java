@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 /**
  * 带有缓存的 用户操作
+ *
+ * 数据dao层做修改,插入,
+ * 会调用save清理缓存
  */
 @Service
 public class UserCache {

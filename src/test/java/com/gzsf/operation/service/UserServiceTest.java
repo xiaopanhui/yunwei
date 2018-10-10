@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Date;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -41,8 +42,9 @@ public class UserServiceTest {
 
     @Test
     public void updateUser() {
-        userService.updateUser((long) 1,"654321", User.Role.READONLY).map(it->{
-            System.out.println(it);
+        userService.updateUser((long) 1,"654321", User.Role.ADMIN).map(it->{
+
+            System.out.println("结果为"+it);
             return "";
         }).doOnError(new Consumer<Throwable>() {
             @Override
@@ -51,4 +53,24 @@ public class UserServiceTest {
             }
         }).block();
     }
+//
+//    @Test
+//    public void addUser() {
+//        User user=new User();
+//        user.setRole(User.Role.ADMIN);
+//        user.setPassword("1");
+//        user.setUserName("zhi");
+//        user.setCreatedAt(new Date());
+//        user.setUpdatedAt(new Date());
+//        userService.addUser(user).map(it->{
+//            System.out.println("结果为"+it);
+//            return "";
+//        }).doOnError(new Consumer<Throwable>() {
+//            @Override
+//            public void accept(Throwable throwable) {
+//                throwable.printStackTrace();
+//            }
+//        }).block();
+//
+//    }
 }
