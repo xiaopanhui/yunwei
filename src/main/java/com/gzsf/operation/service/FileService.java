@@ -1,6 +1,7 @@
 package com.gzsf.operation.service;
 
 import com.github.pagehelper.Page;
+import com.gzsf.operation.FileUtils;
 import com.gzsf.operation.bean.FileContent;
 import com.gzsf.operation.cache.FileCache;
 import com.gzsf.operation.dao.FileMapper;
@@ -28,6 +29,8 @@ public class FileService extends MonoService {
     private FileVersionMapper fileVersionMapper;
     @Autowired
     private FileCache fileCache;
+    @Autowired
+    private FileUtils fileUtils;
     private ExecutorService fileThreads= Executors.newFixedThreadPool(10);
     public Mono<Page> getFileList(Integer limit,
                                              Integer offset,
@@ -70,29 +73,18 @@ public class FileService extends MonoService {
             fileVersionModel.setFileVersionId(id);
             return  fileVersionModel;
         }).doOnSuccess(fileVersionModel -> fileThreads.submit(()->{
-            File file=new File("/data/"+fileId+"/"+fileVersionModel.getVersion());
-            createdFile(file);
+            File file = fileUtils.getNewFile(fileId,fileVersionModel.getVersion());
             filePart.transferTo(file).block();
         }));
     }
 
-    private void createdFile(File file){
-        if (!file.exists()){
-            try {
-                file.getParentFile().mkdirs();
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     public Mono<FileContent> getFile(Long fileId,Integer version){
-        return async(()-> fileVersionMapper.getRecord(fileId,version)).map(it ->{
+        return async(()-> fileCache.getFileVersion(fileId,version)).map(it ->{
             FileContent fileContent=new FileContent();
             fileContent.setName(it.getFileName());
            try {
-               File file=new File("/data/"+fileId+"/"+version);
+               File file=new File(fileUtils.getFilePath(fileId,it.getVersion()));
                FileInputStream stream=new FileInputStream(file);
                int size= stream.available();
                byte[] bytes=new byte[size];

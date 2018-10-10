@@ -1,7 +1,9 @@
 package com.gzsf.operation.cache;
 
 import com.gzsf.operation.dao.FileMapper;
+import com.gzsf.operation.dao.FileVersionMapper;
 import com.gzsf.operation.model.FileModel;
+import com.gzsf.operation.model.FileVersionModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -13,7 +15,8 @@ import java.util.Date;
 public class FileCache {
     @Autowired
     private FileMapper fileMapper;
-
+    @Autowired
+    private FileVersionMapper fileVersionMapper;
     /**
      * 插入或者文件信息
      * @param file 文件信息
@@ -41,4 +44,10 @@ public class FileCache {
     public boolean delete(Long fileId){
         return fileMapper.delete(fileId)==1;
     }
+
+    @Cacheable(value = "file_version",key = "#{fileId+'_'+version}")
+    public FileVersionModel getFileVersion(Long fileId,Integer version){
+        return fileVersionMapper.getRecord(fileId,version);
+    }
+
 }
