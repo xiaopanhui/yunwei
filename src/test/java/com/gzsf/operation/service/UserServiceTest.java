@@ -53,24 +53,22 @@ public class UserServiceTest {
             }
         }).block();
     }
-//
-//    @Test
-//    public void addUser() {
-//        User user=new User();
-//        user.setRole(User.Role.ADMIN);
-//        user.setPassword("1");
-//        user.setUserName("zhi");
-//        user.setCreatedAt(new Date());
-//        user.setUpdatedAt(new Date());
-//        userService.addUser(user).map(it->{
-//            System.out.println("结果为"+it);
-//            return "";
-//        }).doOnError(new Consumer<Throwable>() {
-//            @Override
-//            public void accept(Throwable throwable) {
-//                throwable.printStackTrace();
-//            }
-//        }).block();
-//
-//    }
+
+    @Test
+    public void addUser() {
+        User user=new User();
+        user.setRole(User.Role.ADMIN);
+        user.setPassword("1");
+        user.setUserName("zhi");
+        userService.addUser(user).map(it->{
+            System.out.println("结果为"+it);
+            return "";
+        }).doOnError(new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        }).block();
+
+    }
 }

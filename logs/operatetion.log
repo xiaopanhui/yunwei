@@ -1,0 +1,507 @@
+2018-10-10 00:11:25.271  INFO 43160 --- [main] com.gzsf.operation.OperationApplication  : Starting OperationApplication on xianreneMacBook with PID 43160 (/Users/huihui/Desktop/SfOperation/target/classes started by huihui in /Users/huihui/Desktop/SfOperation)
+2018-10-10 00:11:25.308  INFO 43160 --- [main] com.gzsf.operation.OperationApplication  : No active profile set, falling back to default profiles: default
+2018-10-10 00:11:25.624  INFO 43160 --- [main] onfigReactiveWebServerApplicationContext : Refreshing org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebServerApplicationContext@6c0d9d86: startup date [Wed Oct 10 00:11:25 CST 2018]; root of context hierarchy
+2018-10-10 00:11:26.983  WARN 43160 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.gzsf.operation.dao.UserMapper]' package. Please check your configuration.
+2018-10-10 00:11:27.592  INFO 43160 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2018-10-10 00:11:28.382  INFO 43160 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration' of type [org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration$$EnhancerBySpringCGLIB$$b7444ea8] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-10-10 00:11:30.932  INFO 43160 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/**]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response> com.gzsf.operation.controller.GlobalExceptionHandler.statusError()
+2018-10-10 00:11:30.967  INFO 43160 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/test]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response> com.gzsf.operation.controller.UserController.test(org.springframework.security.core.Authentication) throws java.lang.Exception
+2018-10-10 00:11:30.967  INFO 43160 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/auth]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response> com.gzsf.operation.controller.UserController.auth()
+2018-10-10 00:11:30.968  INFO 43160 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[GET]}" onto public reactor.core.publisher.Mono com.gzsf.operation.controller.UserController.getUsers(com.gzsf.operation.model.User$Role,java.lang.String,int,int,com.gzsf.operation.security.UserAuthentication)
+2018-10-10 00:11:30.969  INFO 43160 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/login],methods=[POST]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<java.lang.String>> com.gzsf.operation.controller.UserController.login(com.gzsf.operation.bean.LoginBean)
+2018-10-10 00:11:30.970  INFO 43160 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[POST]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<com.gzsf.operation.model.User>> com.gzsf.operation.controller.UserController.addUser(com.gzsf.operation.model.User)
+2018-10-10 00:11:30.971  INFO 43160 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[PATCH]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<com.gzsf.operation.model.User>> com.gzsf.operation.controller.UserController.changeUser(java.util.Map<java.lang.String, java.lang.Object>,org.springframework.security.core.Authentication)
+2018-10-10 00:11:30.973  INFO 43160 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user/{id}],methods=[GET]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<com.gzsf.operation.model.User>> com.gzsf.operation.controller.UserController.getUserById(long)
+2018-10-10 00:11:31.201  INFO 43160 --- [main] o.s.w.r.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.reactive.resource.ResourceWebHandler]
+2018-10-10 00:11:31.202  INFO 43160 --- [main] o.s.w.r.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.reactive.resource.ResourceWebHandler]
+2018-10-10 00:11:31.545  INFO 43160 --- [main] o.s.w.r.r.m.a.ControllerMethodResolver   : Looking for @ControllerAdvice: org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebServerApplicationContext@6c0d9d86: startup date [Wed Oct 10 00:11:25 CST 2018]; root of context hierarchy
+2018-10-10 00:11:31.559  INFO 43160 --- [main] o.s.w.r.r.m.a.ControllerMethodResolver   : Detected @ExceptionHandler methods in globalExceptionHandler
+2018-10-10 00:11:34.480  INFO 43160 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2018-10-10 00:11:34.493  INFO 43160 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'dataSource' has been autodetected for JMX exposure
+2018-10-10 00:11:34.505  INFO 43160 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'rabbitConnectionFactory' has been autodetected for JMX exposure
+2018-10-10 00:11:34.510  INFO 43160 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.zaxxer.hikari:name=dataSource,type=HikariDataSource]
+2018-10-10 00:11:34.512  INFO 43160 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located managed bean 'rabbitConnectionFactory': registering with JMX server as MBean [org.springframework.amqp.rabbit.connection:name=rabbitConnectionFactory,type=CachingConnectionFactory]
+2018-10-10 00:11:34.552  INFO 43160 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 2147483647
+2018-10-10 00:11:34.771  INFO 43160 --- [reactor-http-nio-1] r.ipc.netty.tcp.BlockingNettyContext     : Started HttpServer on /0:0:0:0:0:0:0:0:5000
+2018-10-10 00:11:34.773  INFO 43160 --- [main] o.s.b.web.embedded.netty.NettyWebServer  : Netty started on port(s): 5000
+2018-10-10 00:11:34.793  INFO 43160 --- [main] com.gzsf.operation.OperationApplication  : Started OperationApplication in 10.958 seconds (JVM running for 13.641)
+2018-10-10 00:11:50.540  INFO 43160 --- [pool-4-thread-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2018-10-10 00:11:50.542  WARN 43160 --- [pool-4-thread-1] com.zaxxer.hikari.util.DriverDataSource  : Registered driver with driverClassName=org.gjt.mm.mysql.Driver was not found, trying direct instantiation.
+2018-10-10 00:11:50.951  INFO 43160 --- [pool-4-thread-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2018-10-10 00:11:51.290  INFO 43160 --- [pool-4-thread-1] io.lettuce.core.EpollProvider            : Starting without optional epoll library
+2018-10-10 00:11:51.292  INFO 43160 --- [pool-4-thread-1] io.lettuce.core.KqueueProvider           : Starting without optional kqueue library
+2018-10-10 00:12:18.075 ERROR 43160 --- [pool-4-thread-2] c.g.operation.controller.UserController  : addUser
+
+com.gzsf.operation.exception.UsersAlreadyExist: UsersAlreadyExist
+	at com.gzsf.operation.service.UserService.lambda$addUser$4(UserService.java:72) ~[classes/:na]
+	at reactor.core.publisher.MonoCallable.call(MonoCallable.java:92) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.publisher.FluxSubscribeOnCallable$CallableSubscribeOnSubscription.run(FluxSubscribeOnCallable.java:225) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:50) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:27) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:266) ~[na:1.8.0_181]
+	at java.util.concurrent.FutureTask.run(FutureTask.java) ~[na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) ~[na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) ~[na:1.8.0_181]
+	at java.lang.Thread.run(Thread.java:748) ~[na:1.8.0_181]
+
+2018-10-10 00:12:18.092 ERROR 43160 --- [pool-4-thread-2] c.g.o.controller.GlobalExceptionHandler  : SystemError
+
+com.gzsf.operation.exception.UsersAlreadyExist: UsersAlreadyExist
+	at com.gzsf.operation.service.UserService.lambda$addUser$4(UserService.java:72) ~[classes/:na]
+	at reactor.core.publisher.MonoCallable.call(MonoCallable.java:92) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.publisher.FluxSubscribeOnCallable$CallableSubscribeOnSubscription.run(FluxSubscribeOnCallable.java:225) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:50) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:27) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:266) [na:1.8.0_181]
+	at java.util.concurrent.FutureTask.run(FutureTask.java) [na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [na:1.8.0_181]
+	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_181]
+
+2018-10-10 00:12:18.093 ERROR 43160 --- [pool-4-thread-2] c.g.o.controller.GlobalExceptionHandler  : System Error remote:0:0:0:0:0:0:0:1 request path:DefaultRequestPath[fullPath='[path='/user']', contextPath='', pathWithinApplication='/user']
+2018-10-10 00:19:17.423  WARN 43160 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=6m56s362ms).
+2018-10-10 00:19:17.441 ERROR 43160 --- [pool-4-thread-3] c.g.operation.controller.UserController  : addUser
+
+com.gzsf.operation.exception.UsersAlreadyExist: UsersAlreadyExist
+	at com.gzsf.operation.service.UserService.lambda$addUser$4(UserService.java:72) ~[classes/:na]
+	at reactor.core.publisher.MonoCallable.call(MonoCallable.java:92) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.publisher.FluxSubscribeOnCallable$CallableSubscribeOnSubscription.run(FluxSubscribeOnCallable.java:225) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:50) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:27) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:266) ~[na:1.8.0_181]
+	at java.util.concurrent.FutureTask.run(FutureTask.java) ~[na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) ~[na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) ~[na:1.8.0_181]
+	at java.lang.Thread.run(Thread.java:748) ~[na:1.8.0_181]
+
+2018-10-10 00:19:17.444 ERROR 43160 --- [pool-4-thread-3] c.g.o.controller.GlobalExceptionHandler  : SystemError
+
+com.gzsf.operation.exception.UsersAlreadyExist: UsersAlreadyExist
+	at com.gzsf.operation.service.UserService.lambda$addUser$4(UserService.java:72) ~[classes/:na]
+	at reactor.core.publisher.MonoCallable.call(MonoCallable.java:92) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.publisher.FluxSubscribeOnCallable$CallableSubscribeOnSubscription.run(FluxSubscribeOnCallable.java:225) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:50) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:27) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:266) [na:1.8.0_181]
+	at java.util.concurrent.FutureTask.run(FutureTask.java) [na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [na:1.8.0_181]
+	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_181]
+
+2018-10-10 00:19:17.445 ERROR 43160 --- [pool-4-thread-3] c.g.o.controller.GlobalExceptionHandler  : System Error remote:0:0:0:0:0:0:0:1 request path:DefaultRequestPath[fullPath='[path='/user']', contextPath='', pathWithinApplication='/user']
+2018-10-10 00:19:17.509  INFO 43160 --- [Thread-29] onfigReactiveWebServerApplicationContext : Closing org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebServerApplicationContext@6c0d9d86: startup date [Wed Oct 10 00:11:25 CST 2018]; root of context hierarchy
+2018-10-10 00:19:17.522  INFO 43160 --- [Thread-29] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 2147483647
+2018-10-10 00:19:17.523  INFO 43160 --- [Thread-29] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 0
+2018-10-10 00:19:17.533  INFO 43160 --- [Thread-29] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
+2018-10-10 00:19:17.534  INFO 43160 --- [Thread-29] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans
+2018-10-10 00:19:17.536  INFO 43160 --- [Thread-29] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2018-10-10 00:19:17.545  INFO 43160 --- [Thread-29] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2018-10-10 00:19:18.679  INFO 43160 --- [Thread-29] r.ipc.netty.tcp.BlockingNettyContext     : Stopped HttpServer on /0:0:0:0:0:0:0:0:5000
+2018-10-10 00:19:26.775  INFO 43596 --- [main] com.gzsf.operation.OperationApplication  : Starting OperationApplication on xianreneMacBook with PID 43596 (/Users/huihui/Desktop/SfOperation/target/classes started by huihui in /Users/huihui/Desktop/SfOperation)
+2018-10-10 00:19:26.802  INFO 43596 --- [main] com.gzsf.operation.OperationApplication  : No active profile set, falling back to default profiles: default
+2018-10-10 00:19:26.973  INFO 43596 --- [main] onfigReactiveWebServerApplicationContext : Refreshing org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebServerApplicationContext@134d26af: startup date [Wed Oct 10 00:19:26 CST 2018]; root of context hierarchy
+2018-10-10 00:19:28.841  WARN 43596 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.gzsf.operation.dao.UserMapper]' package. Please check your configuration.
+2018-10-10 00:19:29.278  INFO 43596 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2018-10-10 00:19:30.520  INFO 43596 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration' of type [org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration$$EnhancerBySpringCGLIB$$f33c37a8] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-10-10 00:19:32.622  INFO 43596 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/**]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response> com.gzsf.operation.controller.GlobalExceptionHandler.statusError()
+2018-10-10 00:19:32.668  INFO 43596 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/test]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response> com.gzsf.operation.controller.UserController.test(org.springframework.security.core.Authentication) throws java.lang.Exception
+2018-10-10 00:19:32.669  INFO 43596 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/auth]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response> com.gzsf.operation.controller.UserController.auth()
+2018-10-10 00:19:32.670  INFO 43596 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user/{id}],methods=[GET]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<com.gzsf.operation.model.User>> com.gzsf.operation.controller.UserController.getUserById(long)
+2018-10-10 00:19:32.672  INFO 43596 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[GET]}" onto public reactor.core.publisher.Mono com.gzsf.operation.controller.UserController.getUsers(com.gzsf.operation.model.User$Role,java.lang.String,int,int,com.gzsf.operation.security.UserAuthentication)
+2018-10-10 00:19:32.673  INFO 43596 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[POST]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<com.gzsf.operation.model.User>> com.gzsf.operation.controller.UserController.addUser(com.gzsf.operation.model.User)
+2018-10-10 00:19:32.674  INFO 43596 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/login],methods=[POST]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<java.lang.String>> com.gzsf.operation.controller.UserController.login(com.gzsf.operation.bean.LoginBean)
+2018-10-10 00:19:32.675  INFO 43596 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[PATCH]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<com.gzsf.operation.model.User>> com.gzsf.operation.controller.UserController.changeUser(java.util.Map<java.lang.String, java.lang.Object>,org.springframework.security.core.Authentication)
+2018-10-10 00:19:32.782  INFO 43596 --- [main] o.s.w.r.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.reactive.resource.ResourceWebHandler]
+2018-10-10 00:19:32.783  INFO 43596 --- [main] o.s.w.r.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.reactive.resource.ResourceWebHandler]
+2018-10-10 00:19:33.236  INFO 43596 --- [main] o.s.w.r.r.m.a.ControllerMethodResolver   : Looking for @ControllerAdvice: org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebServerApplicationContext@134d26af: startup date [Wed Oct 10 00:19:26 CST 2018]; root of context hierarchy
+2018-10-10 00:19:33.252  INFO 43596 --- [main] o.s.w.r.r.m.a.ControllerMethodResolver   : Detected @ExceptionHandler methods in globalExceptionHandler
+2018-10-10 00:19:35.028  INFO 43596 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2018-10-10 00:19:35.034  INFO 43596 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'dataSource' has been autodetected for JMX exposure
+2018-10-10 00:19:35.047  INFO 43596 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'rabbitConnectionFactory' has been autodetected for JMX exposure
+2018-10-10 00:19:35.052  INFO 43596 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.zaxxer.hikari:name=dataSource,type=HikariDataSource]
+2018-10-10 00:19:35.055  INFO 43596 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located managed bean 'rabbitConnectionFactory': registering with JMX server as MBean [org.springframework.amqp.rabbit.connection:name=rabbitConnectionFactory,type=CachingConnectionFactory]
+2018-10-10 00:19:35.097  INFO 43596 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 2147483647
+2018-10-10 00:19:35.302  INFO 43596 --- [reactor-http-nio-1] r.ipc.netty.tcp.BlockingNettyContext     : Started HttpServer on /0:0:0:0:0:0:0:0:5000
+2018-10-10 00:19:35.303  INFO 43596 --- [main] o.s.b.web.embedded.netty.NettyWebServer  : Netty started on port(s): 5000
+2018-10-10 00:19:35.317  INFO 43596 --- [main] com.gzsf.operation.OperationApplication  : Started OperationApplication in 9.708 seconds (JVM running for 11.857)
+2018-10-10 00:19:36.547  INFO 43596 --- [reactor-http-nio-3] io.lettuce.core.EpollProvider            : Starting without optional epoll library
+2018-10-10 00:19:36.552  INFO 43596 --- [reactor-http-nio-3] io.lettuce.core.KqueueProvider           : Starting without optional kqueue library
+2018-10-10 00:19:36.883  INFO 43596 --- [reactor-http-nio-3] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2018-10-10 00:19:36.885  WARN 43596 --- [reactor-http-nio-3] com.zaxxer.hikari.util.DriverDataSource  : Registered driver with driverClassName=org.gjt.mm.mysql.Driver was not found, trying direct instantiation.
+2018-10-10 00:19:37.277  INFO 43596 --- [reactor-http-nio-3] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2018-10-10 00:19:43.316 ERROR 43596 --- [pool-3-thread-1] c.g.operation.controller.UserController  : addUser
+
+com.gzsf.operation.exception.UsersAlreadyExist: UsersAlreadyExist
+	at com.gzsf.operation.service.UserService.lambda$addUser$4(UserService.java:72) ~[classes/:na]
+	at reactor.core.publisher.MonoCallable.call(MonoCallable.java:92) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.publisher.FluxSubscribeOnCallable$CallableSubscribeOnSubscription.run(FluxSubscribeOnCallable.java:225) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:50) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:27) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:266) ~[na:1.8.0_181]
+	at java.util.concurrent.FutureTask.run(FutureTask.java) ~[na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) ~[na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) ~[na:1.8.0_181]
+	at java.lang.Thread.run(Thread.java:748) ~[na:1.8.0_181]
+
+2018-10-10 00:19:43.328 ERROR 43596 --- [pool-3-thread-1] c.g.o.controller.GlobalExceptionHandler  : SystemError
+
+com.gzsf.operation.exception.UsersAlreadyExist: UsersAlreadyExist
+	at com.gzsf.operation.service.UserService.lambda$addUser$4(UserService.java:72) ~[classes/:na]
+	at reactor.core.publisher.MonoCallable.call(MonoCallable.java:92) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.publisher.FluxSubscribeOnCallable$CallableSubscribeOnSubscription.run(FluxSubscribeOnCallable.java:225) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:50) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:27) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:266) [na:1.8.0_181]
+	at java.util.concurrent.FutureTask.run(FutureTask.java) [na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [na:1.8.0_181]
+	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_181]
+
+2018-10-10 00:19:43.331 ERROR 43596 --- [pool-3-thread-1] c.g.o.controller.GlobalExceptionHandler  : System Error remote:0:0:0:0:0:0:0:1 request path:DefaultRequestPath[fullPath='[path='/user']', contextPath='', pathWithinApplication='/user']
+2018-10-10 00:20:02.479  INFO 43596 --- [Thread-26] onfigReactiveWebServerApplicationContext : Closing org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebServerApplicationContext@134d26af: startup date [Wed Oct 10 00:19:26 CST 2018]; root of context hierarchy
+2018-10-10 00:20:02.482  INFO 43596 --- [Thread-26] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 2147483647
+2018-10-10 00:20:02.483  INFO 43596 --- [Thread-26] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 0
+2018-10-10 00:20:02.501  INFO 43596 --- [Thread-26] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
+2018-10-10 00:20:02.503  INFO 43596 --- [Thread-26] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans
+2018-10-10 00:20:02.508  INFO 43596 --- [Thread-26] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2018-10-10 00:20:02.515  INFO 43596 --- [Thread-26] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2018-10-10 00:20:03.650  INFO 43596 --- [Thread-26] r.ipc.netty.tcp.BlockingNettyContext     : Stopped HttpServer on /0:0:0:0:0:0:0:0:5000
+2018-10-10 09:19:05.189  INFO 994 --- [main] c.g.operation.service.UserServiceTest    : Starting UserServiceTest on xianrenzhanghuideMacBook.local with PID 994 (started by huihui in /Users/huihui/Desktop/SfOperation)
+2018-10-10 09:19:05.196  INFO 994 --- [main] c.g.operation.service.UserServiceTest    : No active profile set, falling back to default profiles: default
+2018-10-10 09:19:05.325  INFO 994 --- [main] r.c.GenericReactiveWebApplicationContext : Refreshing org.springframework.boot.web.reactive.context.GenericReactiveWebApplicationContext@6b0d80ed: startup date [Wed Oct 10 09:19:05 CST 2018]; root of context hierarchy
+2018-10-10 09:19:06.598  WARN 994 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.gzsf.operation.dao.UserMapper]' package. Please check your configuration.
+2018-10-10 09:19:07.174  INFO 994 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2018-10-10 09:19:08.218  INFO 994 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration' of type [org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration$$EnhancerBySpringCGLIB$$f22fadca] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-10-10 09:19:12.069  INFO 994 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/**]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response> com.gzsf.operation.controller.GlobalExceptionHandler.statusError()
+2018-10-10 09:19:12.086  INFO 994 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/test]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response> com.gzsf.operation.controller.UserController.test(org.springframework.security.core.Authentication) throws java.lang.Exception
+2018-10-10 09:19:12.087  INFO 994 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/login],methods=[POST]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<java.lang.String>> com.gzsf.operation.controller.UserController.login(com.gzsf.operation.bean.LoginBean)
+2018-10-10 09:19:12.088  INFO 994 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[POST]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<com.gzsf.operation.model.User>> com.gzsf.operation.controller.UserController.addUser(com.gzsf.operation.model.User)
+2018-10-10 09:19:12.089  INFO 994 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user/{id}],methods=[GET]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<com.gzsf.operation.model.User>> com.gzsf.operation.controller.UserController.getUserById(long)
+2018-10-10 09:19:12.090  INFO 994 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[GET]}" onto public reactor.core.publisher.Mono com.gzsf.operation.controller.UserController.getUsers(com.gzsf.operation.model.User$Role,java.lang.String,int,int,com.gzsf.operation.security.UserAuthentication)
+2018-10-10 09:19:12.091  INFO 994 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/auth]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response> com.gzsf.operation.controller.UserController.auth()
+2018-10-10 09:19:12.093  INFO 994 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[PATCH]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<com.gzsf.operation.model.User>> com.gzsf.operation.controller.UserController.changeUser(java.util.Map<java.lang.String, java.lang.Object>,org.springframework.security.core.Authentication)
+2018-10-10 09:19:12.156  INFO 994 --- [main] o.s.w.r.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.reactive.resource.ResourceWebHandler]
+2018-10-10 09:19:12.157  INFO 994 --- [main] o.s.w.r.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.reactive.resource.ResourceWebHandler]
+2018-10-10 09:19:12.246  INFO 994 --- [main] o.s.w.r.r.m.a.ControllerMethodResolver   : Looking for @ControllerAdvice: org.springframework.boot.web.reactive.context.GenericReactiveWebApplicationContext@6b0d80ed: startup date [Wed Oct 10 09:19:05 CST 2018]; root of context hierarchy
+2018-10-10 09:19:12.257  INFO 994 --- [main] o.s.w.r.r.m.a.ControllerMethodResolver   : Detected @ExceptionHandler methods in globalExceptionHandler
+2018-10-10 09:19:13.961  INFO 994 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 2147483647
+2018-10-10 09:19:13.999  INFO 994 --- [main] c.g.operation.service.UserServiceTest    : Started UserServiceTest in 9.963 seconds (JVM running for 14.091)
+2018-10-10 09:19:14.382  INFO 994 --- [pool-1-thread-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2018-10-10 09:19:14.393  WARN 994 --- [pool-1-thread-1] com.zaxxer.hikari.util.DriverDataSource  : Registered driver with driverClassName=org.gjt.mm.mysql.Driver was not found, trying direct instantiation.
+2018-10-10 09:19:15.122  INFO 994 --- [pool-1-thread-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2018-10-10 09:19:15.302  INFO 994 --- [Thread-2] r.c.GenericReactiveWebApplicationContext : Closing org.springframework.boot.web.reactive.context.GenericReactiveWebApplicationContext@6b0d80ed: startup date [Wed Oct 10 09:19:05 CST 2018]; root of context hierarchy
+2018-10-10 09:19:15.306  INFO 994 --- [Thread-2] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 2147483647
+2018-10-10 09:19:15.307  INFO 994 --- [Thread-2] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 0
+2018-10-10 09:19:15.449  INFO 994 --- [Thread-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2018-10-10 09:19:15.492  INFO 994 --- [Thread-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2018-10-10 09:26:10.302  INFO 1337 --- [main] c.g.operation.service.UserServiceTest    : Starting UserServiceTest on xianrenzhanghuideMacBook.local with PID 1337 (started by huihui in /Users/huihui/Desktop/SfOperation)
+2018-10-10 09:26:10.569  INFO 1337 --- [main] c.g.operation.service.UserServiceTest    : No active profile set, falling back to default profiles: default
+2018-10-10 09:26:10.869  INFO 1337 --- [main] r.c.GenericReactiveWebApplicationContext : Refreshing org.springframework.boot.web.reactive.context.GenericReactiveWebApplicationContext@172ca72b: startup date [Wed Oct 10 09:26:10 CST 2018]; root of context hierarchy
+2018-10-10 09:26:27.782  INFO 1363 --- [main] com.gzsf.operation.OperationApplication  : Starting OperationApplication on xianrenzhanghuideMacBook.local with PID 1363 (/Users/huihui/Desktop/SfOperation/target/classes started by huihui in /Users/huihui/Desktop/SfOperation)
+2018-10-10 09:26:27.792  INFO 1363 --- [main] com.gzsf.operation.OperationApplication  : No active profile set, falling back to default profiles: default
+2018-10-10 09:26:28.005  INFO 1363 --- [main] onfigReactiveWebServerApplicationContext : Refreshing org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebServerApplicationContext@32193bea: startup date [Wed Oct 10 09:26:28 CST 2018]; root of context hierarchy
+2018-10-10 09:26:29.305  WARN 1363 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.gzsf.operation.dao.UserMapper]' package. Please check your configuration.
+2018-10-10 09:26:30.011  INFO 1363 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2018-10-10 09:26:31.165  INFO 1363 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration' of type [org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration$$EnhancerBySpringCGLIB$$66e6dda3] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-10-10 09:26:33.301  INFO 1363 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/**]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response> com.gzsf.operation.controller.GlobalExceptionHandler.statusError()
+2018-10-10 09:26:33.441  INFO 1363 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/test]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response> com.gzsf.operation.controller.UserController.test(org.springframework.security.core.Authentication) throws java.lang.Exception
+2018-10-10 09:26:33.442  INFO 1363 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/login],methods=[POST]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<java.lang.String>> com.gzsf.operation.controller.UserController.login(com.gzsf.operation.bean.LoginBean)
+2018-10-10 09:26:33.444  INFO 1363 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[POST]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<com.gzsf.operation.model.User>> com.gzsf.operation.controller.UserController.addUser(com.gzsf.operation.model.User)
+2018-10-10 09:26:33.445  INFO 1363 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[GET]}" onto public reactor.core.publisher.Mono com.gzsf.operation.controller.UserController.getUsers(com.gzsf.operation.model.User$Role,java.lang.String,int,int,com.gzsf.operation.security.UserAuthentication)
+2018-10-10 09:26:33.446  INFO 1363 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user/{id}],methods=[GET]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<com.gzsf.operation.model.User>> com.gzsf.operation.controller.UserController.getUserById(long)
+2018-10-10 09:26:33.447  INFO 1363 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[PATCH]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<com.gzsf.operation.model.User>> com.gzsf.operation.controller.UserController.changeUser(java.util.Map<java.lang.String, java.lang.Object>,org.springframework.security.core.Authentication)
+2018-10-10 09:26:33.448  INFO 1363 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/auth]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response> com.gzsf.operation.controller.UserController.auth()
+2018-10-10 09:26:33.560  INFO 1363 --- [main] o.s.w.r.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.reactive.resource.ResourceWebHandler]
+2018-10-10 09:26:33.561  INFO 1363 --- [main] o.s.w.r.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.reactive.resource.ResourceWebHandler]
+2018-10-10 09:26:34.008  INFO 1363 --- [main] o.s.w.r.r.m.a.ControllerMethodResolver   : Looking for @ControllerAdvice: org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebServerApplicationContext@32193bea: startup date [Wed Oct 10 09:26:28 CST 2018]; root of context hierarchy
+2018-10-10 09:26:34.022  INFO 1363 --- [main] o.s.w.r.r.m.a.ControllerMethodResolver   : Detected @ExceptionHandler methods in globalExceptionHandler
+2018-10-10 09:26:35.745  INFO 1363 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2018-10-10 09:26:35.749  INFO 1363 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'dataSource' has been autodetected for JMX exposure
+2018-10-10 09:26:35.772  INFO 1363 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'rabbitConnectionFactory' has been autodetected for JMX exposure
+2018-10-10 09:26:35.781  INFO 1363 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.zaxxer.hikari:name=dataSource,type=HikariDataSource]
+2018-10-10 09:26:35.786  INFO 1363 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located managed bean 'rabbitConnectionFactory': registering with JMX server as MBean [org.springframework.amqp.rabbit.connection:name=rabbitConnectionFactory,type=CachingConnectionFactory]
+2018-10-10 09:26:35.851  INFO 1363 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 2147483647
+2018-10-10 09:26:36.146  INFO 1363 --- [reactor-http-nio-1] r.ipc.netty.tcp.BlockingNettyContext     : Started HttpServer on /0:0:0:0:0:0:0:0:5000
+2018-10-10 09:26:36.150  INFO 1363 --- [main] o.s.b.web.embedded.netty.NettyWebServer  : Netty started on port(s): 5000
+2018-10-10 09:26:36.165  INFO 1363 --- [main] com.gzsf.operation.OperationApplication  : Started OperationApplication in 9.669 seconds (JVM running for 13.274)
+2018-10-10 09:26:41.582  INFO 1363 --- [reactor-http-nio-3] io.lettuce.core.EpollProvider            : Starting without optional epoll library
+2018-10-10 09:26:41.584  INFO 1363 --- [reactor-http-nio-3] io.lettuce.core.KqueueProvider           : Starting without optional kqueue library
+2018-10-10 09:27:29.623  INFO 1363 --- [pool-3-thread-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2018-10-10 09:27:29.625  WARN 1363 --- [pool-3-thread-1] com.zaxxer.hikari.util.DriverDataSource  : Registered driver with driverClassName=org.gjt.mm.mysql.Driver was not found, trying direct instantiation.
+2018-10-10 09:27:29.645  INFO 1363 --- [Thread-26] onfigReactiveWebServerApplicationContext : Closing org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebServerApplicationContext@32193bea: startup date [Wed Oct 10 09:26:28 CST 2018]; root of context hierarchy
+2018-10-10 09:27:29.653  INFO 1363 --- [Thread-26] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 2147483647
+2018-10-10 09:27:29.654  INFO 1363 --- [Thread-26] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 0
+2018-10-10 09:27:29.662  INFO 1363 --- [Thread-26] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
+2018-10-10 09:27:29.666  INFO 1363 --- [Thread-26] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans
+2018-10-10 09:27:30.210  INFO 1363 --- [pool-3-thread-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2018-10-10 09:27:30.275 ERROR 1363 --- [pool-3-thread-1] c.g.operation.controller.UserController  : addUser
+
+com.gzsf.operation.exception.UsersAlreadyExist: UsersAlreadyExist
+	at com.gzsf.operation.service.UserService.lambda$addUser$4(UserService.java:72) ~[classes/:na]
+	at reactor.core.publisher.MonoCallable.call(MonoCallable.java:92) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.publisher.FluxSubscribeOnCallable$CallableSubscribeOnSubscription.run(FluxSubscribeOnCallable.java:225) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:50) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:27) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:266) ~[na:1.8.0_181]
+	at java.util.concurrent.FutureTask.run(FutureTask.java) ~[na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) ~[na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) ~[na:1.8.0_181]
+	at java.lang.Thread.run(Thread.java:748) ~[na:1.8.0_181]
+
+2018-10-10 09:27:30.283 ERROR 1363 --- [pool-3-thread-1] c.g.o.controller.GlobalExceptionHandler  : SystemError
+
+com.gzsf.operation.exception.UsersAlreadyExist: UsersAlreadyExist
+	at com.gzsf.operation.service.UserService.lambda$addUser$4(UserService.java:72) ~[classes/:na]
+	at reactor.core.publisher.MonoCallable.call(MonoCallable.java:92) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.publisher.FluxSubscribeOnCallable$CallableSubscribeOnSubscription.run(FluxSubscribeOnCallable.java:225) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:50) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:27) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:266) [na:1.8.0_181]
+	at java.util.concurrent.FutureTask.run(FutureTask.java) [na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [na:1.8.0_181]
+	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_181]
+
+2018-10-10 09:27:30.283 ERROR 1363 --- [pool-3-thread-1] c.g.o.controller.GlobalExceptionHandler  : System Error remote:0:0:0:0:0:0:0:1 request path:DefaultRequestPath[fullPath='[path='/user']', contextPath='', pathWithinApplication='/user']
+2018-10-10 09:27:30.823  INFO 1363 --- [Thread-26] r.ipc.netty.tcp.BlockingNettyContext     : Stopped HttpServer on /0:0:0:0:0:0:0:0:5000
+2018-10-10 09:27:40.155  INFO 1433 --- [main] com.gzsf.operation.OperationApplication  : Starting OperationApplication on xianrenzhanghuideMacBook.local with PID 1433 (/Users/huihui/Desktop/SfOperation/target/classes started by huihui in /Users/huihui/Desktop/SfOperation)
+2018-10-10 09:27:40.166  INFO 1433 --- [main] com.gzsf.operation.OperationApplication  : No active profile set, falling back to default profiles: default
+2018-10-10 09:27:40.353  INFO 1433 --- [main] onfigReactiveWebServerApplicationContext : Refreshing org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebServerApplicationContext@71812481: startup date [Wed Oct 10 09:27:40 CST 2018]; root of context hierarchy
+2018-10-10 09:27:41.458  WARN 1433 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.gzsf.operation.dao.UserMapper]' package. Please check your configuration.
+2018-10-10 09:27:41.788  INFO 1433 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2018-10-10 09:27:42.479  INFO 1433 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration' of type [org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration$$EnhancerBySpringCGLIB$$cd53311b] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-10-10 09:27:44.210  INFO 1433 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/**]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response> com.gzsf.operation.controller.GlobalExceptionHandler.statusError()
+2018-10-10 09:27:44.241  INFO 1433 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/test]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response> com.gzsf.operation.controller.UserController.test(org.springframework.security.core.Authentication) throws java.lang.Exception
+2018-10-10 09:27:44.242  INFO 1433 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/auth]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response> com.gzsf.operation.controller.UserController.auth()
+2018-10-10 09:27:44.243  INFO 1433 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[POST]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<com.gzsf.operation.model.User>> com.gzsf.operation.controller.UserController.addUser(com.gzsf.operation.model.User)
+2018-10-10 09:27:44.244  INFO 1433 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/login],methods=[POST]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<java.lang.String>> com.gzsf.operation.controller.UserController.login(com.gzsf.operation.bean.LoginBean)
+2018-10-10 09:27:44.244  INFO 1433 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[GET]}" onto public reactor.core.publisher.Mono com.gzsf.operation.controller.UserController.getUsers(com.gzsf.operation.model.User$Role,java.lang.String,int,int,com.gzsf.operation.security.UserAuthentication)
+2018-10-10 09:27:44.245  INFO 1433 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user/{id}],methods=[GET]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<com.gzsf.operation.model.User>> com.gzsf.operation.controller.UserController.getUserById(long)
+2018-10-10 09:27:44.247  INFO 1433 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[PATCH]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<com.gzsf.operation.model.User>> com.gzsf.operation.controller.UserController.changeUser(java.util.Map<java.lang.String, java.lang.Object>,org.springframework.security.core.Authentication)
+2018-10-10 09:27:44.429  INFO 1433 --- [main] o.s.w.r.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.reactive.resource.ResourceWebHandler]
+2018-10-10 09:27:44.430  INFO 1433 --- [main] o.s.w.r.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.reactive.resource.ResourceWebHandler]
+2018-10-10 09:27:44.585  INFO 1433 --- [main] o.s.w.r.r.m.a.ControllerMethodResolver   : Looking for @ControllerAdvice: org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebServerApplicationContext@71812481: startup date [Wed Oct 10 09:27:40 CST 2018]; root of context hierarchy
+2018-10-10 09:27:44.835  INFO 1433 --- [main] o.s.w.r.r.m.a.ControllerMethodResolver   : Detected @ExceptionHandler methods in globalExceptionHandler
+2018-10-10 09:27:46.674  INFO 1433 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2018-10-10 09:27:46.675  INFO 1433 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'dataSource' has been autodetected for JMX exposure
+2018-10-10 09:27:46.687  INFO 1433 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'rabbitConnectionFactory' has been autodetected for JMX exposure
+2018-10-10 09:27:46.691  INFO 1433 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.zaxxer.hikari:name=dataSource,type=HikariDataSource]
+2018-10-10 09:27:46.693  INFO 1433 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located managed bean 'rabbitConnectionFactory': registering with JMX server as MBean [org.springframework.amqp.rabbit.connection:name=rabbitConnectionFactory,type=CachingConnectionFactory]
+2018-10-10 09:27:46.723  INFO 1433 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 2147483647
+2018-10-10 09:27:46.852  INFO 1433 --- [reactor-http-nio-1] r.ipc.netty.tcp.BlockingNettyContext     : Started HttpServer on /0:0:0:0:0:0:0:0:5000
+2018-10-10 09:27:46.853  INFO 1433 --- [main] o.s.b.web.embedded.netty.NettyWebServer  : Netty started on port(s): 5000
+2018-10-10 09:27:46.865  INFO 1433 --- [main] com.gzsf.operation.OperationApplication  : Started OperationApplication in 7.892 seconds (JVM running for 9.994)
+2018-10-10 09:28:20.715  INFO 1433 --- [pool-3-thread-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2018-10-10 09:28:20.717  WARN 1433 --- [pool-3-thread-1] com.zaxxer.hikari.util.DriverDataSource  : Registered driver with driverClassName=org.gjt.mm.mysql.Driver was not found, trying direct instantiation.
+2018-10-10 09:28:21.049  INFO 1433 --- [pool-3-thread-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2018-10-10 09:28:21.245  INFO 1433 --- [pool-3-thread-1] io.lettuce.core.EpollProvider            : Starting without optional epoll library
+2018-10-10 09:28:21.248  INFO 1433 --- [pool-3-thread-1] io.lettuce.core.KqueueProvider           : Starting without optional kqueue library
+2018-10-10 09:32:38.368  WARN 1433 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m42s29ms).
+2018-10-10 09:34:24.813  WARN 1433 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m4s435ms).
+2018-10-10 09:35:22.170 ERROR 1433 --- [pool-3-thread-2] c.g.operation.controller.UserController  : addUser
+
+com.gzsf.operation.exception.UsersAlreadyExist: UsersAlreadyExist
+	at com.gzsf.operation.service.UserService.lambda$addUser$4(UserService.java:72) ~[classes/:na]
+	at reactor.core.publisher.MonoCallable.call(MonoCallable.java:92) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.publisher.FluxSubscribeOnCallable$CallableSubscribeOnSubscription.run(FluxSubscribeOnCallable.java:225) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:50) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:27) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:266) ~[na:1.8.0_181]
+	at java.util.concurrent.FutureTask.run(FutureTask.java) ~[na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) ~[na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) ~[na:1.8.0_181]
+	at java.lang.Thread.run(Thread.java:748) ~[na:1.8.0_181]
+
+2018-10-10 09:35:22.178 ERROR 1433 --- [pool-3-thread-2] c.g.o.controller.GlobalExceptionHandler  : SystemError
+
+com.gzsf.operation.exception.UsersAlreadyExist: UsersAlreadyExist
+	at com.gzsf.operation.service.UserService.lambda$addUser$4(UserService.java:72) ~[classes/:na]
+	at reactor.core.publisher.MonoCallable.call(MonoCallable.java:92) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.publisher.FluxSubscribeOnCallable$CallableSubscribeOnSubscription.run(FluxSubscribeOnCallable.java:225) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:50) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:27) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:266) [na:1.8.0_181]
+	at java.util.concurrent.FutureTask.run(FutureTask.java) [na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [na:1.8.0_181]
+	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_181]
+
+2018-10-10 09:35:22.178 ERROR 1433 --- [pool-3-thread-2] c.g.o.controller.GlobalExceptionHandler  : System Error remote:0:0:0:0:0:0:0:1 request path:DefaultRequestPath[fullPath='[path='/user']', contextPath='', pathWithinApplication='/user']
+2018-10-10 09:40:49.121  INFO 1433 --- [Thread-22] onfigReactiveWebServerApplicationContext : Closing org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebServerApplicationContext@71812481: startup date [Wed Oct 10 09:27:40 CST 2018]; root of context hierarchy
+2018-10-10 09:40:49.129  INFO 1433 --- [Thread-22] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 2147483647
+2018-10-10 09:40:49.131  INFO 1433 --- [Thread-22] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 0
+2018-10-10 09:40:49.146  INFO 1433 --- [Thread-22] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
+2018-10-10 09:40:49.148  INFO 1433 --- [Thread-22] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans
+2018-10-10 09:40:49.149  INFO 1433 --- [Thread-22] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2018-10-10 09:40:49.167  INFO 1433 --- [Thread-22] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2018-10-10 09:40:50.305  INFO 1433 --- [Thread-22] r.ipc.netty.tcp.BlockingNettyContext     : Stopped HttpServer on /0:0:0:0:0:0:0:0:5000
+2018-10-10 09:41:04.762  INFO 2110 --- [main] com.gzsf.operation.OperationApplication  : Starting OperationApplication on xianrenzhanghuideMacBook.local with PID 2110 (/Users/huihui/Desktop/SfOperation/target/classes started by huihui in /Users/huihui/Desktop/SfOperation)
+2018-10-10 09:41:04.773  INFO 2110 --- [main] com.gzsf.operation.OperationApplication  : No active profile set, falling back to default profiles: default
+2018-10-10 09:41:04.953  INFO 2110 --- [main] onfigReactiveWebServerApplicationContext : Refreshing org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebServerApplicationContext@134d26af: startup date [Wed Oct 10 09:41:04 CST 2018]; root of context hierarchy
+2018-10-10 09:41:05.853  WARN 2110 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.gzsf.operation.dao.UserMapper]' package. Please check your configuration.
+2018-10-10 09:41:06.155  INFO 2110 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2018-10-10 09:41:06.818  INFO 2110 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration' of type [org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration$$EnhancerBySpringCGLIB$$d06eb58d] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-10-10 09:41:08.487  INFO 2110 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/**]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response> com.gzsf.operation.controller.GlobalExceptionHandler.statusError()
+2018-10-10 09:41:08.513  INFO 2110 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/test]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response> com.gzsf.operation.controller.UserController.test(org.springframework.security.core.Authentication) throws java.lang.Exception
+2018-10-10 09:41:08.514  INFO 2110 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[POST]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<com.gzsf.operation.model.User>> com.gzsf.operation.controller.UserController.addUser(com.gzsf.operation.model.User)
+2018-10-10 09:41:08.515  INFO 2110 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/auth]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response> com.gzsf.operation.controller.UserController.auth()
+2018-10-10 09:41:08.515  INFO 2110 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/login],methods=[POST]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<java.lang.String>> com.gzsf.operation.controller.UserController.login(com.gzsf.operation.bean.LoginBean)
+2018-10-10 09:41:08.516  INFO 2110 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[GET]}" onto public reactor.core.publisher.Mono com.gzsf.operation.controller.UserController.getUsers(com.gzsf.operation.model.User$Role,java.lang.String,int,int,com.gzsf.operation.security.UserAuthentication)
+2018-10-10 09:41:08.516  INFO 2110 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user/{id}],methods=[GET]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<com.gzsf.operation.model.User>> com.gzsf.operation.controller.UserController.getUserById(long)
+2018-10-10 09:41:08.517  INFO 2110 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[PATCH]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<com.gzsf.operation.model.User>> com.gzsf.operation.controller.UserController.changeUser(java.util.Map<java.lang.String, java.lang.Object>,org.springframework.security.core.Authentication)
+2018-10-10 09:41:08.694  INFO 2110 --- [main] o.s.w.r.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.reactive.resource.ResourceWebHandler]
+2018-10-10 09:41:08.694  INFO 2110 --- [main] o.s.w.r.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.reactive.resource.ResourceWebHandler]
+2018-10-10 09:41:08.837  INFO 2110 --- [main] o.s.w.r.r.m.a.ControllerMethodResolver   : Looking for @ControllerAdvice: org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebServerApplicationContext@134d26af: startup date [Wed Oct 10 09:41:04 CST 2018]; root of context hierarchy
+2018-10-10 09:41:09.046  INFO 2110 --- [main] o.s.w.r.r.m.a.ControllerMethodResolver   : Detected @ExceptionHandler methods in globalExceptionHandler
+2018-10-10 09:41:10.616  INFO 2110 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2018-10-10 09:41:10.623  INFO 2110 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'dataSource' has been autodetected for JMX exposure
+2018-10-10 09:41:10.640  INFO 2110 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'rabbitConnectionFactory' has been autodetected for JMX exposure
+2018-10-10 09:41:10.645  INFO 2110 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.zaxxer.hikari:name=dataSource,type=HikariDataSource]
+2018-10-10 09:41:10.648  INFO 2110 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located managed bean 'rabbitConnectionFactory': registering with JMX server as MBean [org.springframework.amqp.rabbit.connection:name=rabbitConnectionFactory,type=CachingConnectionFactory]
+2018-10-10 09:41:10.684  INFO 2110 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 2147483647
+2018-10-10 09:41:10.934  INFO 2110 --- [reactor-http-nio-1] r.ipc.netty.tcp.BlockingNettyContext     : Started HttpServer on /0:0:0:0:0:0:0:0:5000
+2018-10-10 09:41:10.936  INFO 2110 --- [main] o.s.b.web.embedded.netty.NettyWebServer  : Netty started on port(s): 5000
+2018-10-10 09:41:10.959  INFO 2110 --- [main] com.gzsf.operation.OperationApplication  : Started OperationApplication in 7.448 seconds (JVM running for 9.413)
+2018-10-10 09:41:17.299  INFO 2110 --- [reactor-http-nio-3] io.lettuce.core.EpollProvider            : Starting without optional epoll library
+2018-10-10 09:41:17.302  INFO 2110 --- [reactor-http-nio-3] io.lettuce.core.KqueueProvider           : Starting without optional kqueue library
+2018-10-10 09:41:17.484  INFO 2110 --- [reactor-http-nio-3] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2018-10-10 09:41:17.486  WARN 2110 --- [reactor-http-nio-3] com.zaxxer.hikari.util.DriverDataSource  : Registered driver with driverClassName=org.gjt.mm.mysql.Driver was not found, trying direct instantiation.
+2018-10-10 09:41:17.845  INFO 2110 --- [reactor-http-nio-3] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2018-10-10 09:41:29.616 ERROR 2110 --- [pool-3-thread-1] c.g.operation.controller.UserController  : addUser
+
+com.gzsf.operation.exception.UsersAlreadyExist: UsersAlreadyExist
+	at com.gzsf.operation.service.UserService.lambda$addUser$4(UserService.java:72) ~[classes/:na]
+	at reactor.core.publisher.MonoCallable.call(MonoCallable.java:92) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.publisher.FluxSubscribeOnCallable$CallableSubscribeOnSubscription.run(FluxSubscribeOnCallable.java:225) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:50) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:27) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:266) ~[na:1.8.0_181]
+	at java.util.concurrent.FutureTask.run(FutureTask.java) ~[na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) ~[na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) ~[na:1.8.0_181]
+	at java.lang.Thread.run(Thread.java:748) ~[na:1.8.0_181]
+
+2018-10-10 09:41:29.635 ERROR 2110 --- [pool-3-thread-1] c.g.o.controller.GlobalExceptionHandler  : SystemError
+
+com.gzsf.operation.exception.UsersAlreadyExist: UsersAlreadyExist
+	at com.gzsf.operation.service.UserService.lambda$addUser$4(UserService.java:72) ~[classes/:na]
+	at reactor.core.publisher.MonoCallable.call(MonoCallable.java:92) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.publisher.FluxSubscribeOnCallable$CallableSubscribeOnSubscription.run(FluxSubscribeOnCallable.java:225) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:50) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:27) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:266) [na:1.8.0_181]
+	at java.util.concurrent.FutureTask.run(FutureTask.java) [na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [na:1.8.0_181]
+	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_181]
+
+2018-10-10 09:41:29.635 ERROR 2110 --- [pool-3-thread-1] c.g.o.controller.GlobalExceptionHandler  : System Error remote:0:0:0:0:0:0:0:1 request path:DefaultRequestPath[fullPath='[path='/user']', contextPath='', pathWithinApplication='/user']
+2018-10-10 10:05:52.153  INFO 2110 --- [Thread-21] onfigReactiveWebServerApplicationContext : Closing org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebServerApplicationContext@134d26af: startup date [Wed Oct 10 09:41:04 CST 2018]; root of context hierarchy
+2018-10-10 10:05:52.161  INFO 2110 --- [Thread-21] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 2147483647
+2018-10-10 10:05:52.161  INFO 2110 --- [Thread-21] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 0
+2018-10-10 10:05:52.171  INFO 2110 --- [Thread-21] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
+2018-10-10 10:05:52.173  INFO 2110 --- [Thread-21] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans
+2018-10-10 10:05:52.177  INFO 2110 --- [Thread-21] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2018-10-10 10:05:52.189  INFO 2110 --- [Thread-21] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2018-10-10 10:05:53.319  INFO 2110 --- [Thread-21] r.ipc.netty.tcp.BlockingNettyContext     : Stopped HttpServer on /0:0:0:0:0:0:0:0:5000
+2018-10-10 10:06:03.337  INFO 3307 --- [main] com.gzsf.operation.OperationApplication  : Starting OperationApplication on xianrenzhanghuideMacBook.local with PID 3307 (/Users/huihui/Desktop/SfOperation/target/classes started by huihui in /Users/huihui/Desktop/SfOperation)
+2018-10-10 10:06:03.348  INFO 3307 --- [main] com.gzsf.operation.OperationApplication  : No active profile set, falling back to default profiles: default
+2018-10-10 10:06:03.460  INFO 3307 --- [main] onfigReactiveWebServerApplicationContext : Refreshing org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebServerApplicationContext@6ee6f53: startup date [Wed Oct 10 10:06:03 CST 2018]; root of context hierarchy
+2018-10-10 10:06:04.757  WARN 3307 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.gzsf.operation.dao.UserMapper]' package. Please check your configuration.
+2018-10-10 10:06:05.329  INFO 3307 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2018-10-10 10:06:06.223  INFO 3307 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration' of type [org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration$$EnhancerBySpringCGLIB$$64412f37] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-10-10 10:06:08.704  INFO 3307 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/**]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response> com.gzsf.operation.controller.GlobalExceptionHandler.statusError()
+2018-10-10 10:06:08.750  INFO 3307 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/test]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response> com.gzsf.operation.controller.UserController.test(org.springframework.security.core.Authentication) throws java.lang.Exception
+2018-10-10 10:06:08.756  INFO 3307 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/auth]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response> com.gzsf.operation.controller.UserController.auth()
+2018-10-10 10:06:08.762  INFO 3307 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/login],methods=[POST]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<java.lang.String>> com.gzsf.operation.controller.UserController.login(com.gzsf.operation.bean.LoginBean)
+2018-10-10 10:06:08.764  INFO 3307 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user/{id}],methods=[GET]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<com.gzsf.operation.model.User>> com.gzsf.operation.controller.UserController.getUserById(long)
+2018-10-10 10:06:08.765  INFO 3307 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[GET]}" onto public reactor.core.publisher.Mono com.gzsf.operation.controller.UserController.getUsers(com.gzsf.operation.model.User$Role,java.lang.String,int,int,com.gzsf.operation.security.UserAuthentication)
+2018-10-10 10:06:08.769  INFO 3307 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[PATCH]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<com.gzsf.operation.model.User>> com.gzsf.operation.controller.UserController.changeUser(java.util.Map<java.lang.String, java.lang.Object>,org.springframework.security.core.Authentication)
+2018-10-10 10:06:08.771  INFO 3307 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[POST]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<com.gzsf.operation.model.User>> com.gzsf.operation.controller.UserController.addUser(com.gzsf.operation.model.User)
+2018-10-10 10:06:08.929  INFO 3307 --- [main] o.s.w.r.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.reactive.resource.ResourceWebHandler]
+2018-10-10 10:06:08.929  INFO 3307 --- [main] o.s.w.r.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.reactive.resource.ResourceWebHandler]
+2018-10-10 10:06:09.159  INFO 3307 --- [main] o.s.w.r.r.m.a.ControllerMethodResolver   : Looking for @ControllerAdvice: org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebServerApplicationContext@6ee6f53: startup date [Wed Oct 10 10:06:03 CST 2018]; root of context hierarchy
+2018-10-10 10:06:09.361  INFO 3307 --- [main] o.s.w.r.r.m.a.ControllerMethodResolver   : Detected @ExceptionHandler methods in globalExceptionHandler
+2018-10-10 10:06:11.114  INFO 3307 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2018-10-10 10:06:11.117  INFO 3307 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'dataSource' has been autodetected for JMX exposure
+2018-10-10 10:06:11.176  INFO 3307 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'rabbitConnectionFactory' has been autodetected for JMX exposure
+2018-10-10 10:06:11.180  INFO 3307 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.zaxxer.hikari:name=dataSource,type=HikariDataSource]
+2018-10-10 10:06:11.183  INFO 3307 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located managed bean 'rabbitConnectionFactory': registering with JMX server as MBean [org.springframework.amqp.rabbit.connection:name=rabbitConnectionFactory,type=CachingConnectionFactory]
+2018-10-10 10:06:11.215  INFO 3307 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 2147483647
+2018-10-10 10:06:11.368  INFO 3307 --- [reactor-http-nio-1] r.ipc.netty.tcp.BlockingNettyContext     : Started HttpServer on /0:0:0:0:0:0:0:0:5000
+2018-10-10 10:06:11.369  INFO 3307 --- [main] o.s.b.web.embedded.netty.NettyWebServer  : Netty started on port(s): 5000
+2018-10-10 10:06:11.380  INFO 3307 --- [main] com.gzsf.operation.OperationApplication  : Started OperationApplication in 9.315 seconds (JVM running for 11.841)
+2018-10-10 10:06:26.035  INFO 3307 --- [reactor-http-nio-3] io.lettuce.core.EpollProvider            : Starting without optional epoll library
+2018-10-10 10:06:26.037  INFO 3307 --- [reactor-http-nio-3] io.lettuce.core.KqueueProvider           : Starting without optional kqueue library
+2018-10-10 10:06:26.189  INFO 3307 --- [reactor-http-nio-3] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2018-10-10 10:06:26.191  WARN 3307 --- [reactor-http-nio-3] com.zaxxer.hikari.util.DriverDataSource  : Registered driver with driverClassName=org.gjt.mm.mysql.Driver was not found, trying direct instantiation.
+2018-10-10 10:06:26.508  INFO 3307 --- [reactor-http-nio-3] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2018-10-10 10:08:26.344 ERROR 3307 --- [pool-3-thread-2] c.g.operation.controller.UserController  : addUser
+
+com.gzsf.operation.exception.UsersAlreadyExist: UsersAlreadyExist
+	at com.gzsf.operation.service.UserService.lambda$addUser$4(UserService.java:72) ~[classes/:na]
+	at reactor.core.publisher.MonoCallable.call(MonoCallable.java:92) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.publisher.FluxSubscribeOnCallable$CallableSubscribeOnSubscription.run(FluxSubscribeOnCallable.java:225) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:50) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:27) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:266) ~[na:1.8.0_181]
+	at java.util.concurrent.FutureTask.run(FutureTask.java) ~[na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) ~[na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) ~[na:1.8.0_181]
+	at java.lang.Thread.run(Thread.java:748) ~[na:1.8.0_181]
+
+2018-10-10 10:08:26.355 ERROR 3307 --- [pool-3-thread-2] c.g.o.controller.GlobalExceptionHandler  : SystemError
+
+com.gzsf.operation.exception.UsersAlreadyExist: UsersAlreadyExist
+	at com.gzsf.operation.service.UserService.lambda$addUser$4(UserService.java:72) ~[classes/:na]
+	at reactor.core.publisher.MonoCallable.call(MonoCallable.java:92) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.publisher.FluxSubscribeOnCallable$CallableSubscribeOnSubscription.run(FluxSubscribeOnCallable.java:225) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:50) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:27) ~[reactor-core-3.1.9.RELEASE.jar:3.1.9.RELEASE]
+	at java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:266) [na:1.8.0_181]
+	at java.util.concurrent.FutureTask.run(FutureTask.java) [na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [na:1.8.0_181]
+	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_181]
+
+2018-10-10 10:08:26.356 ERROR 3307 --- [pool-3-thread-2] c.g.o.controller.GlobalExceptionHandler  : System Error remote:0:0:0:0:0:0:0:1 request path:DefaultRequestPath[fullPath='[path='/user']', contextPath='', pathWithinApplication='/user']
+2018-10-10 10:29:30.667  INFO 3307 --- [Thread-25] onfigReactiveWebServerApplicationContext : Closing org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebServerApplicationContext@6ee6f53: startup date [Wed Oct 10 10:06:03 CST 2018]; root of context hierarchy
+2018-10-10 10:29:30.672  INFO 3307 --- [Thread-25] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 2147483647
+2018-10-10 10:29:30.674  INFO 3307 --- [Thread-25] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 0
+2018-10-10 10:29:30.685  INFO 3307 --- [Thread-25] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
+2018-10-10 10:29:30.686  INFO 3307 --- [Thread-25] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans
+2018-10-10 10:29:30.688  INFO 3307 --- [Thread-25] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2018-10-10 10:29:30.699  INFO 3307 --- [Thread-25] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2018-10-10 10:29:31.843  INFO 3307 --- [Thread-25] r.ipc.netty.tcp.BlockingNettyContext     : Stopped HttpServer on /0:0:0:0:0:0:0:0:5000
+2018-10-10 10:31:07.933  INFO 4529 --- [main] com.gzsf.operation.OperationApplication  : Starting OperationApplication on xianrenzhanghuideMacBook.local with PID 4529 (/Users/huihui/Desktop/SfOperation/target/classes started by huihui in /Users/huihui/Desktop/SfOperation)
+2018-10-10 10:31:07.946  INFO 4529 --- [main] com.gzsf.operation.OperationApplication  : No active profile set, falling back to default profiles: default
+2018-10-10 10:31:08.075  INFO 4529 --- [main] onfigReactiveWebServerApplicationContext : Refreshing org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebServerApplicationContext@c4ed84: startup date [Wed Oct 10 10:31:08 CST 2018]; root of context hierarchy
+2018-10-10 10:31:09.712  WARN 4529 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.gzsf.operation.dao.UserMapper]' package. Please check your configuration.
+2018-10-10 10:31:10.299  INFO 4529 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2018-10-10 10:31:11.142  INFO 4529 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration' of type [org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration$$EnhancerBySpringCGLIB$$8170da53] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-10-10 10:31:12.889  INFO 4529 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/**]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response> com.gzsf.operation.controller.GlobalExceptionHandler.statusError()
+2018-10-10 10:31:12.919  INFO 4529 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/test]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response> com.gzsf.operation.controller.UserController.test(org.springframework.security.core.Authentication) throws java.lang.Exception
+2018-10-10 10:31:12.920  INFO 4529 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[GET]}" onto public reactor.core.publisher.Mono com.gzsf.operation.controller.UserController.getUsers(com.gzsf.operation.model.User$Role,java.lang.String,int,int,com.gzsf.operation.security.UserAuthentication)
+2018-10-10 10:31:12.920  INFO 4529 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/login],methods=[POST]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<java.lang.String>> com.gzsf.operation.controller.UserController.login(com.gzsf.operation.bean.LoginBean)
+2018-10-10 10:31:12.921  INFO 4529 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user/{id}],methods=[GET]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<com.gzsf.operation.model.User>> com.gzsf.operation.controller.UserController.getUserById(long)
+2018-10-10 10:31:12.922  INFO 4529 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[PATCH]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<com.gzsf.operation.model.User>> com.gzsf.operation.controller.UserController.changeUser(java.util.Map<java.lang.String, java.lang.Object>,org.springframework.security.core.Authentication)
+2018-10-10 10:31:12.923  INFO 4529 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[POST]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response<com.gzsf.operation.model.User>> com.gzsf.operation.controller.UserController.addUser(com.gzsf.operation.model.User)
+2018-10-10 10:31:12.923  INFO 4529 --- [main] s.w.r.r.m.a.RequestMappingHandlerMapping : Mapped "{[/auth]}" onto public reactor.core.publisher.Mono<com.gzsf.operation.bean.Response> com.gzsf.operation.controller.UserController.auth()
+2018-10-10 10:31:13.124  INFO 4529 --- [main] o.s.w.r.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.reactive.resource.ResourceWebHandler]
+2018-10-10 10:31:13.125  INFO 4529 --- [main] o.s.w.r.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.reactive.resource.ResourceWebHandler]
+2018-10-10 10:31:13.304  INFO 4529 --- [main] o.s.w.r.r.m.a.ControllerMethodResolver   : Looking for @ControllerAdvice: org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebServerApplicationContext@c4ed84: startup date [Wed Oct 10 10:31:08 CST 2018]; root of context hierarchy
+2018-10-10 10:31:13.518  INFO 4529 --- [main] o.s.w.r.r.m.a.ControllerMethodResolver   : Detected @ExceptionHandler methods in globalExceptionHandler
+2018-10-10 10:31:15.463  INFO 4529 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2018-10-10 10:31:15.465  INFO 4529 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'dataSource' has been autodetected for JMX exposure
+2018-10-10 10:31:15.477  INFO 4529 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'rabbitConnectionFactory' has been autodetected for JMX exposure
+2018-10-10 10:31:15.482  INFO 4529 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.zaxxer.hikari:name=dataSource,type=HikariDataSource]
+2018-10-10 10:31:15.485  INFO 4529 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located managed bean 'rabbitConnectionFactory': registering with JMX server as MBean [org.springframework.amqp.rabbit.connection:name=rabbitConnectionFactory,type=CachingConnectionFactory]
+2018-10-10 10:31:15.518  INFO 4529 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 2147483647
+2018-10-10 10:31:15.667  INFO 4529 --- [reactor-http-nio-1] r.ipc.netty.tcp.BlockingNettyContext     : Started HttpServer on /0:0:0:0:0:0:0:0:5000
+2018-10-10 10:31:15.668  INFO 4529 --- [main] o.s.b.web.embedded.netty.NettyWebServer  : Netty started on port(s): 5000
+2018-10-10 10:31:15.684  INFO 4529 --- [main] com.gzsf.operation.OperationApplication  : Started OperationApplication in 8.912 seconds (JVM running for 11.228)
+2018-10-10 10:31:51.500  INFO 4529 --- [reactor-http-nio-3] io.lettuce.core.EpollProvider            : Starting without optional epoll library
+2018-10-10 10:31:51.502  INFO 4529 --- [reactor-http-nio-3] io.lettuce.core.KqueueProvider           : Starting without optional kqueue library
+2018-10-10 10:31:51.666  INFO 4529 --- [reactor-http-nio-3] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2018-10-10 10:31:51.668  WARN 4529 --- [reactor-http-nio-3] com.zaxxer.hikari.util.DriverDataSource  : Registered driver with driverClassName=org.gjt.mm.mysql.Driver was not found, trying direct instantiation.
+2018-10-10 10:31:51.986  INFO 4529 --- [reactor-http-nio-3] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
