@@ -22,9 +22,6 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userService;
-
-    private Page<User> startPage;
-
     private final Logger logger= LoggerFactory.getLogger(getClass());
 
     @PostMapping("login")
@@ -66,7 +63,10 @@ public class UserController {
     @PatchMapping ("user")
     /**
      * 要问为什么可以不加这个<Response<User>>
+     *
+     *  还有load
      */
+
     public Mono<Response<User>> changeUser(@RequestBody Map<String,Object> body, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
 
@@ -83,22 +83,17 @@ public class UserController {
     //添加用户信息
     @PostMapping("/user")
     public  Mono<Response<User>> addUser(@RequestBody User user){
-//        user1.setUserName(user.getUserName());
-//        user1.setCreatedAt(new Date());
-//        user1.setRole(user.getRole());
-//        user1.setPassword(user.getPassword());
-//        user1.setUpdatedAt(new Date());
-
+        if(userService.selectByUserName(user.getUserName())!=null){
+        return Mono.just(ResponseUtils.UsersAlreadyExist());
+        }
         return userService.addUser(user).map(it->ResponseUtils.success(it))
                 .doOnError(throwable -> logger.error("addUser",throwable));
     }
-
 
     @RequestMapping("auth")
     public Mono<Response> auth(){
         return Mono.just(ResponseUtils.success(null));
     }
-
     @RequestMapping("test")
     public Mono<Response> test(Authentication authentication) throws Exception {
 //        throw new Exception("ddddd");

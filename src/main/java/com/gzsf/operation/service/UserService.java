@@ -1,7 +1,6 @@
 package com.gzsf.operation.service;
 
 import com.github.pagehelper.Page;
-import com.gzsf.operation.ResponseUtils;
 import com.gzsf.operation.Utils;
 import com.gzsf.operation.bean.LoginInfo;
 import com.gzsf.operation.dao.UserMapper;
@@ -57,24 +56,22 @@ public class UserService extends MonoService{
             if(user==null){
                 throw new NoUserFoundException();
             }
-            user.setUserId(id);
             user.setPassword(Utils.SHA1(newPassword));
             user.setRole(role);
             userMapper.update(user);
-
             LoginInfo loginInfo=new LoginInfo();
             loginInfo.setUser(user);
             return loginInfo;
-
         });
     }
     //添加用户
    public Mono addUser(User user){
        return  async(() ->{
-           User user1=userMapper.getUserById(user.getUserId());
-           if(user1!=null){
-               throw new UsersAlreadyExist();
-           }
+           User user1 = userMapper.getUserByUserName(user.getUserName());
+            if (user1!=null){
+                throw new UsersAlreadyExist("UsersAlreadyExist");
+            }
+
            String password=Utils.SHA1(user.getPassword());
            user.setPassword(password);
            user.setUserName(user.getUserName());
@@ -82,11 +79,17 @@ public class UserService extends MonoService{
            user.setRole(user.getRole());
            user.setPassword(user.getPassword());
            user.setUpdatedAt(new Date());
-
-           return  userMapper.insert(user);
+           userMapper.insert(user);
+           return user;
        });
-
-
-
    }
+    //通过用户获取id
+    public  Mono  selectByUserName(String userName){
+        return  async(()->{
+            User user = userMapper.getUserByUserName(userName);
+            return user;
+        });
+    }
+
+
 }
