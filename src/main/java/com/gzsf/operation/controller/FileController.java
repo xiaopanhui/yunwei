@@ -9,19 +9,26 @@ import com.gzsf.operation.service.FileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.buffer.DefaultDataBufferFactory;
+import org.springframework.http.MediaType;
+import org.springframework.http.codec.multipart.FilePart;
+import org.springframework.http.codec.multipart.FormFieldPart;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-import java.util.function.Function;
-import java.util.function.Predicate;
+
 
 @RestController
 public class FileController {
     @Autowired
     private FileService fileService;
     private final Logger logger= LoggerFactory.getLogger(getClass());
+    private final DefaultDataBufferFactory factory=new DefaultDataBufferFactory();
+
     @GetMapping("file")
     public Mono getFileList(
             @RequestParam("limit") Integer limit,
@@ -56,7 +63,6 @@ public class FileController {
     @DeleteMapping("file/{fileId}")
     @PreAuthorize("hasAnyAuthority('USER')")
     public Mono delete(@PathVariable("fileId") Long fileId){
-
         return fileService.delete(fileId)
                 .map(it->{
                     if (it){
@@ -67,4 +73,46 @@ public class FileController {
         })
                 .doOnError(it-> logger.error("create File",it));
     }
+
+    @GetMapping("/file/{id}/version")
+    public Mono getVersionList(
+            @PathVariable("id") Long fileId,
+            @RequestParam("limit") Integer limit,
+            @RequestParam("offset") Integer offset,
+            @RequestParam(value = "keyword",required = false) String keyword
+            ){
+        return fileService.getVersionList(fileId,limit, offset, keyword)
+                .map(ResponseUtils::successPage)
+                .doOnError(it->logger.error("getVersionList",it));
+    }
+    @PostMapping("/file/{id}/version")
+    public Mono updateFile(
+            @PathVariable("id") Long fileId,
+            Authentication authentication,
+            @RequestPart("file") FilePart filePart,
+            @RequestPart(value = "updateLog" ,required = false)FormFieldPart updateLog
+            )
+    {
+        User user= (User) authentication.getPrincipal();
+        String updateInfo=updateLog==null?null:updateLog.value();
+        return fileService.saveFile(filePart,updateInfo,fileId,user.getUserId());
+    }
+
+    @GetMapping("file/{id}/version/{version}/file")
+//    @PreAuthorize("hasAnyAuthority('USER')")
+    public Mono<Void> download(
+            @PathVariable("id") Long fileId,
+            @PathVariable("version") Integer version,
+            ServerHttpResponse serverHttpResponse
+    )
+    {
+        serverHttpResponse.getHeaders().setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        return serverHttpResponse.writeWith(this.fileService.getFile(fileId,version).map(it ->{
+            serverHttpResponse.getHeaders().set("Content-Disposition", "attachment; filename="+it.getName());
+            serverHttpResponse.getHeaders().set("fileName",it.getName());
+            serverHttpResponse.getHeaders().set("fileSize",it.getContent().length+"");
+            return factory.wrap(it.getContent());
+        }));
+    }
+
 }
