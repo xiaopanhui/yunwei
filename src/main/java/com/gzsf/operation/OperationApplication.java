@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-@MapperScan("com.gzsf.operation.dao.UserMapper")
+@MapperScan("com.gzsf.operation.dao.*")
 public class OperationApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(OperationApplication.class, args);

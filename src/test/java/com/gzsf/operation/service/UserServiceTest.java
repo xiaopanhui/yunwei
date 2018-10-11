@@ -1,5 +1,6 @@
 package com.gzsf.operation.service;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.gzsf.operation.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -61,6 +62,20 @@ public class UserServiceTest {
         user.setPassword("1");
         user.setUserName("zhi");
         userService.addUser(user).map(it->{
+            System.out.println("结果为"+it);
+            return "";
+        }).doOnError(new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        }).block();
+
+    }
+
+    @Test
+    public void selectByUserName() {
+        userService.selectByUserName("xiao4").map(it->{
             System.out.println("结果为"+it);
             return "";
         }).doOnError(new Consumer<Throwable>() {

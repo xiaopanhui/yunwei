@@ -16,7 +16,7 @@
         </set>
         where ( file_id = #{fileId} OR file_name= #{fileName}) and is_del=0
     </update>
-    <insert id="insert" useGeneratedKeys="true" keyProperty="file_id">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="fileId">
         insert into file
         <trim prefix="(" suffix=")" suffixOverrides=",">
             file_name,

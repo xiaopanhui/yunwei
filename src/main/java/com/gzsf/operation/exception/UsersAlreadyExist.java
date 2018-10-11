@@ -1,6 +1,6 @@
 package com.gzsf.operation.exception;
 
-public class UsersAlreadyExist extends Exception {
+public class UsersAlreadyExist extends RuntimeException {
 
     public   UsersAlreadyExist(){
         super("UsersAlreadyExist");

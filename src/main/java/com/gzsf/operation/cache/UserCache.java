@@ -33,17 +33,18 @@ public class UserCache {
     /**
      * 插入或者更新用户信息
      * @param user 用户信息
-     * @return 变更行数
+     * @return id
      *  @CacheEvict注解用来清理缓存
      */
     @CacheEvict(value = "user",key = "#{user.userId}")
-    public int save(User user){
+    public Long save(User user){
         user.setUpdatedAt(new Date());
         if (user.getUserId()==null){
             user.setCreatedAt(new Date());
             return userMapper.insert(user);
         }else {
-           return userMapper.update(user);
+            userMapper.update(user);
+            return user.getUserId();
         }
     }
 
