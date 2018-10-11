@@ -50,4 +50,11 @@ public class FileCache {
         return fileVersionMapper.getRecord(fileId,version);
     }
 
+    @CacheEvict(value = "file_version",key = "#{fileVersionModel.fileId+'_0'}")
+    public Long saveFileVersion(FileVersionModel fileVersionModel){
+        Integer v= fileVersionMapper.getLastVersion(fileVersionModel.getFileId());
+        fileVersionModel.setVersion(v==null?1:v+1);
+        return fileVersionMapper.insert(fileVersionModel);
+    }
+
 }

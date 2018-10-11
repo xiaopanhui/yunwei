@@ -41,7 +41,11 @@
 
     <select id="getRecord" resultType="com.gzsf.operation.model.FileVersionModel">
         select file_name, file_id,file_version_id,update_log,created_at,version,updated_by from file_version
-        where file_id=#{fileId} and version=#{version} and is_del=0
+        where file_id=#{fileId}
+        <if test="version>0 ">
+            and version=#{version}
+        </if>
+        and is_del=0
     </select>
     <select id="getLastVersion" resultType="java.lang.Integer">
         select max(version) from file_version where file_id=#{fileId} and is_del=0

@@ -15,5 +15,10 @@ public class ResponseUtils {
     public static <T> Response<T> notLogin(){return new Response<T>(101,"Not Login");}
     public static <T> Response<T> UsersAlreadyExist(){return new Response<T>(102,"UsersAlreadyExist");}
     public static <T>PageResponse<T> successPage(Page<T> data){return new PageResponse<T>(0,"OK",data);}
+    public static <T>Response<T> noCmdToRun(){return new Response<T>(200,"No cmd to tun");}
+    public static <T>Response<T> noFileFound(){return new Response<T>(201,"NoFileFound");}
+    public static <T>Response<T> noServiceFound(){return new Response<T>(202,"NoServiceFound");}
+    public static <T>Response<T> serviceRunning(){return new Response<T>(203,"Service is running");}
+    public static <T>Response<T> serviceNotRunning(){return new Response<T>(204,"Service is not running");}
 
 }

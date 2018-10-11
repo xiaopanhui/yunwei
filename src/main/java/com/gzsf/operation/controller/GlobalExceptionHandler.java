@@ -2,6 +2,9 @@ package com.gzsf.operation.controller;
 
 import com.gzsf.operation.ResponseUtils;
 import com.gzsf.operation.bean.Response;
+import com.gzsf.operation.exception.BaseException;
+import com.gzsf.operation.exception.NoCmdToRunException;
+import com.gzsf.operation.exception.NoFileFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -34,9 +37,10 @@ public class GlobalExceptionHandler {
         if (e instanceof AccessDeniedException){
             return Mono.just(ResponseUtils.accessDenied());
         }
-        if (e instanceof ServerWebInputException){
-            return Mono.just(ResponseUtils.paramError());
+        if (e instanceof BaseException){
+            return Mono.just(new Response(((BaseException) e).getError(),e.getMessage()));
         }
+
         logger.error("SystemError",e);
         logger.error("System Error remote:{} request path:{}",req.getRemoteAddress().getHostString(),req.getPath(),req.getQueryParams());
         return Mono.just(ResponseUtils.systemError());

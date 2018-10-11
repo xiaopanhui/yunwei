@@ -1,8 +1,11 @@
 package com.gzsf.operation.controller;
 
 import com.gzsf.operation.ResponseUtils;
+import com.gzsf.operation.bean.Response;
+import com.gzsf.operation.exception.NoCmdToRunException;
 import com.gzsf.operation.model.ServiceModel;
 import com.gzsf.operation.model.User;
+import com.gzsf.operation.service.ProcessService;
 import com.gzsf.operation.service.ServiceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +20,9 @@ import reactor.core.publisher.Mono;
 public class ServiceController {
     @Autowired
     private ServiceService serviceService;
+
+    @Autowired
+    private ProcessService processService;
     private final Logger logger= LoggerFactory.getLogger(this.getClass());
     @GetMapping("")
     public Mono list( @RequestParam(value = "limit",defaultValue = "10") Integer limit,
@@ -66,5 +72,16 @@ public class ServiceController {
                     logger.error("service add ",e);
                     return Mono.just(ResponseUtils.systemError());
                 });
+    }
+
+    @GetMapping("start/{id}")
+    @PreAuthorize("hasAnyAuthority('USER')")
+    public Mono start(@PathVariable("id") Long id){
+        return processService.statrService(id).map(ResponseUtils::success);
+    }
+    @GetMapping("stop/{id}")
+    @PreAuthorize("hasAnyAuthority('USER')")
+    public Mono stop(@PathVariable("id") Long id){
+        return processService.stopService(id).map(ResponseUtils::success);
     }
 }

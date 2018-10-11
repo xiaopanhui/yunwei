@@ -1,5 +1,6 @@
 package com.gzsf.operation;
 
+import java.io.Closeable;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
@@ -64,5 +65,16 @@ public class Utils {
             }
         }
         return hexString.toString();
+    }
+
+    public static boolean isEmpty(String str){
+        return str==null||str.trim().equals("");
+    }
+
+    public static void close(Closeable closeable){
+        if (closeable==null)return;
+        try {
+            closeable.close();
+        }catch (Exception r){}
     }
 }

@@ -15,11 +15,9 @@ import reactor.core.publisher.Mono;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.function.Consumer;
 
 @Service
 public class FileService extends MonoService {
@@ -57,19 +55,14 @@ public class FileService extends MonoService {
 
     public Mono saveFile(FilePart filePart,String updateLog,Long fileId,Long userId){
         return async(()->{
-            Integer v= fileVersionMapper.getLastVersion(fileId);
-            return v==null?1:v+1;
-                }
-        ).map(it ->{
 
             FileVersionModel fileVersionModel=new FileVersionModel();
             fileVersionModel.setCreatedAt(new Date());
-            fileVersionModel.setVersion(it);
             fileVersionModel.setFileId(fileId);
             fileVersionModel.setUpdateLog(updateLog);
             fileVersionModel.setUpdatedBy(userId);
             fileVersionModel.setFileName(filePart.filename());
-            Long id= fileVersionMapper.insert(fileVersionModel);
+            Long id= fileCache.saveFileVersion(fileVersionModel);
             fileVersionModel.setFileVersionId(id);
             return  fileVersionModel;
         }).doOnSuccess(fileVersionModel -> fileThreads.submit(()->{

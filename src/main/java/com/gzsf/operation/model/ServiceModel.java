@@ -21,10 +21,10 @@ public class ServiceModel {
 
     private String fileName;
 
-    private int status = 0;
+    private boolean status = false;
     private int pid = 100 ;
-    enum Type {
-        OTHER,JAR, EXE,PY,SHELL,
+    public enum Type {
+        OTHER,JAR, EXE,PY2,PY3,SHELL,
     }
 }
 

@@ -10,8 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
-@SpringBootTest
-@RunWith(SpringRunner.class)
+//@SpringBootTest
+//@RunWith(SpringRunner.class)
 public class UserCacheTest {
     @Autowired
     private UserCache userCache;
@@ -37,6 +37,7 @@ public class UserCacheTest {
 
     @Test
     public void deleteUser() {
-        userCache.deleteUser(3L);
+        System.out.print(System.currentTimeMillis()/1000);
+//        userCache.deleteUser(3L);
     }
 }

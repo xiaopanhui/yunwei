@@ -15,5 +15,6 @@ public interface ServiceMapper {
 
     void delete(Long serviceId);
     Page<ServiceModel> getServices(@Param("pageNum") int pageNum, @Param("pageSize") int pageSize);
+    ServiceModel getRecord(Long serviceId);
 
 }
