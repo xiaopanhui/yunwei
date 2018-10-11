@@ -15,7 +15,7 @@
     </resultMap>
 
     <!--查询单个-->
-    <select id="queryById" resultMap="ConfigInfoMap">
+    <select id="getByConfigInfoId" resultMap="ConfigInfoMap">
         select
           config_id, service_id, name, db_id, table_name, created_at, updated_at, is_del, created_by
         from operation.config_info
@@ -27,7 +27,7 @@
     </select>
 
     <!--查询指定行数据-->
-    <select id="queryAllByLimit" resultMap="ConfigInfoMap">
+    <select id="getAllByLimit" resultMap="ConfigInfoMap">
         select
         config_id, service_id, name, db_id, table_name, created_at, updated_at, is_del, created_by        where config_id >= (select config_id from operation.config_info limit #{offset},1)
         from operation.config_info
@@ -35,7 +35,7 @@
     </select>
 
     <!--通过实体作为筛选条件查询-->
-    <select id="queryAll" resultMap="ConfigInfoMap">
+    <select id="getAll" resultMap="ConfigInfoMap">
         select
           config_id, service_id, name, db_id, table_name, created_at, updated_at, is_del, created_by
         from operation.config_info
@@ -71,7 +71,10 @@
     </select>
 
     <!--新增所有列-->
-    <insert id="insert" keyProperty="configId" useGeneratedKeys="true" parameterType="com.gzsf.operation.dao.ConfigInfoDao">
+    <insert id="insert" useGeneratedKeys="true" parameterType="com.gzsf.operation.model.ConfigInfo">
+        <selectKey keyProperty="configId" order="AFTER" resultType="java.lang.Integer">
+            select LAST_INSERT_ID()
+        </selectKey>
         insert into operation.config_info(service_id, name, db_id, table_name, created_at, updated_at, is_del, created_by)
         values (#{serviceId}, #{name}, #{dbId}, #{tableName}, #{createdAt}, #{updatedAt}, #{isDel}, #{createdBy})
     </insert>
@@ -109,7 +112,7 @@
     </update>
 
     <!--通过主键删除-->
-    <delete id="deleteById">
+    <delete id="deleteByConfigInfoId">
         delete from operation.config_info where config_id = #{configId}
     </delete>
 
