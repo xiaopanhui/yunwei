@@ -11,9 +11,7 @@ import com.gzsf.operation.security.UserAuthRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class UserService extends MonoService{
@@ -74,12 +72,11 @@ public class UserService extends MonoService{
 
            String password=Utils.SHA1(user.getPassword());
            user.setPassword(password);
-           user.setUserName(user.getUserName());
            user.setCreatedAt(new Date());
-           user.setRole(user.getRole());
-           user.setPassword(user.getPassword());
            user.setUpdatedAt(new Date());
            userMapper.insert(user);
+           //密码置空
+           user.setPassword(null);
            return user;
        });
    }
@@ -87,6 +84,8 @@ public class UserService extends MonoService{
     public  Mono  selectByUserName(String userName){
         return  async(()->{
             User user = userMapper.getUserByUserName(userName);
+            LoginInfo loginInfo=new LoginInfo();
+            loginInfo.setUser(user);
             return user;
         });
     }

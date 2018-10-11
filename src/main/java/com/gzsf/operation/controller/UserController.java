@@ -17,6 +17,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.function.Predicate;
 
 @RestController
 public class UserController {
@@ -61,19 +62,14 @@ public class UserController {
     }
     //更改用户信息
     @PatchMapping ("user")
-    /**
-     * 要问为什么可以不加这个<Response<User>>
-     *
-     *  还有load
-     */
-
     public Mono<Response<User>> changeUser(@RequestBody Map<String,Object> body, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
 
       Long userId = Long.valueOf( body.get("userId").toString());
         String newPassword = (String) body.get("password");
         User.Role role = User.Role.valueOf(body.get("role").toString());
-        if ((user.getRole().ordinal() < role.ordinal() && user.getRole() == User.Role.ADMIN) || user.getUserId() == userId) {
+        if ((user.getRole().ordinal() < role.ordinal() && user.getRole() == User.Role.ADMIN)
+                || user.getUserId() == userId) {
             return userService.updateUser(userId, newPassword, role).map(it -> ResponseUtils.success(it))
                     .doOnError(throwable -> logger.error("changeUser", throwable));
         }else {
@@ -82,12 +78,13 @@ public class UserController {
     }
     //添加用户信息
     @PostMapping("/user")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public  Mono<Response<User>> addUser(@RequestBody User user){
-        if(userService.selectByUserName(user.getUserName())!=null){
-        return Mono.just(ResponseUtils.UsersAlreadyExist());
-        }
-        return userService.addUser(user).map(it->ResponseUtils.success(it))
-                .doOnError(throwable -> logger.error("addUser",throwable));
+             return userService.addUser(user).map(it->ResponseUtils.success(it))
+                     .onErrorReturn(ResponseUtils.UsersAlreadyExist())
+                     .doOnError(throwable -> logger.error("addUser",throwable));
+//                .onErrorReturn( Mono.just(ResponseUtils.UsersAlreadyExist()));
+
     }
 
     @RequestMapping("auth")
@@ -96,9 +93,9 @@ public class UserController {
     }
     @RequestMapping("test")
     public Mono<Response> test(Authentication authentication) throws Exception {
-//        throw new Exception("ddddd");
-        //nneg得到user所有信息
-        User user= (User) authentication.getPrincipal();
+//      throw new Exception("ddddd");
+        //这个方法能得到user所有信息
+      User user= (User) authentication.getPrincipal();
         return Mono.just(ResponseUtils.success(user));
     }
 }
