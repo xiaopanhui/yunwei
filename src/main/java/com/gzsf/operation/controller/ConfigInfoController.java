@@ -41,12 +41,10 @@ public class ConfigInfoController {
 
     }
     @PatchMapping("/config/{id}")
-    public  Mono update(@PathVariable("id") Integer id,@RequestBody ConfigInfo configInfo, Authentication authentication){
-        User user= (User)authentication.getPrincipal();
-        if( user.getUserId()==(long)id||user.getRole().equals(User.Role.ADMIN)){
-          return   configInfoService.update(configInfo).map(it->ResponseUtils.success(it));
-        }
-    return  Mono.just(ResponseUtils.accessDenied());
+    public  Mono update(@PathVariable("id") Integer id,@RequestBody ConfigInfo configInfo){
+          return   configInfoService.update(id,configInfo).map(it->ResponseUtils.success(it))
+                  .onErrorReturn(ResponseUtils.accessDenied())
+                  .doOnError(throwable -> logger.error("update", throwable));
     }
 
 
