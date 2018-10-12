@@ -1,7 +1,6 @@
 package com.gzsf.operation.service;
 
 import com.gzsf.operation.FileUtils;
-import com.gzsf.operation.ProcessManager;
 import com.gzsf.operation.Utils;
 import com.gzsf.operation.cache.FileCache;
 import com.gzsf.operation.cache.ServiceCache;
@@ -30,7 +29,6 @@ public class ProcessService extends MonoService {
     private final Map<Long,Long> pidMap;
     private final ExecutorService executorService= Executors.newSingleThreadExecutor();
     private final FileUtils fileUtils;
-    private final ProcessManager processManager;
     private ProcessLibrary processLibrary;
     @Autowired
     private ServiceCache serviceCache;
@@ -45,9 +43,8 @@ public class ProcessService extends MonoService {
 
 
     @Autowired
-    public ProcessService(FileUtils fileUtils, ProcessManager processManager){
+    public ProcessService(FileUtils fileUtils){
         this.fileUtils=fileUtils;
-        this.processManager=processManager;
         pidMap=new HashMap<>();
         executorService.submit(this::update);
         init();
@@ -58,7 +55,7 @@ public class ProcessService extends MonoService {
         String ext;
         switch (Platform.getOSType()){
             case Platform.MAC: {
-                arc = "mac_64";
+                arc = "mac";
                 ext = "dylib";
                 break;
             }
@@ -205,7 +202,7 @@ public class ProcessService extends MonoService {
     @Scheduled( fixedDelay = 5000)
     public void refreshProcessService(){
         for (Map.Entry<Long,Long> entry:pidMap.entrySet()){
-            if(processManager.isRunning(entry.getValue())!=1){
+            if(isRunning(entry.getValue())!=1){
                 if(fileUtils.getPidFile(entry.getKey()).delete()){
                     pidMap.remove(entry.getKey());
                 }
