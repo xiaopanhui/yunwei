@@ -80,11 +80,14 @@
     </insert>
 
     <!--通过主键修改数据-->
-    <update id="update">
+    <update id="update" parameterType="com.gzsf.operation.model.ConfigInfo">
+        <selectKey keyProperty="configId" order="AFTER" resultType="java.lang.Integer">
+            select LAST_INSERT_ID()
+        </selectKey>
         update operation.config_info
         <set>
             <if test="serviceId != null">
-                and service_id = #{serviceId},
+                service_id = #{serviceId},
             </if>
             <if test="name != null and name != ''">
                 and name = #{name},
@@ -95,20 +98,8 @@
             <if test="tableName != null and tableName != ''">
                 and table_name = #{tableName},
             </if>
-            <if test="createdAt != null">
-                and created_at = #{createdAt},
-            </if>
-            <if test="updatedAt != null">
-                and updated_at = #{updatedAt},
-            </if>
-            <if test="isDel != null">
-                and is_del = #{isDel},
-            </if>
-            <if test="createdBy != null">
-                and created_by = #{createdBy},
-            </if>
         </set>
-        where config_id = #{configId}
+        where config_id = #{configId} and is_del=0
     </update>
 
     <!--通过主键删除-->
