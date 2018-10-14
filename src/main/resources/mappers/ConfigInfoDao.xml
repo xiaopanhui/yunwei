@@ -17,7 +17,7 @@
     <!--查询单个-->
     <select id="getByConfigInfoId" resultMap="ConfigInfoMap">
         select
-          config_id, service_id, name, db_id, table_name, created_at, updated_at, is_del, created_by
+          config_id, service_id, name, db_id, table_name, created_at, updated_at,  created_by
         from operation.config_info
         <where>
             <if test="configId != null">
@@ -29,7 +29,7 @@
     <!--查询指定行数据-->
     <select id="getAllByLimit" resultMap="ConfigInfoMap">
         select
-        config_id, service_id, name, db_id, table_name, created_at, updated_at, is_del, created_by        where config_id >= (select config_id from operation.config_info limit #{offset},1)
+        config_id, service_id, name, db_id, table_name, created_at, updated_at,  created_by        where config_id >= (select config_id from operation.config_info limit #{offset},1)
         from operation.config_info
         limit #{limit}
     </select>
@@ -37,7 +37,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="getAll" resultMap="ConfigInfoMap">
         select
-          config_id, service_id, name, db_id, table_name, created_at, updated_at, is_del, created_by
+          config_id, service_id, name, db_id, table_name, created_at, updated_at,  created_by
         from operation.config_info
         <where>
             <if test="configId != null">
@@ -61,9 +61,7 @@
             <if test="updatedAt != null">
                 and updated_at = #{updatedAt},
             </if>
-            <if test="isDel != null">
-                and is_del = #{isDel},
-            </if>
+           
             <if test="createdBy != null">
                 and created_by = #{createdBy},
             </if>
@@ -75,8 +73,8 @@
         <selectKey keyProperty="configId" order="AFTER" resultType="java.lang.Integer">
             select LAST_INSERT_ID()
         </selectKey>
-        insert into operation.config_info(service_id, name, db_id, table_name, created_at, updated_at, is_del, created_by)
-        values (#{serviceId}, #{name}, #{dbId}, #{tableName}, #{createdAt}, #{updatedAt}, #{isDel}, #{createdBy})
+        insert into operation.config_info(service_id, name, db_id, table_name, created_at, updated_at,  created_by)
+        values (#{serviceId}, #{name}, #{dbId}, #{tableName}, #{createdAt}, #{updatedAt},  #{createdBy})
     </insert>
 
     <!--通过主键修改数据-->
@@ -98,6 +96,9 @@
             <if test="tableName != null and tableName != ''">
                table_name = #{tableName},
             </if>
+            <if test="updatedAt != null">
+                updated_at= #{updatedAt}
+            </if>
         </set>
         where config_id = #{configId} and is_del=0
     </update>
@@ -109,15 +110,15 @@
     <!--通过名字姓名-->
     <select id="getByName" resultMap="ConfigInfoMap" parameterType="com.gzsf.operation.model.ConfigInfo">
         select
-          config_id, service_id, name, db_id, table_name, created_at, updated_at, is_del, created_by
+          config_id, service_id, name, db_id, table_name, created_at, updated_at,  created_by
           from  operation.config_info
           where  name=#{name}
     </select>
     <select id="getConfigs" resultMap="ConfigInfoMap">
         select
-            config_id, service_id, name, db_id, table_name, created_at, updated_at, is_del, created_by
+            config_id, service_id, name, db_id, table_name, created_at, updated_at,  created_by
             from  operation.config_info
-            where 1=1
+            where is_del=0
             <if test="name!=null">
                  and name like concat('%',#{name},'%')
             </if>
@@ -131,5 +132,21 @@
             and service_id=#{serviceId}
         </if>
     </select>
+
+
+
+
+    <!--关键字搜索-->
+<select id="getConfigList"  resultMap="ConfigInfoMap">
+    select
+     config_id, service_id, name, db_id, table_name, created_at, updated_at,  created_by
+          from  operation.config_info
+      <if test="keyWords!=null">
+          and (table_name like "%"#{keyword}"%"  or name like "%"#{keyword}"%")
+      </if>
+      order by  created_at desc
+
+</select>
+
 
 </mapper>

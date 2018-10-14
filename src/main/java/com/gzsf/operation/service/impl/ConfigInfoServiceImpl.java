@@ -1,8 +1,8 @@
 package com.gzsf.operation.service.impl;
 
-import com.fasterxml.jackson.databind.node.BooleanNode;
 import com.github.pagehelper.Page;
 import com.gzsf.operation.cache.ConfigInfoCache;
+import com.gzsf.operation.exception.NameAlreadyExist;
 import com.gzsf.operation.exception.NoUserFoundException;
 import com.gzsf.operation.exception.UsersAlreadyExist;
 import com.gzsf.operation.model.ConfigInfo;
@@ -38,7 +38,6 @@ public class ConfigInfoServiceImpl extends MonoService implements ConfigInfoServ
     @Override
     public Mono<ConfigInfo> insert(ConfigInfo configInfo) {
         return async(() -> {
-            configInfo.setIsDel(false);
         return  configInfoCache.getByConfigInfoId(configInfoCache.insert(configInfo));
         });
 
@@ -61,13 +60,13 @@ public class ConfigInfoServiceImpl extends MonoService implements ConfigInfoServ
             }
 
           if( configInfoDao.getByName(configInfo.getName())!=null){
-              throw new UsersAlreadyExist();
+              throw new NameAlreadyExist();
           }
             configInfo1.setName(configInfo.getName());
             configInfo1.setTableName(configInfo.getTableName());
             configInfo1.setDbId(configInfo.getDbId());
             configInfo1.setServiceId(configInfo.getServiceId());
-            configInfo1.setIsDel(false);
+//            configInfo1.setIsDel(false);
             configInfo1.setCreatedBy(configInfo.getCreatedBy());
             configInfo1.setUpdatedAt(new Date());
            configInfoDao.update(configInfo1);
@@ -78,7 +77,6 @@ public class ConfigInfoServiceImpl extends MonoService implements ConfigInfoServ
 
     @Override
     public Mono deleteById(Integer configId) {
-        //大于表示删除成功
         return  async(()->{
             configInfoCache.deleteByConfigInfoId(configId);
             return  "删除成功";
