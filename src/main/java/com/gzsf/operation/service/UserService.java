@@ -67,7 +67,7 @@ public class UserService extends MonoService{
        return  async(() ->{
            User user1 = userMapper.getUserByUserName(user.getUserName());
             if (user1!=null){
-                throw new UsersAlreadyExist("UsersAlreadyExist");
+                throw new UsersAlreadyExist();
             }
 
            String password=Utils.SHA1(user.getPassword());

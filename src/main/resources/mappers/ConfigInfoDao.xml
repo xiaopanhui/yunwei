@@ -81,22 +81,22 @@
 
     <!--通过主键修改数据-->
     <update id="update" parameterType="com.gzsf.operation.model.ConfigInfo">
-        <selectKey keyProperty="configId" order="AFTER" resultType="java.lang.Integer">
+    <!--    <selectKey keyProperty="configId" order="AFTER" resultType="java.lang.Integer">
             select LAST_INSERT_ID()
-        </selectKey>
+        </selectKey>-->
         update operation.config_info
         <set>
             <if test="serviceId != null">
                 service_id = #{serviceId},
             </if>
             <if test="name != null and name != ''">
-                and name = #{name},
+                 name = #{name},
             </if>
             <if test="dbId != null">
-                and db_id = #{dbId},
+                 db_id = #{dbId},
             </if>
             <if test="tableName != null and tableName != ''">
-                and table_name = #{tableName},
+               table_name = #{tableName},
             </if>
         </set>
         where config_id = #{configId} and is_del=0
@@ -106,5 +106,30 @@
     <delete id="deleteByConfigInfoId">
         delete from operation.config_info where config_id = #{configId}
     </delete>
+    <!--通过名字姓名-->
+    <select id="getByName" resultMap="ConfigInfoMap" parameterType="com.gzsf.operation.model.ConfigInfo">
+        select
+          config_id, service_id, name, db_id, table_name, created_at, updated_at, is_del, created_by
+          from  operation.config_info
+          where  name=#{name}
+    </select>
+    <select id="getConfigs" resultMap="ConfigInfoMap">
+        select
+            config_id, service_id, name, db_id, table_name, created_at, updated_at, is_del, created_by
+            from  operation.config_info
+            where 1=1
+            <if test="name!=null">
+                 and name like concat('%',#{name},'%')
+            </if>
+        <if test="tableName!= null">
+               and table_name like concat('%',#{tableName},'%')
+            </if>
+          <if test="dbId!=null">
+              and  db_id =#{dbId}
+          </if>
+        <if test="serviceId!=null">
+            and service_id=#{serviceId}
+        </if>
+    </select>
 
 </mapper>

@@ -6,4 +6,5 @@ import lombok.Data;
 public class LoginBean {
     private String userName;
     private String password;
+
 }

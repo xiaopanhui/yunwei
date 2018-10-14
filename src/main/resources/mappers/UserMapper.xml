@@ -80,9 +80,6 @@
     <update id="delete">
         update user set is_del=1 where user_id=#{userId}
     </update>
-
-
-
     <select id="getUsers" resultType="com.gzsf.operation.model.User">
         select user_id, user_name, role, created_at, updated_at,description from  user
         where role>1
@@ -93,23 +90,4 @@
             and  user_name like concat('%',#{userName},'%')
         </if>
     </select>
-<!--修改角色和新密码-->
-
-    <!--<update id="updateByPrimaryKey" parameterType="com.gzsf.operation.model.User">
-        update user
-        <set>
-            <if test="password != null">
-                `password` = #{password,jdbcType=VARCHAR},
-            </if>
-
-            <if test="role != null">
-                `role` = #{role,jdbcType=INTEGER},
-            </if>
-        </set>
-        where user_id = #{userId,jdbcType=INTEGER}
-    </update>
--->
-
-
-
 </mapper>

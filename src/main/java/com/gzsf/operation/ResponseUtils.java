@@ -13,6 +13,7 @@ public class ResponseUtils {
     public static <T> Response<T> systemError(){return new Response<T>(500,"System Error");}
     public static <T> Response<T> paramError(){return new Response<T>(501,"Parameter Error");}
     public static <T> Response<T> notFound(){return new Response<T>(404,"Not Found");}
+   public static <T> Response<T> NoUserFoundException(){return new Response<T>(405,"No User Found");}
     public static <T> Response<T> notLogin(){return new Response<T>(101,"Not Login");}
     public static <T> Response<T> UsersAlreadyExist(){return new Response<T>(102,"UsersAlreadyExist");}
     public static <T>PageResponse<T> successPage(Page<T> data){return new PageResponse<T>(0,"OK",data);}
