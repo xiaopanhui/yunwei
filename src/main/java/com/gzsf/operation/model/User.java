@@ -15,7 +15,6 @@ public class User implements Serializable {
     private Date createdAt;
     private Date updatedAt;
     private Role role;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String description;
     private Long createdBy;
 

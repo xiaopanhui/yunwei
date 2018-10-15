@@ -13,7 +13,7 @@ import java.util.Date;
 public class ServiceCache {
     @Autowired
     private ServiceMapper serviceMapper;
-    @CacheEvict(value = "service",key = "#{serviceModel.serviceId}")
+    @CacheEvict(value = "service",key = "#serviceModel.serviceId")
     public int save(ServiceModel serviceModel){
         serviceModel.setUpdatedAt(new Date());
         if (serviceModel.getServiceId()==null){
@@ -24,12 +24,12 @@ public class ServiceCache {
         }
     }
 
-    @CacheEvict(value = "service",key = "#{serviceModel.serviceId}")
+    @CacheEvict(value = "service",key = "#serviceModel.serviceId")
     public void delete(Long id){
         serviceMapper.delete(id);
     }
 
-    @Cacheable(value = "service",key = "#{serviceId}")
+    @Cacheable(value = "service",key = "#serviceId")
     public ServiceModel getRecord(Long serviceId){
         return serviceMapper.getRecord(serviceId);
     }

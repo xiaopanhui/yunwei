@@ -1,11 +1,13 @@
 package com.gzsf.operation.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -24,13 +26,20 @@ public class SecurityContextRepository implements ServerSecurityContextRepositor
 
     @Override
     public Mono<SecurityContext> load(ServerWebExchange serverWebExchange) {
-        List<String> authorization= serverWebExchange.getRequest().getHeaders().get("Authorization");
+        ServerHttpRequest request=serverWebExchange.getRequest();
+        List<String> authorization= request.getHeaders().get("Authorization");
+        String token;
         if (authorization==null ||authorization.size()==0){
+            token = request.getQueryParams().getFirst("token");
+        }else {
+            token = authorization.get(0);
+        }
+        if (token==null){
             return Mono.just(new SecurityContextImpl(new UserAuthentication()));
         }
-        Authentication userAuth= userAuthRepository.load(authorization.get(0));
+        Authentication userAuth= userAuthRepository.load(token);
         if (userAuth!=null&&userAuth.isAuthenticated()){
-            userAuthRepository.expire(authorization.get(0));
+            userAuthRepository.expire(token);
 
         }
         return Mono.just(new SecurityContextImpl(userAuth));

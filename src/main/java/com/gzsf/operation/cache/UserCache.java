@@ -24,7 +24,7 @@ public class UserCache {
      * @param userId 根据用户Id获取信息
      * @return
      */
-    @Cacheable(value = "user",key = "#{userId}")
+    @Cacheable(value = "user",key = "#userId")
     public User getUserById(Long userId){
         return userMapper.getUserById(userId);
     }
@@ -35,7 +35,7 @@ public class UserCache {
      * @return id
      *  @CacheEvict注解用来清理缓存
      */
-    @CacheEvict(value = "user",key = "#{user.userId}")
+    @CacheEvict(value = "user",key = "#user.userId")
     public Long save(User user){
         user.setUpdatedAt(new Date());
         if (user.getUserId()==null){
@@ -53,7 +53,7 @@ public class UserCache {
      *
      *   @CacheEvict注解用来清理缓存
      */
-    @CacheEvict(value = "user",key = "#{userId}")
+    @CacheEvict(value = "user",key = "#userId")
     public void deleteUser(Long userId){
         userMapper.delete(userId);
     }

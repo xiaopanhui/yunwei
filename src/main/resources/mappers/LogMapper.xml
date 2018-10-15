@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gzsf.operation.dao.LogMapper">
+    <update id="update" parameterType="com.gzsf.operation.model.LogModel" >
+        UPDATE log_info
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+
+            <if test="logPath != null">
+                log_path = #{logPath},
+            </if>
+            <if test="dbId != null">
+                db_id = #{dbId},
+            </if>
+
+            <if test="timeField != null">
+                time_field = #{timeField},
+            </if>
+            <if test="sql != null">
+                `sql` = #{sql},
+            </if>
+            <if test="updatedAt != null">
+                updated_at = #{updatedAt},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+        </set>
+        where ( log_id = #{logId} OR name= #{name}) and is_del=0
+    </update>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="logId">
+        insert into log_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                name,
+            </if>
+
+            <if test="logPath != null">
+                log_path,
+            </if>
+            <if test="dbId != null">
+                db_id ,
+            </if>
+
+            <if test="timeField != null">
+                time_field ,
+            </if>
+            <if test="sql != null">
+                `sql`,
+            </if>
+            <if test="updatedAt != null">
+                updated_at,
+            </if>
+            <if test="description != null">
+                description ,
+            </if>
+            is_del,
+        </trim>
+        value
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name},
+            </if>
+
+            <if test="logPath != null">
+               #{logPath},
+            </if>
+            <if test="dbId != null">
+                 #{dbId},
+            </if>
+
+            <if test="timeField != null">
+                #{timeField},
+            </if>
+            <if test="sql != null">
+                #{sql},
+            </if>
+            <if test="updatedAt != null">
+                #{updatedAt},
+            </if>
+            <if test="description != null">
+                #{description},
+            </if>
+            0,
+        </trim>
+    </insert>
+    <update id="delete">
+        update log_info set is_del=1 where log_id=#{logId}
+    </update>
+    <select id="getList" resultType="com.gzsf.operation.model.LogModel">
+        select log_id,log_path,name,time_field,description,`sql`,description,created_at,created_by,updated_at from log_info
+        where is_del=0
+        <if test="keyword!=null and keyword!=''">
+            and (name like "%"#{keyword}"%"  or description like "%"#{keyword}"%")
+        </if>
+        order by created_at desc
+    </select>
+
+    <select id="getRecordById" resultType="com.gzsf.operation.model.LogModel">
+        select log_id,log_path,name,time_field,description,`sql`,description,created_at,created_by,updated_at from log_info
+        where log_id=#{fileId} and is_del=0
+    </select>
+</mapper>

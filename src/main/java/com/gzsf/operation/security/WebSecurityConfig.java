@@ -29,6 +29,7 @@ public class WebSecurityConfig {
                 .securityContextRepository(securityContextRepository)
                 .csrf().disable()
                 .httpBasic().disable()
+                .httpBasic().disable()
                 .formLogin().disable()
                 .logout().disable()
                 .requestCache().disable()

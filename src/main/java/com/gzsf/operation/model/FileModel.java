@@ -2,10 +2,11 @@ package com.gzsf.operation.model;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class FileModel {
+public class FileModel implements Serializable {
     private Long fileId;
     private String fileName;
     private String description;
