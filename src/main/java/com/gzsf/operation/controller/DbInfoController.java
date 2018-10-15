@@ -3,7 +3,7 @@ package com.gzsf.operation.controller;
 import com.gzsf.operation.ResponseUtils;
 import com.gzsf.operation.model.DbInfo;
 import com.gzsf.operation.model.User;
-import com.gzsf.operation.service.impl.DbInfoService;
+import com.gzsf.operation.service.DbInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
