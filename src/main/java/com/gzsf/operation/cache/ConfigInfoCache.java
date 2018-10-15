@@ -40,8 +40,8 @@ public class ConfigInfoCache {
 
     /*删除*/
     @CacheEvict
-    public  Integer deleteByConfigInfoId(Integer id){
-       return configInfoDao.deleteByConfigInfoId(id);
+    public  Integer deleteByConfigInfoId(Integer configId){
+       return configInfoDao.deleteByConfigInfoId(configId);
     }
 
 

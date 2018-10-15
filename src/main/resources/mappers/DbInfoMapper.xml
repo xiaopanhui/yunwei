@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gzsf.operation.dao.DbInfoMapper">
+    <update id="update" parameterType="com.gzsf.operation.model.DbInfo" >
+        UPDATE db_info
+        <set>
+            <if test="url != null">
+                url = #{url},
+            </if>
+            <if test="username != null">
+                username = #{userName},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="poolSize != null">
+                pool_size = #{poolSize},
+            </if>
+            <if test="updateAt != null">
+                updated_at = #{updatedAt},
+            </if>
+            <if test="description != null">
+                description = #{description}，
+            </if>
+            <if test="name != null">
+                name = #{name}，
+            </if>
+        </set>
+            where ( db_id = #{dbId} OR name = #{name}) and is_del = 0
+    </update>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="dbId">
+        insert into db_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            name,
+            <if test="createdBy != null">
+                created_by,
+            </if>
+            url,
+            username,
+            password,
+            pool_size,
+            description,
+            created_at,
+            updated_at,
+            is_del,
+        </trim>
+        value
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{name},
+            <if test="createdBy != null">
+                #{createdBy},
+            </if>
+            <if test="description">
+                #{description}，
+            </if>
+            #{createdAt},
+            #{updatedAt},
+            0,
+        </trim>
+    </insert>
+    <update id="delete">
+        update db_info set is_del = 1 where db_id = #{dbId}
+    </update>
+    <select id="getList" resultType="com.gzsf.operation.model.DbInfo">
+        select db_id,url,name,username,password,pool_size,description,created_at,created_by,updated_at from db_info
+        where is_del = 0
+        <if test="keyword != null and keyword != ''">
+            and (name like "%"#{keyword}"%" or description like "%"#{keyword}"%")
+        </if>
+        order by created_at desc
+    </select>
+
+    <select id="getRecordById" resultType="com.gzsf.operation.model.DbInfo">
+        select db_id,url,name,username,password,pool_size,description,created_at,created_by,updated_at from db_info
+        where db_id = #{dbId} and is_del = 0
+    </select>
+</mapper>
+

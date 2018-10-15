@@ -22,7 +22,7 @@ public class ConfigInfo implements Serializable {
     
     private Date updatedAt;
     
-//    private Boolean isDel;
+    private Boolean isDel;
     
     private Integer createdBy;
 
