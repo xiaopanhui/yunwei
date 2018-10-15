@@ -96,6 +96,4 @@ public class ConfigInfoServiceImpl extends MonoService implements ConfigInfoServ
            return configInfoDao.getConfigList(pageNum,pagesize,keyword);
         });
     }
-
-
 }

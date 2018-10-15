@@ -79,9 +79,6 @@
 
     <!--通过主键修改数据-->
     <update id="update" parameterType="com.gzsf.operation.model.ConfigInfo">
-    <!--    <selectKey keyProperty="configId" order="AFTER" resultType="java.lang.Integer">
-            select LAST_INSERT_ID()
-        </selectKey>-->
         update operation.config_info
         <set>
             <if test="serviceId != null">

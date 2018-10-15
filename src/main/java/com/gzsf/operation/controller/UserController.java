@@ -68,6 +68,9 @@ public class UserController {
       Long userId = Long.valueOf( body.get("userId").toString());
         String newPassword = (String) body.get("password");
         User.Role role = User.Role.valueOf(body.get("role").toString());
+        if(role!=null){
+
+        }
         if ((user.getRole().ordinal() < role.ordinal() && user.getRole() == User.Role.ADMIN)
                 || user.getUserId() == userId) {
             return userService.updateUser(userId, newPassword, role).map(it -> ResponseUtils.success(it))
