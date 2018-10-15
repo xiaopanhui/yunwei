@@ -1,6 +1,6 @@
 package com.gzsf.operation.exception;
 
-public class BaseException extends Exception{
+public class BaseException extends RuntimeException{
     private int error;
 
     public int getError() {

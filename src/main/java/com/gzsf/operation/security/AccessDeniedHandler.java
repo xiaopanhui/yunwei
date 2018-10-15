@@ -26,22 +26,32 @@ import java.util.function.Function;
 public class AccessDeniedHandler implements ServerAccessDeniedHandler {
     private final List<String> contentType=new ArrayList<>();
     private final DefaultDataBufferFactory factory=new DefaultDataBufferFactory();
-    private  DataBuffer dataBuffer;
+    private  DataBuffer accessDeniedDataBuffer;
+    private  DataBuffer notLoginDataBuffer;
     @Autowired
     public AccessDeniedHandler(ObjectMapper objectMapper) {
         contentType.add("application/json;charset=UTF-8");
-        Response response= ResponseUtils.notLogin();
+        Response response= ResponseUtils.accessDenied();
         try {
             byte[] bytes= objectMapper.writeValueAsBytes(response);
-            dataBuffer= factory.wrap(bytes);
+            accessDeniedDataBuffer= factory.wrap(bytes);
+            bytes= objectMapper.writeValueAsBytes(ResponseUtils.notLogin());
+            notLoginDataBuffer= factory.wrap(bytes);
         } catch (JsonProcessingException e1) {
         }
     }
 
     @Override
     public Mono<Void> handle(ServerWebExchange serverWebExchange, AccessDeniedException e) {
+        Boolean isLogin= serverWebExchange.getAttribute("isLogin");
         serverWebExchange.getResponse().setStatusCode(HttpStatus.OK);
         serverWebExchange.getResponse().getHeaders().put("Content-Type",contentType);
-        return  serverWebExchange.getResponse().writeWith(Mono.just(dataBuffer));
+//        String isLogin= serverWebExchange.getRequest().getHeaders().getFirst("isLogin");
+        if (isLogin!=null&&isLogin){
+            return  serverWebExchange.getResponse().writeWith(Mono.just(accessDeniedDataBuffer));
+        }else {
+            return  serverWebExchange.getResponse().writeWith(Mono.just(notLoginDataBuffer));
+        }
+
     }
 }

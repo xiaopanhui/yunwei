@@ -7,7 +7,6 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
 import org.springframework.stereotype.Component;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -35,11 +34,15 @@ public class SecurityContextRepository implements ServerSecurityContextRepositor
             token = authorization.get(0);
         }
         if (token==null){
+            serverWebExchange.getAttributes().put("isLogin",false);
             return Mono.just(new SecurityContextImpl(new UserAuthentication()));
         }
         Authentication userAuth= userAuthRepository.load(token);
         if (userAuth!=null&&userAuth.isAuthenticated()){
             userAuthRepository.expire(token);
+            serverWebExchange.getAttributes().put("isLogin",true);
+        }else {
+            serverWebExchange.getAttributes().put("isLogin",false);
 
         }
         return Mono.just(new SecurityContextImpl(userAuth));
