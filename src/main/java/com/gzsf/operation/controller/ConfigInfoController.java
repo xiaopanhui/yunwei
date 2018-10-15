@@ -56,4 +56,8 @@ public class ConfigInfoController {
         return configInfoService.getListConfig(configInfo,pageNum, pagesize).map(it->ResponseUtils.success(it));
 
     }
+    @GetMapping("/config")
+    public  Mono getConfigList(@RequestParam(value = "pageNum" ,defaultValue = "1")int pageNum,@RequestParam (value = "pageSize",defaultValue = "8") int pageSize,@RequestParam("keyword") String keyword){
+        return configInfoService.getConfigList(pageNum, pageSize, keyword);
+    }
 }

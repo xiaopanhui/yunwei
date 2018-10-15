@@ -24,5 +24,5 @@ public interface ConfigInfoDao {
     Page<ConfigInfo> getConfigs(@Param("name") String name,@Param("tableName") String tableName,
                                 @Param("dbId") Integer dbId,@Param("serviceId")Integer serviceId,
                                 int pageNum,int pagesize);
-
+    Page<ConfigInfo> getConfigList(@Param("pageNum") int pageNum, @Param("pageSize") int pageSize,@Param("keyword")String keyword );
 }

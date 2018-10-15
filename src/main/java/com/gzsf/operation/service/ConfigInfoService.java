@@ -17,7 +17,6 @@ public interface ConfigInfoService {
     Mono deleteById(Integer configId);
     Mono<ConfigInfo> getByName(String name);
     Mono<Page> getListConfig( ConfigInfo configInfo, Integer pageNum, Integer pagesize);
-
-
+    public Mono<Page> getConfigList(int  pageNum, int pagesize,String keyword);
 
 }

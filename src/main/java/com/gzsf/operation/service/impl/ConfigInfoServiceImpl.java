@@ -4,7 +4,6 @@ import com.github.pagehelper.Page;
 import com.gzsf.operation.cache.ConfigInfoCache;
 import com.gzsf.operation.exception.NameAlreadyExist;
 import com.gzsf.operation.exception.NoUserFoundException;
-import com.gzsf.operation.exception.UsersAlreadyExist;
 import com.gzsf.operation.model.ConfigInfo;
 import com.gzsf.operation.dao.ConfigInfoDao;
 import com.gzsf.operation.service.ConfigInfoService;
@@ -12,9 +11,7 @@ import com.gzsf.operation.service.MonoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-
 import java.util.Date;
-import java.util.List;
 
 
 @Service
@@ -47,10 +44,6 @@ public class ConfigInfoServiceImpl extends MonoService implements ConfigInfoServ
     */
 
     @Override
-    /*
-    * 时间更改出错
-    *
-    **/
     public   Mono<ConfigInfo> update(Integer id,ConfigInfo configInfo) {
 
         return async(()->{
@@ -66,7 +59,6 @@ public class ConfigInfoServiceImpl extends MonoService implements ConfigInfoServ
             configInfo1.setTableName(configInfo.getTableName());
             configInfo1.setDbId(configInfo.getDbId());
             configInfo1.setServiceId(configInfo.getServiceId());
-//            configInfo1.setIsDel(false);
             configInfo1.setCreatedBy(configInfo.getCreatedBy());
             configInfo1.setUpdatedAt(new Date());
            configInfoDao.update(configInfo1);
@@ -89,11 +81,19 @@ public class ConfigInfoServiceImpl extends MonoService implements ConfigInfoServ
           return configInfoDao.getByName(name);
         });
     }
+    //通过关键词查询,name,tableName,Dbid,ServiceId
     @Override
     public Mono<Page> getListConfig(ConfigInfo configInfo, Integer pageNum, Integer pagesize) {
         return  async(()->{
             return configInfoDao.getConfigs(configInfo.getName(),configInfo.getTableName(),
                     configInfo.getDbId(),configInfo.getServiceId(),pageNum,pagesize);
+        });
+    }
+
+    @Override
+    public Mono<Page> getConfigList(int pageNum, int pagesize, String keyword) {
+        return async(()->{
+           return configInfoDao.getConfigList(pageNum,pagesize,keyword);
         });
     }
 
