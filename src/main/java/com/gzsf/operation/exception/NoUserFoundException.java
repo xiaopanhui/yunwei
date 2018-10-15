@@ -1,9 +1,8 @@
 package com.gzsf.operation.exception;
 
-import java.util.concurrent.Executors;
 
-public class NoUserFoundException extends Exception {
+public class NoUserFoundException extends BaseException{
     public NoUserFoundException() {
-        super("NoUserFound");
+        super(405,"NoUserFound");
     }
 }

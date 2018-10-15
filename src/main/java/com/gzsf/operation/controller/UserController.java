@@ -81,9 +81,8 @@ public class UserController {
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public  Mono<Response<User>> addUser(@RequestBody User user){
              return userService.addUser(user).map(it->ResponseUtils.success(it))
-                     .onErrorReturn(ResponseUtils.UsersAlreadyExist())
+//                     .onErrorReturn(ResponseUtils.UsersAlreadyExist())
                      .doOnError(throwable -> logger.error("addUser",throwable));
-//                .onErrorReturn( Mono.just(ResponseUtils.UsersAlreadyExist()));
 
     }
 
