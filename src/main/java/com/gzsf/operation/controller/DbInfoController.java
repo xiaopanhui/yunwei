@@ -20,7 +20,7 @@ public class DbInfoController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final DefaultDataBufferFactory factory = new DefaultDataBufferFactory();
 
-    @GetMapping("dbInfo")
+    @GetMapping("db_info")
     public Mono getDbInfoList(
             @RequestParam("limit") Integer limit,
             @RequestParam("offset") Integer offset,
