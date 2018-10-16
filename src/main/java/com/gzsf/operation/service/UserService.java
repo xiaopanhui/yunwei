@@ -34,19 +34,31 @@ public class UserService extends MonoService{
     public  Mono getUser(long id){
         return  async(()->{
             User user=userMapper.getUserById(id);
+            if(user==null){
+               throw  new  NoUserFoundException();
+            }
             LoginInfo loginInfo=new LoginInfo();
            loginInfo.setUser(user);
            return loginInfo;
         });
     }
 
-    public Mono<Page> getUserList(User.Role role,String userName ,int pageNum,int pageSize){
+/*    public Mono<Page> getUserList(User.Role role,String userName ,int pageNum,int pageSize){
         return async(() -> {
             Page<User> users = userMapper.getUsers(role, userName, pageNum, pageSize);
             return users;
         });
 
+    }*/
+    public Mono<Page> getUserList(User user,int pageNum,int pageSize){
+        return async(() -> {
+            Page<User> users = userMapper.getUsers(user.getRole(), user.getUserName(), pageNum, pageSize);
+            return users;
+        });
+
     }
+
+
     //修改用户信息
     public  Mono  updateUser(Long id, String newPassword, User.Role role){
         return  async(() ->{

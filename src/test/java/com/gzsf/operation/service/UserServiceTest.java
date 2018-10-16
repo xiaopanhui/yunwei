@@ -26,6 +26,7 @@ public class UserServiceTest {
     @Test
     public void getUser() {
     }
+/*
 
     @Test
     public void getUserList() {
@@ -40,6 +41,7 @@ public class UserServiceTest {
             }
         }).block();
     }
+*/
 
     @Test
     public void updateUser() {
