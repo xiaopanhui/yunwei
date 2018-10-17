@@ -62,18 +62,13 @@ public class UserController {
     }
     //更改用户信息
     @PatchMapping ("user")
-    public Mono<Response<User>> changeUser(@RequestBody Map<String,Object> body, Authentication authentication) {
+    public Mono<Response<User>> changeUser(@RequestBody User body, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
 
-      Long userId = Long.valueOf( body.get("userId").toString());
-        String newPassword = (String) body.get("password");
-        User.Role role = User.Role.valueOf(body.get("role").toString());
-        if(role!=null){
 
-        }
-        if ((user.getRole().ordinal() < role.ordinal() && user.getRole() == User.Role.ADMIN)
-                || user.getUserId() == userId) {
-            return userService.updateUser(userId, newPassword, role).map(it -> ResponseUtils.success(it))
+        if ((user.getRole().ordinal() < body.getRole().ordinal() && user.getRole() == User.Role.ADMIN)
+                || user.getUserId() == body.getUserId()) {
+            return userService.updateUser(body).map(it -> ResponseUtils.success(it))
                     .doOnError(throwable -> logger.error("changeUser", throwable));
         }else {
             return Mono.just(ResponseUtils.accessDenied());
