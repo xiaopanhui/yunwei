@@ -45,6 +45,7 @@ public class FileController {
     public Mono create(@RequestBody FileModel fileModel, Authentication authentication){
         User user= (User) authentication.getPrincipal();
         fileModel.setCreatedBy(user.getUserId());
+        fileModel.setFileId(null);
         return fileService.saveFile(fileModel)
                 .map(ResponseUtils::success)
                 .doOnError(it-> logger.error("create File",it))

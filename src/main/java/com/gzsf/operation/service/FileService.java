@@ -37,7 +37,7 @@ public class FileService extends MonoService {
     }
 
     public Mono<FileModel> saveFile(FileModel fileModel){
-        fileModel.setCreatedBy(null);
+//        fileModel.setCreatedBy(null);
         return async(()->fileCache.save(fileModel))
                 .map(fileCache::getFileById);
     }
