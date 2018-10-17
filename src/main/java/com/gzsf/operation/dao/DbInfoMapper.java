@@ -10,13 +10,13 @@ import java.util.List;
 @Mapper
 public interface DbInfoMapper {
 
-    DbInfo getByDbInfoId(@Param("dbId")Long dbId);
     List<DbInfo> getAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
     List<DbInfo> getAll(DbInfo dbInfo);
     Long insert(DbInfo dbInfo);
     Integer update(DbInfo dbInfo);
-    Integer delete(Long id);
+    void delete(Long id);
     DbInfo getByDbInfoName(String name);
+    DbInfo getByDbInfoId(@Param("dbId")Long dbId);
     Page<DbInfo> getList(@Param("pageNum") int pageNum, @Param("pageSize") int pageSize, @Param("keyword") String keyword);
     DbInfo getRecordById(Long dbId);
 }

@@ -15,11 +15,21 @@ public class DbInfoCache {
     @Autowired
     private DbInfoMapper dbInfoMapper;
 
+    /**
+     * 获取数据库信息
+     * @param dbId
+     * @return
+     */
     @Cacheable(value = "dbInfo",key = "#dbId")
     public DbInfo getByDbInfoId(Long dbId){
         return dbInfoMapper.getByDbInfoId(dbId);
     }
 
+    /**
+     * 修改数据库信息
+     * @param dbInfo
+     * @return
+     */
     @CachePut(value = "dbInfo",key = "#dbId")
     public DbInfo save(DbInfo dbInfo){
         if (dbInfo==null)return null;
@@ -34,18 +44,17 @@ public class DbInfoCache {
     }
 
     /**
-     * 删除
+     * 删除数据库信息
      */
     @CacheEvict(value = "dbInfo",key = "#dbId")
-    public boolean delete(Long id){
-        return dbInfoMapper.delete(id)==1;
+    public void delete(Long id){
+        dbInfoMapper.delete(id);
     }
 
 
     @Cacheable(value = "dbInfo",key = "#dbId")
-    public DbInfo getRecord(Long id){
-        return dbInfoMapper.getRecordById(id);
+    public DbInfo getRecord(Long dbId){
+        return dbInfoMapper.getRecordById(dbId);
     }
-
 
 }

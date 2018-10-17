@@ -9,6 +9,8 @@ import com.gzsf.operation.model.DbInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.MonoOperator;
+
 import java.util.Date;
 
 @Service
@@ -31,9 +33,9 @@ public class DbInfoService extends MonoService {
         return async(()-> dbInfoMapper.getList(offset,limit,keyword));
     }
 
-    public Mono<DbInfo> save(DbInfo dbInfo){
-        return async(()->dbInfoCache.save(dbInfo));
-    }
+//    public Mono<DbInfo> save(DbInfo dbInfo){
+//        return async(()->dbInfoCache.save(dbInfo));
+//    }
 
     /**
      * 修改
@@ -41,7 +43,7 @@ public class DbInfoService extends MonoService {
      * @param dbInfo
      * @return
      */
-    public Mono<DbInfo> updateDbInfo(Long id,DbInfo dbInfo) {
+    public Mono<DbInfo> update(Long id,DbInfo dbInfo) {
         return async(()->{
             DbInfo dbInfo1= dbInfoCache.getByDbInfoId(id);
             if (dbInfo1==null){
@@ -53,7 +55,7 @@ public class DbInfoService extends MonoService {
             dbInfo1.setPassword(dbInfo.getPassword());
             dbInfo1.setPoolSize(dbInfo.getPoolSize());
             dbInfo1.setDescription(dbInfo.getDescription());
-            dbInfo.setIsDel(false);
+            dbInfo.setUpdatedAt(new Date());
             dbInfoMapper.update(dbInfo);
             return dbInfo;
         });
@@ -64,7 +66,7 @@ public class DbInfoService extends MonoService {
      * @param
      * @return
      */
-    public Mono addDbInfo(DbInfo dbInfo) {
+    public Mono add(DbInfo dbInfo) {
         return async(()->{
             DbInfo dbInfo1 = dbInfoMapper.getByDbInfoName(dbInfo.getName());
             if (dbInfo1 != null) {
@@ -76,9 +78,7 @@ public class DbInfoService extends MonoService {
             dbInfo1.setPoolSize(dbInfo.getPoolSize());
             dbInfo1.setDescription(dbInfo.getDescription());
             dbInfo1.setName(dbInfo.getName());
-            dbInfo.setIsDel(false);
             dbInfo.setCreatedAt(new Date());
-            dbInfo.setUpdatedAt(new Date());
             dbInfoMapper.insert(dbInfo);
             return dbInfo;
         });
@@ -89,9 +89,11 @@ public class DbInfoService extends MonoService {
      * @param id
      * @return
      */
-    public Mono<Boolean> delete(Long id){
-        return async(()->dbInfoCache.delete(id));
+    public Mono delete(Long id){
+        return async(()->{
+            dbInfoCache.delete(id);
+            return true;
+        });
     }
-
 
 }

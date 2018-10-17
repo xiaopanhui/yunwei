@@ -7,7 +7,6 @@ import java.util.Date;
 
 @Data
 public class DbInfo implements Serializable {
-    private static final long serialVersionUID = -6082570257653334344L;
     private Long dbId;
     private String name;
     private String url;

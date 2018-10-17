@@ -2,6 +2,7 @@ package com.gzsf.operation.controller;
 
 import com.gzsf.operation.ResponseUtils;
 import com.gzsf.operation.model.DbInfo;
+import com.gzsf.operation.model.User;
 import com.gzsf.operation.service.DbInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,11 +20,11 @@ public class DbInfoController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final DefaultDataBufferFactory factory = new DefaultDataBufferFactory();
 
-    @GetMapping("/db")
+    @GetMapping("")
     public Mono getList(@RequestParam(value = "limit",defaultValue = "10") Integer limit,
                         @RequestParam(value = "offset",defaultValue = "1") Integer offset,
                         @RequestParam(value = "keyword",required = false) String keyword
-    ){
+                        ){
         return dbInfoService.getList(limit, offset, keyword).map(ResponseUtils::successPage);
     }
 
@@ -35,7 +36,7 @@ public class DbInfoController {
     @PostMapping("/db")
     @PreAuthorize("hasAnyAuthority('USER')")
     public Mono addDbInfo(@RequestBody DbInfo dbInfo) {
-        return dbInfoService.addDbInfo(dbInfo).map(it -> ResponseUtils.success(it))
+        return dbInfoService.add(dbInfo).map(it -> ResponseUtils.success(it))
                 .onErrorReturn(ResponseUtils.nameExists())
                 .doOnError(throwable -> logger.error("addDbInfo",throwable));
     }
@@ -43,8 +44,8 @@ public class DbInfoController {
 //    @PreAuthorize("hasAnyAuthority('USER')")
 //    public Mono add(@RequestBody DbInfo dbInfo, Authentication authentication){
 //        dbInfo.setDbId(null);
-//        DbInfo dbInfo1= (DbInfo) authentication.getPrincipal();
-//        dbInfo.setCreatedBy(dbInfo.getDbId());
+//        User user= (User) authentication.getPrincipal();
+//        dbInfo.setCreatedBy(user.getUserId());
 //        return dbInfoService
 //                .save(dbInfo)
 //                .map(ResponseUtils::success)
@@ -61,6 +62,7 @@ public class DbInfoController {
                 .doOnError(throwable -> logger.error("getByConfigInfoId", throwable));
     }
 
+
     /**
      * 修改
      * @param
@@ -68,7 +70,7 @@ public class DbInfoController {
      */
     @PatchMapping("/db/{id}")
     public  Mono update(@PathVariable("id") Long id,@RequestBody DbInfo dbInfo){
-        return dbInfoService.updateDbInfo(id,dbInfo).map(it->ResponseUtils.success(it))
+        return dbInfoService.update(id,dbInfo).map(it->ResponseUtils.success(it))
                 .onErrorReturn(ResponseUtils.accessDenied())
                 .doOnError(throwable -> logger.error("update", throwable));
     }
@@ -80,14 +82,14 @@ public class DbInfoController {
      * @return
      */
     @DeleteMapping("/db/{id}")
+    @PreAuthorize("hasAnyAuthority('USER')")
     public Mono delete(@PathVariable("id") Long id) {
-        return dbInfoService.delete(id).map(it->{
-            if (it) {
-                return ResponseUtils.success(null);
-            } else {
-                return ResponseUtils.systemError();
-            }
-        }).doOnError(it->logger.error("create DbInfo",it));
+        return dbInfoService.delete(id)
+                .map(it ->ResponseUtils.success(null))
+                .onErrorResume(e ->{
+                    logger.error("dbInfo delete ",e);
+                    return Mono.just(ResponseUtils.systemError());
+                });
     }
 }
 

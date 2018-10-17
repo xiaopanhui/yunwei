@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gzsf.operation.dao.DbInfoMapper">
     <update id="update" parameterType="com.gzsf.operation.model.DbInfo" >
-        UPDATE db_info
+        update operation.db_info
         <set>
             <if test="url != null">
                 url = #{url},
@@ -29,8 +29,8 @@
             where ( db_id = #{dbId} OR name = #{name}) and is_del = 0
     </update>
 
-    <insert id="addDbInfo" useGeneratedKeys="true" keyProperty="dbId">
-        insert into db_info
+    <insert id="add" useGeneratedKeys="true" keyProperty="dbId">
+        insert into operation.db_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
             name,
             url,
@@ -68,10 +68,9 @@
         </if>
         order by created_at desc
     </select>
-
-    <select id="getRecordById" resultType="com.gzsf.operation.model.DbInfo">
+    <select id="getByDbInfoId" resultType="com.gzsf.operation.model.DbInfo" parameterType="java.lang.Long">
         select db_id,url,name,username,password,pool_size,description,created_at,created_by,updated_at from db_info
-        where db_id = #{dbId} and is_del = 0
+        where db_id=#{dbId} and is_del=0
     </select>
 </mapper>
 
