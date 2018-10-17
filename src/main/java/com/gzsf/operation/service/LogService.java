@@ -58,8 +58,8 @@ public class LogService extends MonoService {
             for (int i = 0; i < list.size(); i++) {
                 Map<String,String> entry= (Map<String, String>) list.get(i);
                 LogItem item=new LogItem();
-                item.setName(entry.get("name").toString());
-                item.setKey(entry.get("key").toString());
+                item.setName(entry.get("name"));
+                item.setKey(entry.get("key"));
                 item.setType((entry.get("value")));
                 if (item.getName()!=null && !item.getName().isEmpty()){
                     reslut.add(item);
