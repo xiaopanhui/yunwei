@@ -26,7 +26,7 @@ public class DbConnectService {
 
     private Logger logger= LoggerFactory.getLogger(this.getClass());
     private DataSource createNewPool(Long id){
-        DbInfo dbInfo= dbInfoCache.getDbInfoById(id);
+        DbInfo dbInfo =null; //= dbInfoCache.getDbInfoById(id);
         if (dbInfo==null)return null;
         Properties properties =new Properties();
         properties.setProperty("driverClassName","com.mysql.jdbc.Driver");
