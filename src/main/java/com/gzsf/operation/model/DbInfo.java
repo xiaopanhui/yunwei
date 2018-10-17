@@ -2,7 +2,6 @@ package com.gzsf.operation.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -17,6 +16,7 @@ public class DbInfo implements Serializable {
     private String userName;
     private Date createdAt;
     private Date updatedAt;
+    private Boolean isDel;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long createdBy;
 }

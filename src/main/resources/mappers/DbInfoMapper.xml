@@ -28,20 +28,19 @@
         </set>
             where ( db_id = #{dbId} OR name = #{name}) and is_del = 0
     </update>
-    <insert id="insert" useGeneratedKeys="true" keyProperty="dbId">
+
+    <insert id="addDbInfo" useGeneratedKeys="true" keyProperty="dbId">
         insert into db_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
             name,
-            <if test="createdBy != null">
-                created_by,
-            </if>
             url,
-            username,
-            password,
-            pool_size,
             description,
+            pool_size,
+            password,
+            username,
             created_at,
             updated_at,
+            created_by,
             is_del,
         </trim>
         value

@@ -3,6 +3,7 @@ package com.gzsf.operation.cache;
 import com.gzsf.operation.dao.DbInfoMapper;
 import com.gzsf.operation.model.DbInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -14,26 +15,37 @@ public class DbInfoCache {
     @Autowired
     private DbInfoMapper dbInfoMapper;
 
-    @CacheEvict(value = "dbInfo",key = "#{dbInfo.dbId}")
-    public Long save(DbInfo dbInfo){
+    @Cacheable(value = "dbInfo",key = "#dbId")
+    public DbInfo getByDbInfoId(Long dbId){
+        return dbInfoMapper.getByDbInfoId(dbId);
+    }
+
+    @CachePut(value = "dbInfo",key = "#dbId")
+    public DbInfo save(DbInfo dbInfo){
+        if (dbInfo==null)return null;
         dbInfo.setUpdatedAt(new Date());
         if (dbInfo.getDbId()==null){
             dbInfo.setCreatedAt(new Date());
-            return dbInfoMapper.insert(dbInfo);
+            dbInfo.setDbId(dbInfoMapper.insert(dbInfo));
         }else {
             dbInfoMapper.update(dbInfo);
-            return dbInfo.getDbId();
         }
+        return dbInfo;
     }
 
-    @Cacheable(value = "dbInfo",key = "#{dbId}")
-    public DbInfo getDbInfoById(Long dbId) {
-        return dbInfoMapper.getRecordById(dbId);
+    /**
+     * 删除
+     */
+    @CacheEvict(value = "dbInfo",key = "#dbId")
+    public boolean delete(Long id){
+        return dbInfoMapper.delete(id)==1;
     }
 
-    @CacheEvict(value = "DbInfo",key = "#{dbId}")
-    public boolean delete (Long dbId) {
-        return dbInfoMapper.delete(dbId) == 1;
+
+    @Cacheable(value = "dbInfo",key = "#dbId")
+    public DbInfo getRecord(Long id){
+        return dbInfoMapper.getRecordById(id);
     }
+
 
 }
