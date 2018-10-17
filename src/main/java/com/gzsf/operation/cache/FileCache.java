@@ -23,7 +23,7 @@ public class FileCache {
      * @return 变更行数
      *  @CacheEvict 注解用来清理缓存
      */
-    @CacheEvict(value = "file",key = "#{file.fileId}")
+    @CacheEvict(value = "file",key = "#file.fileId")
     public Long save(FileModel file){
         file.setUpdatedAt(new Date());
         if (file.getFileId()==null){
@@ -35,22 +35,22 @@ public class FileCache {
         }
     }
 
-    @Cacheable(value = "file",key = "#{fileId}")
+    @Cacheable(value = "file",key = "#fileId")
     public FileModel getFileById(Long fileId){
         return fileMapper.getRecordById(fileId);
     }
 
-    @CacheEvict(value = "file",key = "#{fileId}")
+    @CacheEvict(value = "file",key = "#fileId")
     public boolean delete(Long fileId){
         return fileMapper.delete(fileId)==1;
     }
 
-    @Cacheable(value = "file_version",key = "#{fileId+'_'+version}")
+    @Cacheable(value = "file_version",key = "#fileId+'_'+#version")
     public FileVersionModel getFileVersion(Long fileId,Integer version){
         return fileVersionMapper.getRecord(fileId,version);
     }
 
-    @CacheEvict(value = "file_version",key = "#{fileVersionModel.fileId+'_0'}")
+    @CacheEvict(value = "file_version",key = "#fileVersionModel.fileId+'_0'")
     public Long saveFileVersion(FileVersionModel fileVersionModel){
         Integer v= fileVersionMapper.getLastVersion(fileVersionModel.getFileId());
         fileVersionModel.setVersion(v==null?1:v+1);

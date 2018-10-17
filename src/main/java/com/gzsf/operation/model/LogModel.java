@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class LogModel implements Serializable {
@@ -21,4 +22,5 @@ public class LogModel implements Serializable {
     private Long createdBy;
     private Date createdAt;
     private Date updatedAt;
+    private String countSql;
 }

@@ -51,10 +51,10 @@
                 updated_at,
             </if>
             <if test="description!=null">
-                description
+                description,
             </if>
             <if test="createdBy!=null">
-                created_by
+                created_by,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -89,5 +89,6 @@
         <if test="userName!=null and userName!=''">
             and  user_name like concat('%',#{userName},'%')
         </if>
+        and is_del=0
     </select>
 </mapper>

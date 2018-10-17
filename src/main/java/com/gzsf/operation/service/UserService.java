@@ -3,6 +3,7 @@ package com.gzsf.operation.service;
 import com.github.pagehelper.Page;
 import com.gzsf.operation.Utils;
 import com.gzsf.operation.bean.LoginInfo;
+import com.gzsf.operation.cache.UserCache;
 import com.gzsf.operation.dao.UserMapper;
 import com.gzsf.operation.exception.NoUserFoundException;
 import com.gzsf.operation.exception.UsersAlreadyExist;
@@ -19,6 +20,8 @@ public class UserService extends MonoService{
     private UserMapper userMapper;
     @Autowired
     private UserAuthRepository userAuthRepository;
+    @Autowired
+    private UserCache userCache;
     //登录后信息做保存
     public Mono<String> login(String userName, String password){
         final String pwd= Utils.SHA1(password);
@@ -34,32 +37,46 @@ public class UserService extends MonoService{
     public  Mono getUser(long id){
         return  async(()->{
             User user=userMapper.getUserById(id);
+            if(user==null){
+               throw  new  NoUserFoundException();
+            }
             LoginInfo loginInfo=new LoginInfo();
            loginInfo.setUser(user);
            return loginInfo;
         });
     }
 
-    public Mono<Page> getUserList(User.Role role,String userName ,int pageNum,int pageSize){
+/*    public Mono<Page> getUserList(User.Role role,String userName ,int pageNum,int pageSize){
         return async(() -> {
             Page<User> users = userMapper.getUsers(role, userName, pageNum, pageSize);
             return users;
         });
 
+    }*/
+    public Mono<Page> getUserList(User.Role role,String userName, int pageNum, int pageSize){
+        return async(() -> {
+            Page<User> users = userMapper.getUsers(role,userName, pageNum, pageSize);
+            return users;
+        });
+
     }
+
+
     //修改用户信息
-    public  Mono  updateUser(Long id, String newPassword, User.Role role){
+    public  Mono  updateUser(User body){
         return  async(() ->{
-            User user = userMapper.getUserById(id);
+            User user = userCache.getUserById(body.getUserId());
             if(user==null){
                 throw new NoUserFoundException();
             }
-            user.setPassword(Utils.SHA1(newPassword));
-            user.setRole(role);
-            userMapper.update(user);
-            LoginInfo loginInfo=new LoginInfo();
-            loginInfo.setUser(user);
-            return loginInfo;
+            if (body.getPassword()!=null){
+                userAuthRepository.delete(user.getUserId());
+                user.setPassword(Utils.SHA1(body.getPassword()));
+            }
+            user.setDescription(body.getDescription());
+            user.setRole(body.getRole());
+            userCache.save(user);
+            return user;
         });
     }
     //添加用户
@@ -91,4 +108,13 @@ public class UserService extends MonoService{
     }
 
 
+    public Mono<Object> deleteUser(long id) {
+        return async(() -> {
+            userCache.deleteUser(id);
+            userAuthRepository.delete(id);
+            return true;
+                }
+
+        );
+    }
 }

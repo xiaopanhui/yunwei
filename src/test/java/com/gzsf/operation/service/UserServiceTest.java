@@ -26,6 +26,7 @@ public class UserServiceTest {
     @Test
     public void getUser() {
     }
+/*
 
     @Test
     public void getUserList() {
@@ -40,19 +41,20 @@ public class UserServiceTest {
             }
         }).block();
     }
+*/
 
     @Test
     public void updateUser() {
-        userService.updateUser((long) 1,"654321", User.Role.ADMIN).map(it->{
-
-            System.out.println("结果为"+it);
-            return "";
-        }).doOnError(new Consumer<Throwable>() {
-            @Override
-            public void accept(Throwable throwable) {
-                throwable.printStackTrace();
-            }
-        }).block();
+//        userService.updateUser((long) 1,"654321", User.Role.ADMIN).map(it->{
+//
+//            System.out.println("结果为"+it);
+//            return "";
+//        }).doOnError(new Consumer<Throwable>() {
+//            @Override
+//            public void accept(Throwable throwable) {
+//                throwable.printStackTrace();
+//            }
+//        }).block();
     }
 
     @Test

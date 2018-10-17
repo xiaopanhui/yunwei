@@ -1,6 +1,9 @@
 package com.gzsf.operation.cache;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gzsf.operation.dao.LogMapper;
+import com.gzsf.operation.model.LogItem;
+import com.gzsf.operation.model.LogItems;
 import com.gzsf.operation.model.LogModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -8,12 +11,18 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class LogCache {
     @Autowired
     private LogMapper logMapper;
+    @Autowired
+    private ObjectMapper mapper;
     @CachePut(value = "log",key = "#model.logId")
     public LogModel save(LogModel model){
         if (model==null)return null;
@@ -35,5 +44,18 @@ public class LogCache {
     @Cacheable(value = "log",key = "#id")
     public LogModel getRecord(Long id){
         return logMapper.getRecordById(id);
+    }
+
+    @CachePut(value = "log_fields",key = "#id")
+    public String updateLogItems(String fields, Long id){
+         logMapper.updateFields(fields,id);
+         return fields;
+    }
+
+    @Cacheable(value = "log_fields",key = "#id")
+    public String getFields(Long id){
+        String fields= logMapper.getFields(id);
+       return fields;
+
     }
 }
