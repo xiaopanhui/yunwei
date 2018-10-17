@@ -22,5 +22,5 @@ public class LogModel implements Serializable {
     private Long createdBy;
     private Date createdAt;
     private Date updatedAt;
-    private LogItems fields;
+    private String countSql;
 }

@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Data
 public class User implements Serializable {
-
+    private static final long serialVersionUID = 4365549038773729219L;
     private Long userId;
     @NotBlank
     private String userName;
