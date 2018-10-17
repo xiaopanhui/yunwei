@@ -199,7 +199,7 @@ public class ProcessService extends MonoService {
         return pidMap.getOrDefault(serviceId,0L);
     }
 
-    @Scheduled( fixedDelay = 5000)
+    @Scheduled( fixedDelay = 30000)
     public void refreshProcessService(){
         for (Map.Entry<Long,Long> entry:pidMap.entrySet()){
             if(isRunning(entry.getValue())!=1){
