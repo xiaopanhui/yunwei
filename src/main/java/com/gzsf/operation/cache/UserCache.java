@@ -54,7 +54,8 @@ public class UserCache {
      *   @CacheEvict注解用来清理缓存
      */
     @CacheEvict(value = "user",key = "#userId")
-    public void deleteUser(Long userId){
+    public boolean deleteUser(Long userId){
         userMapper.delete(userId);
+        return true;
     }
 }

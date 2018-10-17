@@ -53,17 +53,12 @@ public class UserController {
             @RequestParam(value = "page", defaultValue = "-1") int page,
             UserAuthentication userAuthentication){
             // TODO 把指定角色查出来
-              User user=new User();
-              user.setUserName(userName);
-              user.setRole(role);
-              if(role!=null){
-                  if (role.ordinal() <= User.Role.ADMIN.ordinal()){
-                      return Mono.just(ResponseUtils.accessDenied());
-                  }
-              }
-        return userService.getUserList(user, page,size)
-                .map(it->ResponseUtils.successPage(it))
-                .doOnError(throwable -> logger.error("getUsers",throwable));
+            if (role.ordinal() <= User.Role.ADMIN.ordinal()){
+                return Mono.just(ResponseUtils.accessDenied());
+            }
+            return userService.getUserList(role, userName, page,size)
+                    .map(it->ResponseUtils.successPage(it))
+                    .doOnError(throwable -> logger.error("getUsers",throwable));
     }
     //更改用户信息
     @PatchMapping ("user")

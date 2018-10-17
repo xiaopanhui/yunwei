@@ -102,4 +102,11 @@
         select log_id,log_path,name,time_field,description,`sql`,description,created_at,created_by,updated_at from log_info
         where log_id=#{fileId} and is_del=0
     </select>
+    <select id="getFields" resultType="java.lang.String">
+        select fields from  log_info where log_id=#{logId} and is_del = 0;
+    </select>
+
+    <update id="updateFields" >
+        update log_info set fields=#{fields} where log_id=#{logId}
+    </update>
 </mapper>

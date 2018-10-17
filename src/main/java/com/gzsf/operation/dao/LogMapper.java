@@ -1,6 +1,8 @@
 package com.gzsf.operation.dao;
 
 import com.github.pagehelper.Page;
+import com.gzsf.operation.model.LogItem;
+import com.gzsf.operation.model.LogItems;
 import com.gzsf.operation.model.LogModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -12,4 +14,6 @@ public interface LogMapper {
     int delete(Long id);
     Page<LogModel> getList(@Param("pageNum") int pageNum, @Param("pageSize") int pageSize, @Param("keyword") String keyword);
     LogModel getRecordById(Long id);
+    String getFields(Long logId);
+    int updateFields(@Param("fields") String fields,@Param("logId") Long logId);
 }

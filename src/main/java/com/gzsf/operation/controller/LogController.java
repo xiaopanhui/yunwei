@@ -1,7 +1,10 @@
 package com.gzsf.operation.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gzsf.operation.ResponseUtils;
 import com.gzsf.operation.bean.LogMessage;
+import com.gzsf.operation.model.LogItem;
+import com.gzsf.operation.model.LogItems;
 import com.gzsf.operation.model.LogModel;
 import com.gzsf.operation.model.User;
 import com.gzsf.operation.service.LogFileService;
@@ -19,16 +22,18 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.io.IOException;
+import java.util.List;
+
 @RestController
 @RequestMapping("log")
 public class LogController {
     @Autowired
     private LogService logService;
-
+    @Autowired
+    private ObjectMapper mapper;
     @Autowired
     private LogFileService logFileService;
-
-
 
     @PostMapping()
     @PreAuthorize("hasAnyAuthority('USER')")
@@ -58,10 +63,15 @@ public class LogController {
         return logService.delete(id).map(ResponseUtils::success);
     }
 
-    @MessageMapping("/websocket/log/{id}")
-    @SendTo("/log")
-    public Object sw(@DestinationVariable Long id) throws Exception {
-        logFileService.addLogFile(id);
-        return ResponseUtils.success(null);
+    @GetMapping("fields/{id}")
+    @PreAuthorize("hasAnyAuthority('USER')")
+    public Mono getLogFields(@PathVariable("id") Long id){
+        return logService.getLogFields(id).map(ResponseUtils::success);
+    }
+
+    @PostMapping("fields/{id}")
+    @PreAuthorize("hasAnyAuthority('USER')")
+    public Mono updateLogFields(@PathVariable("id") Long id, @RequestBody String fields){
+            return logService.updateLogFields(fields,id).map(ResponseUtils::success);
     }
 }

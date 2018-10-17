@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication(exclude = {})
 @EnableScheduling
-@MapperScan("com.gzsf.operation.dao.*")
+//@MapperScan("com.gzsf.operation.dao.*")
 @EnableCaching
 public class OperationApplication {
 	public static void main(String[] args) {
