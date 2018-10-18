@@ -12,7 +12,7 @@ import java.util.List;
 public interface UserMapper {
     //修改用信息
     Long update(User user);
-    User getUserById(Long userId);
+    User getUserById( Long userId);
     User login(@Param("userName")String userName,@Param("password")String password);
     //返回数据类型更改
     Long  insert(User user);

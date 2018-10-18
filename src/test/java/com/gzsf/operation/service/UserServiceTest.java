@@ -88,4 +88,14 @@ public class UserServiceTest {
         }).block();
 
     }
+
+    @Test
+    public  void StringFormatTest(){
+        String str=null;
+        str=String.format("Hi,%s", "王力");
+        System.out.println("%s=StringFormat:"+str);
+        str=String.format("Hi,%s:%s.%s", "王南","王力","王张");
+        System.out.println(str);
+        System.out.printf("100的一半是：%d %n", 100/2);
+    }
 }

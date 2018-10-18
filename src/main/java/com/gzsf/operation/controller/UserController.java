@@ -65,7 +65,6 @@ public class UserController {
     public Mono<Response<User>> changeUser(@RequestBody User body, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
 
-
         if ((user.getRole().ordinal() < body.getRole().ordinal() && user.getRole() == User.Role.ADMIN)
                 || user.getUserId() == body.getUserId()) {
             return userService.updateUser(body).map(it -> ResponseUtils.success(it))

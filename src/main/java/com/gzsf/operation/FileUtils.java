@@ -9,6 +9,7 @@ import java.io.File;
 @Service
 public class FileUtils {
     private final String localFileFormat ="/data/file/%d/%d";
+    // %d,  整数类型（十进制）
     private final String workDirFormat ="/data/work/%d/";
     private final String baseWorkDir="/data/work";
     private final Logger logger= LoggerFactory.getLogger(this.getClass());

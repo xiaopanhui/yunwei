@@ -17,18 +17,19 @@ public class ConfigInfoCache {
     /**
      * 获取
      */
-    @Cacheable(value = "configInfo" ,key = "#{configId}")
+    @Cacheable(value = "configInfo" ,key = "#configId")
     public ConfigInfo getByConfigInfoId(Integer configId){
         return configInfoDao.getByConfigInfoId(configId);
 
     }
 
     /*插入*/
-    @CacheEvict(value = "configInfo",key = "#{configId}")
+    @CacheEvict(value = "configInfo",key = "#configInfo.configId")
     public Integer insert(ConfigInfo configInfo){
         configInfo.setUpdatedAt(new Date());
      if (configInfo.getConfigId()==null){
          configInfo.setCreatedAt(new Date());
+         configInfo.setDbId( configInfo.getDbId());
          configInfoDao.insert(configInfo);
          return configInfo.getConfigId();
      }else {
@@ -39,7 +40,7 @@ public class ConfigInfoCache {
 
 
     /*删除*/
-    @CacheEvict
+    @CacheEvict(value = "configInfo",key = "#configId")
     public  Integer deleteByConfigInfoId(Integer configId){
        return configInfoDao.deleteByConfigInfoId(configId);
     }

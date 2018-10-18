@@ -88,6 +88,7 @@ public class UserService extends MonoService{
             }
 
            String password=Utils.SHA1(user.getPassword());
+
            user.setPassword(password);
            user.setCreatedAt(new Date());
            user.setUpdatedAt(new Date());
