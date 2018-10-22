@@ -33,7 +33,7 @@ public class UserCache {
      * 插入或者更新用户信息
      * @param user 用户信息
      * @return id
-     *  @CacheEvict注解用来清理缓存
+     *  @CacheEvict 注解用来清理缓存
      */
     @CacheEvict(value = "user",key = "#user.userId")
     public Long save(User user){

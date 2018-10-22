@@ -1,6 +1,10 @@
 package com.gzsf.operation;
 
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
+
 import java.io.Closeable;
+import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
@@ -76,5 +80,14 @@ public class Utils {
         try {
             closeable.close();
         }catch (Exception r){}
+    }
+    public static String parseVTL(String temple,Map<String,Object> params){
+        VelocityContext context = new VelocityContext();
+        for (Map.Entry<String,Object> item: params.entrySet()){
+            context.put(item.getKey(),item.getValue());
+        }
+        StringWriter stringWriter = new StringWriter();
+        Velocity.evaluate(context,stringWriter,"vtlTemple",temple);
+        return stringWriter.toString();
     }
 }

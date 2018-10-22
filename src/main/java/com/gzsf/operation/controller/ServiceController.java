@@ -1,8 +1,6 @@
 package com.gzsf.operation.controller;
 
 import com.gzsf.operation.ResponseUtils;
-import com.gzsf.operation.bean.Response;
-import com.gzsf.operation.exception.NoCmdToRunException;
 import com.gzsf.operation.model.ServiceModel;
 import com.gzsf.operation.model.User;
 import com.gzsf.operation.service.ProcessService;
@@ -77,7 +75,7 @@ public class ServiceController {
     @GetMapping("start/{id}")
     @PreAuthorize("hasAnyAuthority('USER')")
     public Mono start(@PathVariable("id") Long id){
-        return processService.statrService(id).map(ResponseUtils::success);
+        return processService.startService(id).map(ResponseUtils::success);
     }
     @GetMapping("stop/{id}")
     @PreAuthorize("hasAnyAuthority('USER')")

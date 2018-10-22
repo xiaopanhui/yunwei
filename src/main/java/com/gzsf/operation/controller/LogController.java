@@ -2,6 +2,7 @@ package com.gzsf.operation.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gzsf.operation.ResponseUtils;
+import com.gzsf.operation.bean.DbLogQuery;
 import com.gzsf.operation.bean.LogMessage;
 import com.gzsf.operation.model.LogItem;
 import com.gzsf.operation.model.LogItems;
@@ -69,9 +70,4 @@ public class LogController {
         return logService.getLogFields(id).map(ResponseUtils::success);
     }
 
-    @PostMapping("fields/{id}")
-    @PreAuthorize("hasAnyAuthority('USER')")
-    public Mono updateLogFields(@PathVariable("id") Long id, @RequestBody String fields){
-            return logService.updateLogFields(fields,id).map(ResponseUtils::success);
-    }
 }

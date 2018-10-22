@@ -1,5 +1,6 @@
 package com.gzsf.operation.service;
 
+import com.gzsf.operation.bean.DbLogQuery;
 import com.gzsf.operation.cache.LogCache;
 import com.gzsf.operation.model.LogModel;
 import org.apache.velocity.VelocityContext;
@@ -17,17 +18,19 @@ public class DbLogService {
     private LogCache logCache;
     @Autowired
     private DbConnectService dbConnectService;
-    protected String parseSQL(String sqlTemple, Map<String,Object> params){
+    protected String parseSQL(String sqlTemple, DbLogQuery params){
         VelocityContext context = new VelocityContext();
-        for (Map.Entry<String,Object> item: params.entrySet()){
-            context.put(item.getKey(),item.getValue());
-        }
+        context.put("start_time",params.getStartTime());
+        context.put("end_time",params.getEndTime());
+        context.put("keyword",params.getKeyword());
         StringWriter stringWriter = new StringWriter();
         Velocity.evaluate(context,stringWriter,"sqlTemple",sqlTemple);
+        stringWriter.append(" limit");
+//        stringWriter.append((params.getOffset()-1)*)
         return stringWriter.toString();
     }
 
-    public List invoke(Long id, Map<String,Object> params) throws Exception{
+    public List invoke(Long id, DbLogQuery params) throws Exception{
         LogModel logModel= logCache.getRecord(id);
         if (logModel==null)return null;
         String sql= parseSQL(logModel.getSql(),params);

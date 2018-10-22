@@ -26,11 +26,11 @@ public class DbConnectService {
 
     private Logger logger= LoggerFactory.getLogger(this.getClass());
     private DataSource createNewPool(Long id){
-        DbInfo dbInfo =null; //= dbInfoCache.getDbInfoById(id);
+        DbInfo dbInfo = dbInfoCache.getByDbInfoId(id);
         if (dbInfo==null)return null;
         Properties properties =new Properties();
         properties.setProperty("driverClassName","com.mysql.jdbc.Driver");
-        properties.setProperty("username",dbInfo.getUserName());
+        properties.setProperty("username",dbInfo.getUsername());
         properties.setProperty("password",dbInfo.getPassword());
         properties.setProperty("url",dbInfo.getUrl());
         properties.setProperty("testOnBorrow","true");

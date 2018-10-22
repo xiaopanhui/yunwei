@@ -47,8 +47,8 @@ public class DbInfoCache {
      * 删除数据库信息
      */
     @CacheEvict(value = "dbInfo",key = "#dbId")
-    public void delete(Long id){
-        dbInfoMapper.delete(id);
+    public void delete(Long dbId){
+        dbInfoMapper.delete(dbId);
     }
 
 

@@ -91,7 +91,7 @@ public class ProcessService extends MonoService {
 
         });
     }
-    public Mono statrService(final Long serviceId) {
+    public Mono startService(final Long serviceId) {
         return async(() -> {
             ServiceModel serviceModel = serviceCache.getRecord(serviceId);
             if (serviceModel == null) {
@@ -163,15 +163,16 @@ public class ProcessService extends MonoService {
 
     private String getStartCmd(ServiceModel serviceModel, int realVersion) throws Exception{
         String cmd=serviceModel.getStartCmd();
-        String promPath= fileUtils.getFilePath(serviceModel.getFileId(),realVersion);
+        String filePath= fileUtils.getFilePath(serviceModel.getFileId(),realVersion);
+
         if (Utils.isEmpty(cmd)){
             switch (serviceModel.getType()){
                 case PY2:{
-                    cmd="python2 ";
+                    cmd="python2 "+filePath;
                     break;
                 }
                 case PY3:{
-                    cmd="python3 ";
+                    cmd="python3 "+filePath;
                     break;
                 }
                 case EXE:{
@@ -179,18 +180,23 @@ public class ProcessService extends MonoService {
                     break;
                 }
                 case JAR:{
-                    cmd="java -jar ";
+                    cmd="java -jar "+filePath;
                     break;
                 }
                 case SHELL:{
-                    cmd="sh ";
+                    cmd="sh "+filePath;
                     break;
                 }
                 case OTHER:{
                     throw new NoCmdToRunException();
                 }
             }
-            cmd = cmd+promPath;
+        }else {
+            Map<String, Object> params = new HashMap<>();
+            String executeDir= fileUtils.getWordDirPath(serviceModel.getServiceId());
+            params.put("execute_dir", executeDir);
+            params.put("file_path", filePath);
+            cmd = Utils.parseVTL(cmd, params);
         }
         return cmd;
     }

@@ -22,10 +22,11 @@ public class DbInfoService extends MonoService {
 
     public Mono<DbInfo> getByDbInfoId(Long dbId) {
         return async(()->{
-            if( dbInfoCache.getByDbInfoId(dbId)==null){
+            DbInfo dbInfo=dbInfoCache.getByDbInfoId(dbId);
+            if(dbInfo==null){
                 throw new NoDbInfoFoundException();
             }
-            return dbInfoCache.getByDbInfoId(dbId);
+            return dbInfo;
         });
     }
 
@@ -49,12 +50,6 @@ public class DbInfoService extends MonoService {
             if (dbInfo1==null){
                 throw new NoDbInfoFoundException();
             }
-            dbInfo1.setName(dbInfo.getName());
-            dbInfo1.setUrl(dbInfo.getUrl());
-            dbInfo1.setUserName(dbInfo1.getUserName());
-            dbInfo1.setPassword(dbInfo.getPassword());
-            dbInfo1.setPoolSize(dbInfo.getPoolSize());
-            dbInfo1.setDescription(dbInfo.getDescription());
             dbInfo.setUpdatedAt(new Date());
             dbInfoMapper.update(dbInfo);
             return dbInfo;
@@ -72,13 +67,8 @@ public class DbInfoService extends MonoService {
             if (dbInfo1 != null) {
                 throw new DbInfoAlreadyExist();
             }
-            dbInfo1.setUrl(dbInfo.getUrl());
-            dbInfo1.setUserName(dbInfo.getUserName());
-            dbInfo1.setPassword(dbInfo.getPassword());
-            dbInfo1.setPoolSize(dbInfo.getPoolSize());
-            dbInfo1.setDescription(dbInfo.getDescription());
-            dbInfo1.setName(dbInfo.getName());
             dbInfo.setCreatedAt(new Date());
+            dbInfo.setUpdatedAt(new Date());
             dbInfoMapper.insert(dbInfo);
             return dbInfo;
         });

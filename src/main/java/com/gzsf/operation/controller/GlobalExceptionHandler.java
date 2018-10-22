@@ -36,8 +36,8 @@ public class GlobalExceptionHandler {
     //日志记录
     private final Logger logger= LoggerFactory.getLogger(this.getClass());
     private DefaultDataBufferFactory defaultDataBufferFactory=new DefaultDataBufferFactory();
-//    @ExceptionHandler(Exception.class)
-//    @ResponseBody
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
     public Mono<Response> defaultErrorHandler(ServerHttpRequest req, Exception e)  {
         if (e instanceof AccessDeniedException){
             return Mono.just(ResponseUtils.accessDenied());

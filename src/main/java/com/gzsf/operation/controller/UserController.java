@@ -53,7 +53,7 @@ public class UserController {
             @RequestParam(value = "page", defaultValue = "-1") int page,
             UserAuthentication userAuthentication){
             // TODO 把指定角色查出来
-            if (role.ordinal() <= User.Role.ADMIN.ordinal()){
+            if (role!=null&& role.ordinal() <= User.Role.ADMIN.ordinal()){
                 return Mono.just(ResponseUtils.accessDenied());
             }
             return userService.getUserList(role, userName, page,size)
