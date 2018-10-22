@@ -14,7 +14,7 @@ public interface DbInfoMapper {
     List<DbInfo> getAll(DbInfo dbInfo);
     Long insert(DbInfo dbInfo);
     Integer update(DbInfo dbInfo);
-    void delete(Long id);
+    int delete(Long id);
     DbInfo getByDbInfoName(String name);
     DbInfo getByDbInfoId(@Param("dbId")Long dbId);
     Page<DbInfo> getList(@Param("pageNum") int pageNum, @Param("pageSize") int pageSize, @Param("keyword") String keyword);

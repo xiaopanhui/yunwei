@@ -3,6 +3,7 @@ package com.gzsf.operation.controller;
 import com.gzsf.operation.ResponseUtils;
 import com.gzsf.operation.model.DbInfo;
 import com.gzsf.operation.model.User;
+import com.gzsf.operation.security.UserAuthentication;
 import com.gzsf.operation.service.DbInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,7 @@ public class DbInfoController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final DefaultDataBufferFactory factory = new DefaultDataBufferFactory();
 
-    @GetMapping("")
+    @GetMapping("db")
     public Mono getList(@RequestParam(value = "limit",defaultValue = "10") Integer limit,
                         @RequestParam(value = "offset",defaultValue = "1") Integer offset,
                         @RequestParam(value = "keyword",required = false) String keyword
@@ -35,10 +36,12 @@ public class DbInfoController {
      */
     @PostMapping("/db")
     @PreAuthorize("hasAnyAuthority('USER')")
-    public Mono addDbInfo(@RequestBody DbInfo dbInfo) {
-        return dbInfoService.add(dbInfo).map(it -> ResponseUtils.success(it))
-                .onErrorReturn(ResponseUtils.nameExists())
-                .doOnError(throwable -> logger.error("addDbInfo",throwable));
+    public Mono addDbInfo(@RequestBody DbInfo dbInfo, UserAuthentication userAuthentication) {
+        User user= (User) userAuthentication.getPrincipal();
+        dbInfo.setCreatedBy(user.getUserId());
+        return dbInfoService.add(dbInfo).map(ResponseUtils::success);
+//                .onErrorReturn(ResponseUtils.nameExists())
+//                .doOnError(throwable -> logger.error("addDbInfo",throwable));
     }
 //    @PostMapping("/db")
 //    @PreAuthorize("hasAnyAuthority('USER')")
@@ -68,11 +71,11 @@ public class DbInfoController {
      * @param
      * @return
      */
-    @PatchMapping("/db/{id}")
-    public  Mono update(@PathVariable("id") Long id,@RequestBody DbInfo dbInfo){
-        return dbInfoService.update(id,dbInfo).map(it->ResponseUtils.success(it))
-                .onErrorReturn(ResponseUtils.accessDenied())
-                .doOnError(throwable -> logger.error("update", throwable));
+    @PatchMapping("/db")
+    public  Mono update(@RequestBody DbInfo dbInfo){
+        return dbInfoService.update(dbInfo.getDbId(),dbInfo).map(it->ResponseUtils.success(it));
+//                .onErrorReturn(ResponseUtils.accessDenied())
+//                .doOnError(throwable -> logger.error("update", throwable));
     }
 
 
