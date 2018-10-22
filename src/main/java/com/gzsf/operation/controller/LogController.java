@@ -45,11 +45,12 @@ public class LogController {
     }
 
     @GetMapping()
-    public Mono getList(@RequestParam(value = "limit",defaultValue = "10") Integer limit,
-                        @RequestParam(value = "offset",defaultValue = "1") Integer offset,
-                        @RequestParam(value = "keyword",required = false) String keyword
+    public Mono getList(
+            @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+            @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize,
+            @RequestParam(value = "keyword",required = false) String keyword
                         ){
-        return logService.getList(limit, offset, keyword).map(ResponseUtils::successPage);
+        return logService.getList(pageNum, pageSize, keyword).map(ResponseUtils::successPage);
     }
 
     @PatchMapping()

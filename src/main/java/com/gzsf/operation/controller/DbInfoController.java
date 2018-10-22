@@ -22,11 +22,11 @@ public class DbInfoController {
     private final DefaultDataBufferFactory factory = new DefaultDataBufferFactory();
 
     @GetMapping("db")
-    public Mono getList(@RequestParam(value = "limit",defaultValue = "10") Integer limit,
-                        @RequestParam(value = "offset",defaultValue = "1") Integer offset,
+    public Mono getList( @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+                         @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize,
                         @RequestParam(value = "keyword",required = false) String keyword
                         ){
-        return dbInfoService.getList(limit, offset, keyword).map(ResponseUtils::successPage);
+        return dbInfoService.getList(pageNum, pageSize, keyword).map(ResponseUtils::successPage);
     }
 
     /**

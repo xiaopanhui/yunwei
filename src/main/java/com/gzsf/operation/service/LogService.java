@@ -29,9 +29,9 @@ public class LogService extends MonoService {
         return async(()->logCache.save(model));
     }
 
-    public Mono<Page> getList(Integer limit,
-                              Integer offset, String keyword){
-        return async(()->logMapper.getList(offset,limit,keyword));
+    public Mono<Page> getList(Integer pageNum,
+                              Integer pageSize, String keyword){
+        return async(()->logMapper.getList(pageNum,pageSize,keyword));
     }
 
     public Mono<Boolean> delete(Long id){

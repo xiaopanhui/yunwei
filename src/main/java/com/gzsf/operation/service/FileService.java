@@ -30,10 +30,11 @@ public class FileService extends MonoService {
     @Autowired
     private FileUtils fileUtils;
     private ExecutorService fileThreads= Executors.newFixedThreadPool(10);
-    public Mono<Page> getFileList(Integer limit,
-                                             Integer offset,
-                                             String keyword){
-       return async(()-> fileMapper.getList(offset,limit,keyword));
+    public Mono<Page> getFileList(
+            Integer pageNum,
+            Integer pageSize,
+            String keyword) {
+        return async(() -> fileMapper.getList(pageNum, pageSize, keyword));
     }
 
     public Mono<FileModel> saveFile(FileModel fileModel){

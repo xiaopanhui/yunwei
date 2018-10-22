@@ -49,14 +49,14 @@ public class UserController {
     public Mono getUsers(
             @RequestParam(value = "role",required = false) User.Role role,
             @RequestParam(value = "userName",required = false) String userName,
-            @RequestParam(value = "size", defaultValue = "0") int size,
-            @RequestParam(value = "page", defaultValue = "-1") int page,
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+            @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
             UserAuthentication userAuthentication){
             // TODO 把指定角色查出来
             if (role!=null&& role.ordinal() <= User.Role.ADMIN.ordinal()){
                 return Mono.just(ResponseUtils.accessDenied());
             }
-            return userService.getUserList(role, userName, page,size)
+            return userService.getUserList(role, userName, pageNum,pageSize)
                     .map(it->ResponseUtils.successPage(it))
                     .doOnError(throwable -> logger.error("getUsers",throwable));
     }

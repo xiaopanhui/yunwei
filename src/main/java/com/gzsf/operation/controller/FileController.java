@@ -31,11 +31,11 @@ public class FileController {
 
     @GetMapping("file")
     public Mono getFileList(
-            @RequestParam("limit") Integer limit,
-            @RequestParam("offset") Integer offset,
+            @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+            @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize,
             @RequestParam(value = "keyword",required = false) String keyword
     ){
-        return fileService.getFileList(limit, offset, keyword)
+        return fileService.getFileList(pageNum, pageSize, keyword)
                 .map(ResponseUtils::successPage)
                 .doOnError(it->logger.error("getFileList",it));
     }

@@ -23,10 +23,12 @@ public class ServiceController {
     private ProcessService processService;
     private final Logger logger= LoggerFactory.getLogger(this.getClass());
     @GetMapping("")
-    public Mono list( @RequestParam(value = "limit",defaultValue = "10") Integer limit,
-                      @RequestParam(value = "offset",defaultValue = "1") Integer offset){
+    public Mono list(
+            @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+            @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize
+                      ){
         return  serviceService
-                .getList(offset,limit)
+                .getList(pageNum,pageSize)
                 .map(ResponseUtils::successPage)
                 .onErrorResume(e ->{
                     logger.error("server list",e);

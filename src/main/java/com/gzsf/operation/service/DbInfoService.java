@@ -30,8 +30,9 @@ public class DbInfoService extends MonoService {
         });
     }
 
-    public Mono<Page> getList(Integer limit, Integer offset, String keyword) {
-        return async(()-> dbInfoMapper.getList(offset,limit,keyword));
+    public Mono<Page> getList( Integer pageNum,
+                               Integer pageSize, String keyword) {
+        return async(()-> dbInfoMapper.getList(pageNum,pageSize,keyword));
     }
 
 //    public Mono<DbInfo> save(DbInfo dbInfo){
