@@ -60,7 +60,7 @@ public class LogService extends MonoService {
                 LogItem item=new LogItem();
                 item.setName(entry.get("name"));
                 item.setKey(entry.get("key"));
-                item.setType((entry.get("value")));
+                item.setType((entry.get("type")));
                 if (item.getName()!=null && !item.getName().isEmpty()){
                     reslut.add(item);
                 }

@@ -97,4 +97,26 @@ public class DbConnectService {
 
     }
 
+    public Integer invokeCount(String sql,Long dbId) throws Exception{
+        Connection connection = getConnect(dbId);
+        if (connection==null)return null;
+        PreparedStatement statement= null;
+        int result = 0;
+        try {
+            statement= connection.prepareStatement(sql);
+            ResultSet resultSet= statement.executeQuery();
+          if ( resultSet.next()){
+              result= resultSet.getInt(1);
+          }
+        }catch (Exception e){
+            throw e;
+        }finally {
+            connection.close();
+            if (statement!=null)statement.close();
+        }
+        logger.info("database query done");
+        return result;
+
+    }
+
 }

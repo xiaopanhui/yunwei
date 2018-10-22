@@ -99,7 +99,7 @@
         update log_info set is_del=1 where log_id=#{logId}
     </update>
     <select id="getList" resultType="com.gzsf.operation.model.LogModel">
-        select log_id,log_path,name,time_field,description,count_sql,`sql`,description,created_at,created_by,updated_at from log_info
+        select log_id,log_path,name,time_field,description,count_sql,db_id,`sql`,description,created_at,created_by,updated_at from log_info
         where is_del=0
         <if test="keyword!=null and keyword!=''">
             and (name like "%"#{keyword}"%"  or description like "%"#{keyword}"%")
@@ -108,7 +108,7 @@
     </select>
 
     <select id="getRecordById" resultType="com.gzsf.operation.model.LogModel">
-        select log_id,log_path,name,time_field,description,count_sql,`sql`,description,created_at,created_by,updated_at from log_info
+        select log_id,log_path,name,time_field,description,db_id,count_sql,`sql`,description,created_at,created_by,updated_at from log_info
         where log_id=#{fileId} and is_del=0
     </select>
     <select id="getFields" resultType="java.lang.String">

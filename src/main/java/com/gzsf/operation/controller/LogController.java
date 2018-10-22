@@ -8,9 +8,12 @@ import com.gzsf.operation.model.LogItem;
 import com.gzsf.operation.model.LogItems;
 import com.gzsf.operation.model.LogModel;
 import com.gzsf.operation.model.User;
+import com.gzsf.operation.service.DbLogService;
 import com.gzsf.operation.service.LogFileService;
 import com.gzsf.operation.service.LogService;
 import org.apache.ibatis.annotations.Delete;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -25,6 +28,7 @@ import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Consumer;
 
 @RestController
 @RequestMapping("log")
@@ -34,7 +38,8 @@ public class LogController {
     @Autowired
     private ObjectMapper mapper;
     @Autowired
-    private LogFileService logFileService;
+    private DbLogService dbLogService;
+    private final Logger logger= LoggerFactory.getLogger(this.getClass());
 
     @PostMapping()
     @PreAuthorize("hasAnyAuthority('USER')")
@@ -69,6 +74,34 @@ public class LogController {
     @PreAuthorize("hasAnyAuthority('USER')")
     public Mono getLogFields(@PathVariable("id") Long id){
         return logService.getLogFields(id).map(ResponseUtils::success);
+    }
+
+    @PostMapping("fields/{id}")
+    @PreAuthorize("hasAnyAuthority('USER')")
+    public Mono updateLogFields(@PathVariable("id") Long id,@RequestBody String fields){
+        return logService.updateLogFields(fields,id).map(ResponseUtils::success);
+    }
+    @GetMapping("db/{id}")
+    public Mono getDbLog(
+            @PathVariable("id") Long id,
+            @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+            @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize,
+            @RequestParam(value = "startTime",required = false) String startTime,
+            @RequestParam(value = "endTime",required = false) String endTime,
+            @RequestParam(value = "keyword",required = false) String keyword){
+        DbLogQuery query=new DbLogQuery();
+        query.setEndTime(endTime);
+        query.setStartTime(startTime);
+        query.setPageNum(pageNum);
+        query.setPageSize(pageSize);
+        query.setKeyword(keyword);
+        return dbLogService.getLogs(id,query).map(ResponseUtils::successPage)
+                .doOnError(new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) {
+                        logger.error("getDbLog",throwable);
+                    }
+                });
     }
 
 }

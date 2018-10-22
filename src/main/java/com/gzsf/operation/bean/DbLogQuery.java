@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class DbLogQuery {
-    private int offset;
-    private int limit;
-    private int keyword;
+    private int pageNum;
+    private int pageSize;
+    private String keyword;
     private String startTime;
     private String endTime;
 }
