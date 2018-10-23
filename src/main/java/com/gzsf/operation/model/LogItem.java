@@ -9,7 +9,7 @@ public class LogItem {
     private String name;
 
     public enum Type{
-        TEXT,DATE, IAMGE_BASE64, IMAGE_URL
+        KEY,TEXT,DATE, IAMGE_BASE64, IMAGE_URL
     }
 
     public void setType(String value){

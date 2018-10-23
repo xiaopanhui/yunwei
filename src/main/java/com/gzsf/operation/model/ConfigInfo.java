@@ -8,13 +8,13 @@ import java.io.Serializable;
 public class ConfigInfo implements Serializable {
     private static final long serialVersionUID = -68764300382360878L;
     
-    private Integer configId;
+    private Long configId;
     //服务id
-    private Integer serviceId;
+    private Long serviceId;
     //名称
     private String name;
     //数据库连接信息
-    private Integer dbId;
+    private Long dbId;
     //表名
     private String tableName;
     
@@ -24,7 +24,9 @@ public class ConfigInfo implements Serializable {
     
 //    private Boolean isDel;
     
-    private Integer createdBy;
+    private Long createdBy;
+
+    private String description;
 
     
 

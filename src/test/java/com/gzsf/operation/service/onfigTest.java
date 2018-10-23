@@ -16,7 +16,7 @@ public class onfigTest {
     private ConfigInfoService configInfoService;
     @Test
     public  void  testGetById(){
-        configInfoService.getByConfigInfoId(9).map(it->{
+        configInfoService.getByConfigInfoId(9L).map(it->{
             System.out.println("查询结果"+it);
             return "";
         }).doOnError(new Consumer<Throwable>() {

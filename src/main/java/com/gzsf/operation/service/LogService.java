@@ -2,6 +2,7 @@ package com.gzsf.operation.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.Page;
+import com.gzsf.operation.Utils;
 import com.gzsf.operation.cache.LogCache;
 import com.gzsf.operation.dao.LogMapper;
 import com.gzsf.operation.model.LogItem;
@@ -41,7 +42,7 @@ public class LogService extends MonoService {
     public Mono<List<LogItem>> getLogFields(Long logId){
         return async(()-> {
             String fiels= logCache.getFields(logId);
-            return stringToLogItems(fiels);
+            return Utils.StringToLogItems(fiels);
         });
     }
 
@@ -50,32 +51,6 @@ public class LogService extends MonoService {
              logCache.updateLogItems(fields,logId);
              return true;
         });
-    }
-    private LogItems stringToLogItems(String string){
-        LogItems reslut=new LogItems();
-        try {
-            List list= mapper.readValue(string,List.class);
-            for (int i = 0; i < list.size(); i++) {
-                Map<String,String> entry= (Map<String, String>) list.get(i);
-                LogItem item=new LogItem();
-                item.setName(entry.get("name"));
-                item.setKey(entry.get("key"));
-                item.setType((entry.get("type")));
-                if (item.getName()!=null && !item.getName().isEmpty()){
-                    reslut.add(item);
-                }
-            }
-        } catch (IOException e) {
-        }
-        return reslut;
-    }
-
-    private String logItemsToString(LogItems fields){
-        try {
-          return   mapper.writeValueAsString(fields);
-        }catch (Exception e){
-            return "[]";
-        }
     }
 
 

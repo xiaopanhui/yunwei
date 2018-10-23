@@ -1,19 +1,24 @@
 package com.gzsf.operation;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gzsf.operation.model.LogItem;
+import com.gzsf.operation.model.LogItems;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
 import java.io.Closeable;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class Utils {
-
+    private final static ObjectMapper mapper=new ObjectMapper();
     public static String getParamsKey(Map<String,Object> map){
         if (map==null||map.isEmpty()){
             return "";
@@ -89,5 +94,24 @@ public class Utils {
         StringWriter stringWriter = new StringWriter();
         Velocity.evaluate(context,stringWriter,"vtlTemple",temple);
         return stringWriter.toString();
+    }
+
+    public static LogItems StringToLogItems(String string){
+        LogItems result=new LogItems();
+        try {
+            List list= mapper.readValue(string,List.class);
+            for (int i = 0; i < list.size(); i++) {
+                Map<String,Object> entry= (Map<String, Object>) list.get(i);
+                LogItem item=new LogItem();
+                item.setName(entry.getOrDefault("name","").toString());
+                item.setKey(entry.getOrDefault("key","").toString());
+                item.setType((entry.getOrDefault("type","TEXT")).toString());
+                if (!Utils.isEmpty(item.getName()) && !Utils.isEmpty(item.getKey())){
+                    result.add(item);
+                }
+            }
+        } catch (IOException e) {
+        }
+        return result;
     }
 }

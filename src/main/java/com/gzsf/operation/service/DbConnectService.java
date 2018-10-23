@@ -2,6 +2,7 @@ package com.gzsf.operation.service;
 
 import com.gzsf.operation.cache.DbInfoCache;
 import com.gzsf.operation.cache.LogCache;
+import com.gzsf.operation.exception.NoDbInfoFoundException;
 import com.gzsf.operation.model.DbInfo;
 import com.gzsf.operation.model.LogModel;
 import org.apache.commons.dbcp2.BasicDataSourceFactory;
@@ -27,7 +28,8 @@ public class DbConnectService {
     private Logger logger= LoggerFactory.getLogger(this.getClass());
     private DataSource createNewPool(Long id){
         DbInfo dbInfo = dbInfoCache.getByDbInfoId(id);
-        if (dbInfo==null)return null;
+        if (dbInfo==null)
+            throw new NoDbInfoFoundException();
         Properties properties =new Properties();
         properties.setProperty("driverClassName","com.mysql.jdbc.Driver");
         properties.setProperty("username",dbInfo.getUsername());
@@ -117,6 +119,43 @@ public class DbConnectService {
         logger.info("database query done");
         return result;
 
+    }
+
+    public Boolean invokeInsert(String sql,Long dbId) throws Exception{
+        Connection connection = getConnect(dbId);
+        if (connection==null)return null;
+        PreparedStatement statement= null;
+        boolean result = false;
+        try {
+            statement= connection.prepareStatement(sql);
+            result= statement.execute();
+
+        }catch (Exception e){
+            throw e;
+        }finally {
+            connection.close();
+            if (statement!=null)statement.close();
+        }
+        logger.info("database query done");
+        return result;
+    }
+
+    public Integer invokeUpdate(String sql,Long dbId) throws Exception{
+        Connection connection = getConnect(dbId);
+        if (connection==null)return null;
+        PreparedStatement statement= null;
+        Integer result = 0;
+        try {
+            statement= connection.prepareStatement(sql);
+            result= statement.executeUpdate();
+        }catch (Exception e){
+            throw e;
+        }finally {
+            connection.close();
+            if (statement!=null)statement.close();
+        }
+        logger.info("database query done");
+        return result;
     }
 
 }

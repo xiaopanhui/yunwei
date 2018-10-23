@@ -1,17 +1,22 @@
 package com.gzsf.operation.service.impl;
 
 import com.github.pagehelper.Page;
+import com.gzsf.operation.Utils;
 import com.gzsf.operation.cache.ConfigInfoCache;
 import com.gzsf.operation.exception.NameAlreadyExist;
 import com.gzsf.operation.exception.NoUserFoundException;
 import com.gzsf.operation.model.ConfigInfo;
 import com.gzsf.operation.dao.ConfigInfoDao;
+import com.gzsf.operation.model.LogItem;
+import com.gzsf.operation.model.LogItems;
 import com.gzsf.operation.service.ConfigInfoService;
+import com.gzsf.operation.service.DbConnectService;
 import com.gzsf.operation.service.MonoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import java.util.Date;
+import java.util.List;
 
 
 @Service
@@ -20,9 +25,14 @@ public class ConfigInfoServiceImpl extends MonoService implements ConfigInfoServ
     private ConfigInfoDao configInfoDao;
     @Autowired
     private ConfigInfoCache configInfoCache;
+    @Autowired
+    private DbConnectService dbConnectService;
+
+    private final String countSQLTemple="select count(*) from %s";
+    private final String selectSQLTemple="select %s from %s limit %d,%d";
 
     @Override
-    public  Mono<ConfigInfo> getByConfigInfoId(Integer configId) {
+    public  Mono<ConfigInfo> getByConfigInfoId(Long configId) {
         return async(()->{
             ConfigInfo config = configInfoCache.getByConfigInfoId(configId);
             if(config==null){
@@ -46,7 +56,7 @@ public class ConfigInfoServiceImpl extends MonoService implements ConfigInfoServ
      */
 
     @Override
-    public   Mono<ConfigInfo> update(Integer id,ConfigInfo configInfo) {
+    public   Mono<ConfigInfo> update(Long id,ConfigInfo configInfo) {
 
         return async(()->{
             ConfigInfo  configInfo1= configInfoDao.getByConfigInfoId(id);
@@ -92,11 +102,8 @@ public class ConfigInfoServiceImpl extends MonoService implements ConfigInfoServ
         });
     }
 
-    @Override
     public Mono<Page> getConfigList(int pageNum, int pagesize, String keyword) {
-        return async(()->{
-            return configInfoDao.getConfigList(pageNum,pagesize,keyword);
-        });
+        return async(()->configInfoDao.getConfigList(pageNum,pagesize,keyword));
     }
 
 

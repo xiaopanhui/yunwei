@@ -30,15 +30,15 @@ import java.util.function.BiFunction;
  * 统一异常处理
  *
  */
-//@ControllerAdvice
+@ControllerAdvice
 @Controller
 public class GlobalExceptionHandler {
     //日志记录
     private final Logger logger= LoggerFactory.getLogger(this.getClass());
     private DefaultDataBufferFactory defaultDataBufferFactory=new DefaultDataBufferFactory();
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(Throwable.class)
     @ResponseBody
-    public Mono<Response> defaultErrorHandler(ServerHttpRequest req, Exception e)  {
+    public Mono<Response> defaultErrorHandler(ServerHttpRequest req, Throwable e)  {
         if (e instanceof AccessDeniedException){
             return Mono.just(ResponseUtils.accessDenied());
         }
