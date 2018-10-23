@@ -1,8 +1,6 @@
 package com.gzsf.operation.dao;
 
 import com.github.pagehelper.Page;
-import com.gzsf.operation.model.LogItem;
-import com.gzsf.operation.model.LogItems;
 import com.gzsf.operation.model.LogModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

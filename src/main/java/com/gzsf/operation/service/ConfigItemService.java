@@ -6,13 +6,12 @@ import com.gzsf.operation.cache.ConfigInfoCache;
 import com.gzsf.operation.dao.ConfigInfoDao;
 import com.gzsf.operation.exception.NoKeyFoundException;
 import com.gzsf.operation.model.ConfigInfo;
-import com.gzsf.operation.model.LogItem;
-import com.gzsf.operation.model.LogItems;
+import com.gzsf.operation.model.FieldItem;
+import com.gzsf.operation.model.FieldItems;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-import java.util.IllegalFormatConversionException;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +31,7 @@ public class ConfigItemService extends MonoService {
     private ConfigInfoDao configInfoDao;
 
 
-    public Mono<List<LogItem>> getConfigFields(Long configId){
+    public Mono<List<FieldItem>> getConfigFields(Long configId){
         return async(()-> {
             String fiels= configInfoCache.getFields(configId);
             return Utils.StringToLogItems(fiels);
@@ -54,9 +53,9 @@ public class ConfigItemService extends MonoService {
         Page page=new Page();
         String cofigs= configInfoCache.getFields(id);
         ConfigInfo configInfo = configInfoCache.getByConfigInfoId(id);
-        LogItems items = Utils.StringToLogItems(cofigs);
+        FieldItems items = Utils.StringToLogItems(cofigs);
         StringBuffer stringBuffer=new StringBuffer();
-        for (LogItem item:items){
+        for (FieldItem item:items){
             stringBuffer.append("`").append(item.getKey()).append("`,");
         }
         if (stringBuffer.length()>0){
@@ -76,11 +75,11 @@ public class ConfigItemService extends MonoService {
         return async(()->{
             ConfigInfo configInfo = configInfoCache.getByConfigInfoId(configId);
             String fieldStr= this.configInfoCache.getFields(configId);
-            LogItems fieldItems = Utils.StringToLogItems(fieldStr);
+            FieldItems fieldItems = Utils.StringToLogItems(fieldStr);
             StringBuffer keyBuffer=new StringBuffer();
             StringBuffer valueBuffer=new StringBuffer();
-            for (LogItem item:fieldItems){
-                if (item.getType() == LogItem.Type.KEY){
+            for (FieldItem item:fieldItems){
+                if (item.getType() == FieldItem.Type.KEY){
                     continue;
                 }
                 if (!body.containsKey(item.getKey())){
@@ -106,11 +105,11 @@ public class ConfigItemService extends MonoService {
         return async(()->{
             ConfigInfo configInfo = configInfoCache.getByConfigInfoId(configId);
             String fieldStr= this.configInfoCache.getFields(configId);
-            LogItems fieldItems = Utils.StringToLogItems(fieldStr);
+            FieldItems fieldItems = Utils.StringToLogItems(fieldStr);
             StringBuffer valueBuffer=new StringBuffer();
             String condition = null;
-            for (LogItem item:fieldItems){
-                if (item.getType() == LogItem.Type.KEY){
+            for (FieldItem item:fieldItems){
+                if (item.getType() == FieldItem.Type.KEY){
                     condition =item.getKey()+" = '"+body.getOrDefault(item.getKey(),"")+"'";
                     continue;
                 }
@@ -136,10 +135,10 @@ public class ConfigItemService extends MonoService {
         return async(()->{
             ConfigInfo configInfo = configInfoCache.getByConfigInfoId(configId);
             String fieldStr= this.configInfoCache.getFields(configId);
-            LogItems fieldItems = Utils.StringToLogItems(fieldStr);
+            FieldItems fieldItems = Utils.StringToLogItems(fieldStr);
             String condition = null;
-            for (LogItem item:fieldItems){
-                if (item.getType() == LogItem.Type.KEY ){
+            for (FieldItem item:fieldItems){
+                if (item.getType() == FieldItem.Type.KEY ){
                     if (body.containsKey(item.getKey())){
                         condition =item.getKey()+" = '"+body.get(item.getKey())+"'";
                     }

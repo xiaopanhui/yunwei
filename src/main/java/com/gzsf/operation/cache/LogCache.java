@@ -2,8 +2,6 @@ package com.gzsf.operation.cache;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gzsf.operation.dao.LogMapper;
-import com.gzsf.operation.model.LogItem;
-import com.gzsf.operation.model.LogItems;
 import com.gzsf.operation.model.LogModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -11,11 +9,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class LogCache {

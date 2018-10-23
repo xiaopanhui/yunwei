@@ -3,31 +3,19 @@ package com.gzsf.operation.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gzsf.operation.ResponseUtils;
 import com.gzsf.operation.bean.DbLogQuery;
-import com.gzsf.operation.bean.LogMessage;
-import com.gzsf.operation.model.LogItem;
-import com.gzsf.operation.model.LogItems;
 import com.gzsf.operation.model.LogModel;
 import com.gzsf.operation.model.User;
 import com.gzsf.operation.service.DbLogService;
-import com.gzsf.operation.service.LogFileService;
 import com.gzsf.operation.service.LogService;
-import org.apache.ibatis.annotations.Delete;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-import java.io.IOException;
-import java.util.List;
 import java.util.function.Consumer;
 
 @RestController

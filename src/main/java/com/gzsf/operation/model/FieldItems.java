@@ -2,5 +2,5 @@ package com.gzsf.operation.model;
 
 import java.util.ArrayList;
 
-public class LogItems extends ArrayList<LogItem> {
+public class FieldItems extends ArrayList<FieldItem> {
 }

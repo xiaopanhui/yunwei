@@ -1,8 +1,8 @@
 package com.gzsf.operation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gzsf.operation.model.LogItem;
-import com.gzsf.operation.model.LogItems;
+import com.gzsf.operation.model.FieldItem;
+import com.gzsf.operation.model.FieldItems;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
@@ -96,17 +96,14 @@ public class Utils {
         return stringWriter.toString();
     }
 
-    public static LogItems StringToLogItems(String string){
-        LogItems result=new LogItems();
+    public static FieldItems StringToLogItems(String string){
+        FieldItems result=new FieldItems();
         try {
             List list= mapper.readValue(string,List.class);
-            for (int i = 0; i < list.size(); i++) {
-                Map<String,Object> entry= (Map<String, Object>) list.get(i);
-                LogItem item=new LogItem();
-                item.setName(entry.getOrDefault("name","").toString());
-                item.setKey(entry.getOrDefault("key","").toString());
-                item.setType((entry.getOrDefault("type","TEXT")).toString());
-                if (!Utils.isEmpty(item.getName()) && !Utils.isEmpty(item.getKey())){
+            for (Object aList : list) {
+                Map<String, Object> entry = (Map<String, Object>) aList;
+                FieldItem item = FieldItem.parseMap(entry);
+                if (item != null) {
                     result.add(item);
                 }
             }
