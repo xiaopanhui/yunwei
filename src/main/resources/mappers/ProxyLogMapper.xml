@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gzsf.operation.dao.ProxyLogMapper">
+    <!--查询单个-->
+    <insert id="insert"  parameterType="com.gzsf.operation.model.ProxyLog">
+       insert  into proxy_log
+       <trim prefix="(" suffix=")" suffixOverrides=",">
+           url,
+           ip,
+           status,
+           <if test="requestParams != null">
+               request_params,
+           </if>
+           <if test="responseData != null">
+               response_data,
+           </if>
+           <if test="responseData != null">
+               response_data,
+           </if>
+       </trim>
+        value
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{url},
+            #{ip},
+            #{status},
+            <if test="requestParams != null">
+                #{requestParams},
+            </if>
+            <if test="responseData != null">
+                #{responseData},
+            </if>
+            <if test="responseData != null">
+                #{responseData},
+            </if>
+        </trim>
+    </insert>
+
+</mapper>

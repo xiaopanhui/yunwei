@@ -76,8 +76,8 @@ public class Utils {
         return hexString.toString();
     }
 
-    public static boolean isEmpty(String str){
-        return str==null||str.trim().equals("");
+    public static boolean isEmpty(Object str){
+        return str==null||str.toString().trim().equals("");
     }
 
     public static void close(Closeable closeable){

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gzsf.operation.dao.ProxyInfoMapper">
+    <!--查询单个-->
+    <select id="getRecordByUrl" resultType="com.gzsf.operation.model.ProxyInfo" parameterType="java.lang.String">
+        select proxy_id,request_url,target_url,method,white_list,name,concurrent from proxy_info
+        where request_url =#{requestUrl}
+    </select>
+
+</mapper>
