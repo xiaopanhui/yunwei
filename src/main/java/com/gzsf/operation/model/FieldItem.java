@@ -10,7 +10,7 @@ public class FieldItem {
     private String key;
     private Type type;
     private String name;
-    private boolean details;
+    private boolean show;
     public enum Type{
         KEY,JSON,TEXT,DATE, IAMGE_BASE64, IMAGE_URL
     }
@@ -28,11 +28,11 @@ public class FieldItem {
         item.setName(data.getOrDefault("name","").toString());
         item.setKey(data.getOrDefault("key","").toString());
         item.setType((data.getOrDefault("type","TEXT")).toString());
-        item.setDetails(Boolean.valueOf(data.getOrDefault("details",false).toString()));
+        item.setShow(Boolean.valueOf(data.getOrDefault("show",false).toString()));
         if (!Utils.isEmpty(item.getName()) && !Utils.isEmpty(item.getKey())){
-            return null;
-        }else {
             return item;
+        }else {
+            return null;
         }
     }
 }

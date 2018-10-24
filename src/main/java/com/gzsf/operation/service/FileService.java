@@ -48,10 +48,10 @@ public class FileService extends MonoService {
     }
 
     public Mono<Page> getVersionList(Long fileId,
-                               Integer limit,
-                              Integer offset,
+                                     Integer pageNum,
+                                      Integer pageSize,
                              String keyword){
-        return  async(()-> fileVersionMapper.getList(offset,limit,fileId,keyword));
+        return  async(()-> fileVersionMapper.getList(pageNum,pageSize,fileId,keyword));
     }
 
     public Mono saveFile(FilePart filePart,String updateLog,Long fileId,Long userId){

@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ProxyVerifyService {
     private Map<String, AtomicInteger> concurrentMap=new HashMap<>();
     private Map<String, Integer> concurrentTotalMap=new HashMap<>();
-    private final String[] paramField ={"idCard"};
+    private final String[] paramField ={"id","IDCard","Department","Cause","Name"};
 
 
     public boolean verifyField(Map<String,Object> params){

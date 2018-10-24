@@ -53,11 +53,12 @@ public class ProxyService extends MonoService{
                 proxyLog.setStatus("地址不存在");
                 throw new UrlNotFoundException();
             }
+            proxyLog.setName(proxyInfo.getName());
             if (!proxyVerifyService.ipAllow(proxyInfo.getWhiteList(), ip)) {
                 proxyLog.setStatus("IP地址不允许");
                 throw new IpIsNotAllowException();
             }
-            int count = idCardListMapper.countByIdCard(body.get("idCard").toString());
+            int count = idCardListMapper.countByIdCard(body.get("id").toString());
             if (count > 0) {
                 proxyLog.setStatus("限制请求");
                 throw new QueryLimitException();
@@ -70,9 +71,9 @@ public class ProxyService extends MonoService{
         })
                 .flatMap(proxyInfo -> {
                     if ("POST".equals(proxyInfo.getMethod())) {
-                        return post(proxyInfo.getTargetUrl(), body);
+                        return post(proxyInfo.getTargetUrl(), body,ip);
                     } else {
-                        return get(proxyInfo.getTargetUrl(), body);
+                        return get(proxyInfo.getTargetUrl(), body,ip);
                     }
                 }).doOnSuccess(map -> {
                     proxyLog.setResponseData(jsonToString(map));
@@ -80,6 +81,7 @@ public class ProxyService extends MonoService{
                     writeLog(proxyLog);
                 }).doOnError(throwable -> {
                     if (!(throwable instanceof BaseException)) {
+                        proxyLog.setStatus("请求错误");
                         this.proxyVerifyService.requestDone(requestUrl);
                     }
                     writeLog(proxyLog);
@@ -87,7 +89,9 @@ public class ProxyService extends MonoService{
     }
 
     private void writeLog(ProxyLog log){
-        logExecutor.submit(()->this.proxyLogMapper.insert(log));
+        logExecutor.submit(()->{
+            this.proxyLogMapper.insert(log);
+        });
     }
 
     private String jsonToString(Map json){
@@ -98,11 +102,11 @@ public class ProxyService extends MonoService{
         }
     }
 
-    private Mono<Map> post(String url,Map body){
-        return WebClient.create().post().uri(url).syncBody(body).retrieve().bodyToMono(Map.class);
+    private Mono<Map> post(String url,Map body,String ip){
+        return WebClient.create().post().uri(url).header("x-forwarded-for",ip).syncBody(body).retrieve().bodyToMono(Map.class);
     }
 
-    private Mono<Map> get(String url,Map<String,Object> body){
+    private Mono<Map> get(String url,Map<String,Object> body,String ip){
         StringBuilder queryStr=new StringBuilder();
         for (Map.Entry<String,Object> entry: body.entrySet()){
             queryStr
@@ -121,7 +125,7 @@ public class ProxyService extends MonoService{
         }else {
             queryStr.insert(0,"?");
         }
-         return WebClient.create().get().uri(url+queryStr.toString()).retrieve().bodyToMono(Map.class);
+         return WebClient.create().get().uri(url+queryStr.toString()).header("x-forwarded-for",ip).retrieve().bodyToMono(Map.class);
     }
 
 }

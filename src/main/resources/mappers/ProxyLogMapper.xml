@@ -14,8 +14,8 @@
            <if test="responseData != null">
                response_data,
            </if>
-           <if test="responseData != null">
-               response_data,
+           <if test="name != null">
+               name,
            </if>
        </trim>
         value
@@ -29,8 +29,8 @@
             <if test="responseData != null">
                 #{responseData},
             </if>
-            <if test="responseData != null">
-                #{responseData},
+            <if test="name != null">
+                #{name},
             </if>
         </trim>
     </insert>
