@@ -24,6 +24,16 @@ public class ConfigInfoCache {
 
     }
 
+    /**
+     * 获取
+     */
+    @CachePut(value = "configInfo" ,key = "#info.configId")
+    public ConfigInfo update(ConfigInfo info){
+         configInfoDao.update(info);
+         return info;
+
+    }
+
     /*插入*/
     @CacheEvict(value = "configInfo",key = "#configInfo.configId")
     public Long insert(ConfigInfo configInfo){

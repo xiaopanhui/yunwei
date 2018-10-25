@@ -3,13 +3,12 @@ package com.gzsf.operation.service;
 import com.github.pagehelper.Page;
 import com.gzsf.operation.cache.DbInfoCache;
 import com.gzsf.operation.dao.DbInfoMapper;
-import com.gzsf.operation.exception.DbInfoAlreadyExist;
+import com.gzsf.operation.exception.DbInfoAlreadyExistException;
 import com.gzsf.operation.exception.NoDbInfoFoundException;
 import com.gzsf.operation.model.DbInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-import reactor.core.publisher.MonoOperator;
 
 import java.util.Date;
 
@@ -66,7 +65,7 @@ public class DbInfoService extends MonoService {
         return async(()->{
             DbInfo dbInfo1 = dbInfoMapper.getByDbInfoName(dbInfo.getName());
             if (dbInfo1 != null) {
-                throw new DbInfoAlreadyExist();
+                throw new DbInfoAlreadyExistException();
             }
             dbInfo.setCreatedAt(new Date());
             dbInfo.setUpdatedAt(new Date());

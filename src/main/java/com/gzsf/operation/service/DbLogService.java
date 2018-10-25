@@ -3,6 +3,7 @@ package com.gzsf.operation.service;
 import com.github.pagehelper.Page;
 import com.gzsf.operation.bean.DbLogQuery;
 import com.gzsf.operation.cache.LogCache;
+import com.gzsf.operation.exception.SQLFormatException;
 import com.gzsf.operation.model.LogModel;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -21,16 +22,20 @@ public class DbLogService extends MonoService{
     @Autowired
     private DbConnectService dbConnectService;
     protected String parseQuerySQL(String sqlTemple, DbLogQuery params){
-        VelocityContext context = new VelocityContext();
-        context.put("start_time",params.getStartTime());
-        context.put("end_time",params.getEndTime());
-        context.put("keyword",params.getKeyword());
-        StringWriter stringWriter = new StringWriter();
-        Velocity.evaluate(context,stringWriter,"sqlTemple",sqlTemple);
-        stringWriter.append(" limit ");
-        stringWriter.append(String.valueOf((params.getPageNum() - 1) * params.getPageSize()));
-        stringWriter.append(" , ").append(String.valueOf(params.getPageSize()));
-        return stringWriter.toString();
+      try {
+          VelocityContext context = new VelocityContext();
+          context.put("start_time",params.getStartTime());
+          context.put("end_time",params.getEndTime());
+          context.put("keyword",params.getKeyword());
+          StringWriter stringWriter = new StringWriter();
+          Velocity.evaluate(context,stringWriter,"sqlTemple",sqlTemple);
+          stringWriter.append(" limit ");
+          stringWriter.append(String.valueOf((params.getPageNum() - 1) * params.getPageSize()));
+          stringWriter.append(" , ").append(String.valueOf(params.getPageSize()));
+          return stringWriter.toString();
+      }catch (Exception e){
+          throw  new SQLFormatException(e);
+      }
     }
 
     protected String parseCountSQL(String sqlTemple, DbLogQuery params){

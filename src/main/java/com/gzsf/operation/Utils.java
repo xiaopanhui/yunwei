@@ -98,6 +98,9 @@ public class Utils {
 
     public static FieldItems StringToLogItems(String string){
         FieldItems result=new FieldItems();
+        if (string==null){
+            return result;
+        }
         try {
             List list= mapper.readValue(string,List.class);
             for (Object aList : list) {

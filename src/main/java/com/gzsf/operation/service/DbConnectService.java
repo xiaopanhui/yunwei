@@ -2,6 +2,8 @@ package com.gzsf.operation.service;
 
 import com.gzsf.operation.cache.DbInfoCache;
 import com.gzsf.operation.cache.LogCache;
+import com.gzsf.operation.exception.DbConnectException;
+import com.gzsf.operation.exception.DbQueryException;
 import com.gzsf.operation.exception.NoDbInfoFoundException;
 import com.gzsf.operation.model.DbInfo;
 import com.gzsf.operation.model.LogModel;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import javax.sql.DataSource;
+import java.io.Closeable;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.sql.*;
 import java.util.*;
@@ -43,7 +47,7 @@ public class DbConnectService {
         try {
             return BasicDataSourceFactory.createDataSource(properties);
         } catch (Exception e) {
-            return null;
+            throw  new DbConnectException(e);
         }
     }
 
@@ -51,9 +55,7 @@ public class DbConnectService {
         try {
             if (id == null) return null;
             if (dataSourceMap.containsKey(id)) {
-
                 return dataSourceMap.get(id).getConnection();
-
             } else {
                 DataSource dataSource = createNewPool(id);
                 if (dataSource == null) {
@@ -67,7 +69,7 @@ public class DbConnectService {
         }
     }
 
-    public List invoke(String sql,Long dbId) throws Exception{
+    public List invoke(String sql,Long dbId) {
         Connection connection = getConnect(dbId);
         if (connection==null)return null;
         PreparedStatement statement= null;
@@ -88,11 +90,11 @@ public class DbConnectService {
                 }
                 result.add(data);
             }
-        }catch (Exception e){
-            throw e;
+        }catch (SQLException e){
+            throw new DbQueryException(e);
         }finally {
-            connection.close();
-            if (statement!=null)statement.close();
+            close(connection);
+            close(statement);
         }
         logger.info("database query done");
         return result;
@@ -113,8 +115,8 @@ public class DbConnectService {
         }catch (Exception e){
             throw e;
         }finally {
-            connection.close();
-            if (statement!=null)statement.close();
+            close(connection);
+            close(statement);
         }
         logger.info("database query done");
         return result;
@@ -156,6 +158,15 @@ public class DbConnectService {
         }
         logger.info("database query done");
         return result;
+    }
+
+    private void close(AutoCloseable closeable){
+        if (closeable==null)return;
+        try {
+            closeable.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

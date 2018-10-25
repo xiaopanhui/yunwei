@@ -2,7 +2,7 @@ package com.gzsf.operation.service.impl;
 
 import com.github.pagehelper.Page;
 import com.gzsf.operation.cache.ConfigInfoCache;
-import com.gzsf.operation.exception.NameAlreadyExist;
+import com.gzsf.operation.exception.NameAlreadyExistException;
 import com.gzsf.operation.exception.NoUserFoundException;
 import com.gzsf.operation.model.ConfigInfo;
 import com.gzsf.operation.dao.ConfigInfoDao;
@@ -59,18 +59,9 @@ public class ConfigInfoServiceImpl extends MonoService implements ConfigInfoServ
             if(configInfo1==null){
                 throw new NoUserFoundException();
             }
-
-            if( configInfoDao.getByName(configInfo.getName())!=null){
-                throw new NameAlreadyExist();
-            }
-            configInfo1.setName(configInfo.getName());
-            configInfo1.setTableName(configInfo.getTableName());
-            configInfo1.setDbId(configInfo.getDbId());
-            configInfo1.setServiceId(configInfo.getServiceId());
-            configInfo1.setCreatedBy(configInfo.getCreatedBy());
-            configInfo1.setUpdatedAt(new Date());
-            configInfoDao.update(configInfo1);
-            return configInfo1;
+            configInfo.setUpdatedAt(new Date());
+            configInfoCache.update(configInfo);
+            return configInfo;
 
         });
     }

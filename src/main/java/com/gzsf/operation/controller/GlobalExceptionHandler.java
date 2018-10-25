@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DefaultDataBufferFactory;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Controller;
@@ -39,8 +40,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Throwable.class)
     @ResponseBody
     public Mono<Response> defaultErrorHandler(ServerHttpRequest req, Throwable e)  {
+        logger.error("SystemError",e);
+        logger.error("System Error remote:{} request path:{}",req.getRemoteAddress().getHostString(),req.getPath(),req.getQueryParams());
         if (e instanceof AccessDeniedException){
             return Mono.just(ResponseUtils.accessDenied());
+        }
+        if (e instanceof DuplicateKeyException){
+            return Mono.just(ResponseUtils.recordExists());
         }
         if (e instanceof BaseException){
             return Mono.just(new Response(((BaseException) e).getError(),e.getMessage()));
@@ -62,9 +68,6 @@ public class GlobalExceptionHandler {
             }
             return Mono.just(ResponseUtils.paramError(buffer.toString()));
         }
-
-        logger.error("SystemError",e);
-        logger.error("System Error remote:{} request path:{}",req.getRemoteAddress().getHostString(),req.getPath(),req.getQueryParams());
         return Mono.just(ResponseUtils.systemError());
     }
 

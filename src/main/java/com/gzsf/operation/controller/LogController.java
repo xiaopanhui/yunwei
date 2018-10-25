@@ -84,12 +84,7 @@ public class LogController {
         query.setPageSize(pageSize);
         query.setKeyword(keyword);
         return dbLogService.getLogs(id,query).map(ResponseUtils::successPage)
-                .doOnError(new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) {
-                        logger.error("getDbLog",throwable);
-                    }
-                });
+                .doOnError(throwable -> logger.error("getDbLog",throwable));
     }
 
 }

@@ -36,9 +36,9 @@ public class ConfigInfoController {
 
     }
     @PreAuthorize("hasAnyAuthority('USER')")
-    @PatchMapping("/config/{id}")
-    public  Mono update(@PathVariable("id") Long id,@RequestBody ConfigInfo configInfo){
-        return   configInfoService.update(id,configInfo).map(it->ResponseUtils.success(it))
+    @PatchMapping("/config")
+    public  Mono update(@RequestBody ConfigInfo configInfo){
+        return   configInfoService.update(configInfo.getConfigId(),configInfo).map(it->ResponseUtils.success(it))
                 .doOnError(throwable -> logger.error("update", throwable));
     }
 
@@ -82,13 +82,7 @@ public class ConfigInfoController {
             @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
             @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize
             ){
-        return configItemService.getConfig(id,pageNum,pageSize).map(ResponseUtils::successPage)
-                .doOnError(new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) {
-                        logger.error("getDbLog",throwable);
-                    }
-                });
+        return configItemService.getConfig(id,pageNum,pageSize).map(ResponseUtils::successPage);
     }
 
     @PostMapping("config/config/{id}")

@@ -6,7 +6,7 @@ import com.gzsf.operation.bean.LoginInfo;
 import com.gzsf.operation.cache.UserCache;
 import com.gzsf.operation.dao.UserMapper;
 import com.gzsf.operation.exception.NoUserFoundException;
-import com.gzsf.operation.exception.UsersAlreadyExist;
+import com.gzsf.operation.exception.UsersAlreadyExistException;
 import com.gzsf.operation.model.User;
 import com.gzsf.operation.security.UserAuthRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +84,7 @@ public class UserService extends MonoService{
        return  async(() ->{
            User user1 = userMapper.getUserByUserName(user.getUserName());
             if (user1!=null){
-                throw new UsersAlreadyExist();
+                throw new UsersAlreadyExistException();
             }
 
            String password=Utils.SHA1(user.getPassword());
