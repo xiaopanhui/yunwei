@@ -36,7 +36,10 @@ public class LogController {
         logModel.setCreatedBy(user.getUserId());
         return logService.save(logModel).map(ResponseUtils::success);
     }
-
+    @GetMapping("{id}")
+    public Mono getItem(@PathVariable("id")Long id){
+        return logService.getItem(id).map(ResponseUtils::success);
+    }
     @GetMapping()
     public Mono getList(
             @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,

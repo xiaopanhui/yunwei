@@ -55,5 +55,9 @@ public class LogService extends MonoService {
         });
     }
 
+    public Mono<LogModel> getItem(Long id){
+        return async(()->logCache.getRecord(id));
+    }
+
 
 }

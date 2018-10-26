@@ -67,7 +67,7 @@ public class ServiceController {
     @PreAuthorize("hasAnyAuthority('USER')")
     public Mono delete(@PathVariable("id") Long id){
         return  serviceService.delete(id)
-                .map(it ->ResponseUtils.success(null))
+                .map(ResponseUtils::success)
                 .onErrorResume(e ->{
                     logger.error("service add ",e);
                     return Mono.just(ResponseUtils.systemError());

@@ -79,12 +79,15 @@ public class ProxyService extends MonoService{
                     proxyLog.setResponseData(jsonToString(map));
                     proxyLog.setStatus("正常");
                     writeLog(proxyLog);
-                }).doOnError(throwable -> {
+                }).onErrorMap(throwable -> {
+                    Throwable result=throwable;
                     if (!(throwable instanceof BaseException)) {
                         proxyLog.setStatus("请求错误");
                         this.proxyVerifyService.requestDone(requestUrl);
+                        result =new UrlConnectException(throwable);
                     }
                     writeLog(proxyLog);
+                    return result;
                 });
     }
 

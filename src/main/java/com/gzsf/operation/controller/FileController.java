@@ -40,6 +40,13 @@ public class FileController {
                 .doOnError(it->logger.error("getFileList",it));
     }
 
+
+    @GetMapping("file/{id}")
+    public Mono getFileItem(@PathVariable("id") Long id
+    ){
+        return fileService.getFileItem(id)
+                .map(ResponseUtils::success);
+    }
     @PostMapping("file")
     @PreAuthorize("hasAnyAuthority('USER')")
     public Mono create(@RequestBody FileModel fileModel, Authentication authentication){

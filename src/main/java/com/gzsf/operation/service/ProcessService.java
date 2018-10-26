@@ -101,12 +101,15 @@ public class ProcessService extends MonoService {
             if (fileVersionModel == null) {
                 throw new NoFileFoundException();
             }
-            if (pidMap.containsKey(serviceId)){
+            if (pidMap.containsKey(serviceId)) {
                 throw new ServiceRunningException();
             }
-            String cmd= getStartCmd(serviceModel,fileVersionModel.getVersion());
-            Long pid= this.runCmd(cmd,fileUtils.getWordDirPath(serviceId));
-            save(serviceId,pid);
+            String cmd = getStartCmd(serviceModel, fileVersionModel.getVersion());
+            String workDir = fileUtils.getWordDirPath(serviceId);
+            File workDirFile = new File(workDir);
+            workDirFile.mkdirs();
+            Long pid = this.runCmd(cmd, workDir);
+            save(serviceId, pid);
             return pid;
         });
     }
@@ -150,7 +153,7 @@ public class ProcessService extends MonoService {
                         inputStream.close();
                         if (size==0)continue;
                         long p=Long.valueOf(new String(bytes,0,size));
-                        if (p==0)continue;
+                        if (isRunning(p)!=1)continue;
                         pidMap.put(Long.valueOf(temp.getName()),p);
                     }catch (Exception e){
 
@@ -238,7 +241,7 @@ public class ProcessService extends MonoService {
     /**
      * 检查进程 存活
      * @param pid 进程id
-     * @return 状态码
+     * @return 状态码 1 为正在运行
      */
     private int isRunning(long pid){
         return this.processLibrary.proc_status(pid);

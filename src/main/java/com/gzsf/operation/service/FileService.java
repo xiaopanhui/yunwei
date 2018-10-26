@@ -43,6 +43,11 @@ public class FileService extends MonoService {
                 .map(fileCache::getFileById);
     }
 
+    public Mono<FileModel> getFileItem(Long id){
+//        fileModel.setCreatedBy(null);
+        return async(()->fileCache.getFileById(id));
+    }
+
     public Mono<Boolean> delete(Long fielId){
         return async(()-> fileCache.delete(fielId));
     }

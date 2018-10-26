@@ -44,6 +44,9 @@ public class ServiceService extends MonoService {
 
     public Mono delete(Long id) {
         return async(() -> {
+                    if(processService.getPid(id)>0){
+                     processService.stopService(id);
+                    }
                     serviceCache.delete(id);
                     return true;
                 }
