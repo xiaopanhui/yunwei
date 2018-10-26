@@ -1,12 +1,10 @@
 package com.gzsf.operation.service;
 
 import com.gzsf.operation.bean.LogFile;
-import com.gzsf.operation.bean.LogMessage;
 import com.gzsf.operation.cache.LogCache;
 import com.gzsf.operation.model.LogModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -29,6 +27,7 @@ public class LogFileService {
     }
 
     public void addLogFile(Long id){
+        //根据FielId关联Log
         LogModel model= logCache.getRecord(id);
         if (model==null)return;
         if (logFileMap.containsKey(id)){

@@ -36,6 +36,11 @@ public class LogService extends MonoService {
         return async(()->logCache.delete(id));
     }
 
+    /**
+     *
+     * @param logId
+     * @return Mono<List<FieldItem>> Utils.StringToLogItems(fiels);
+     */
     public Mono<List<FieldItem>> getLogFields(Long logId){
         return async(()-> {
             String fiels= logCache.getFields(logId);
