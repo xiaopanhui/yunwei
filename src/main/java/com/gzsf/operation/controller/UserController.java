@@ -1,6 +1,5 @@
 package com.gzsf.operation.controller;
 
-import com.github.pagehelper.Page;
 import com.gzsf.operation.ResponseUtils;
 import com.gzsf.operation.bean.LoginBean;
 import com.gzsf.operation.bean.Response;
@@ -14,10 +13,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-
-import java.util.Date;
-import java.util.Map;
-import java.util.function.Predicate;
 
 @RestController
 public class UserController {
@@ -93,5 +88,11 @@ public class UserController {
         //这个方法能得到user所有信息
       User user= (User) authentication.getPrincipal();
         return Mono.just(ResponseUtils.success(user));
+    }
+    @DeleteMapping("/user/{userId}")
+    public  Mono deleteUser(@PathVariable("userId") long userId ){
+        return userService.deleteUser(userId).map((it -> ResponseUtils.success(it)))
+                .doOnError(throwable -> logger.error("deleteUser", throwable));
+
     }
 }

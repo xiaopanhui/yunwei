@@ -4,9 +4,11 @@ import com.gzsf.operation.Utils;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 
+/**
+ * 对日志文件的读取
+ */
 public class LogFile {
     private Long logId;
     private File file;
@@ -40,6 +42,7 @@ public class LogFile {
             if (inputStream == null) {
                 if (this.file.exists()){
                     inputStream=new FileInputStream(this.file);
+                    //*跳过并丢弃<代码>n</代码>字节的数据*跳过并丢弃<代码>n</代码>字节的数据
                     inputStream.skip(inputStream.available());
                     return false;
                 }else {

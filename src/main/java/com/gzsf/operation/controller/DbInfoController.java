@@ -12,7 +12,6 @@ import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-import org.springframework.security.core.Authentication;
 
 @RestController
 public class DbInfoController {

@@ -108,7 +108,7 @@ public class UserService extends MonoService{
         });
     }
 
-
+     /*删除用户*/
     public Mono<Object> deleteUser(long id) {
         return async(() -> {
             userCache.deleteUser(id);
@@ -118,4 +118,5 @@ public class UserService extends MonoService{
 
         );
     }
+
 }

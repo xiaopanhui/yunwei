@@ -60,9 +60,9 @@ public class ConfigInfoServiceImpl extends MonoService implements ConfigInfoServ
                 throw new NoUserFoundException();
             }
 
-            if( configInfoDao.getByName(configInfo.getName())!=null){
+           /* if( configInfoDao.getByName(configInfo.getName())!=null){
                 throw new NameAlreadyExist();
-            }
+            }*/
             configInfo1.setName(configInfo.getName());
             configInfo1.setTableName(configInfo.getTableName());
             configInfo1.setDbId(configInfo.getDbId());
