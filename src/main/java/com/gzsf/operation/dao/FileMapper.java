@@ -14,4 +14,6 @@ public interface FileMapper {
     int delete(Long fileId);
     Page<FileModel> getList(@Param("pageNum") int pageNum, @Param("pageSize") int pageSize, @Param("keyword")String keyword);
     FileModel getRecordById(Long fileId);
+    void clean();
+
 }

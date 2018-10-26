@@ -21,7 +21,7 @@ public class UserController {
     private final Logger logger= LoggerFactory.getLogger(getClass());
 
     @PostMapping("login")
-    public Mono<Response<String>> login(@RequestBody LoginBean bean){
+    public Mono<Response<User>> login(@RequestBody LoginBean bean){
         return userService
                 .login(bean.getUserName(),bean.getPassword())
                 .map(it->ResponseUtils.success(it))
@@ -59,14 +59,15 @@ public class UserController {
     @PatchMapping ("user")
     public Mono<Response<User>> changeUser(@RequestBody User body, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-
-        if ((user.getRole().ordinal() < body.getRole().ordinal() && user.getRole() == User.Role.ADMIN)
-                || user.getUserId() == body.getUserId()) {
+        if (body.getRole()!=null &&body.getRole().ordinal()< User.Role.USER.ordinal()){
+            body.setRole(null);
+        }
+        if (user.getRole()== User.Role.ADMIN || user.getUserId().equals(body.getUserId())){
             return userService.updateUser(body).map(it -> ResponseUtils.success(it))
                     .doOnError(throwable -> logger.error("changeUser", throwable));
-        }else {
-            return Mono.just(ResponseUtils.accessDenied());
         }
+        return Mono.just(ResponseUtils.accessDenied());
+
     }
     //添加用户信息
     @PostMapping("/user")
@@ -79,8 +80,9 @@ public class UserController {
     }
 
     @RequestMapping("auth")
-    public Mono<Response> auth(){
-        return Mono.just(ResponseUtils.success(null));
+    public Mono<Response> auth(Authentication authentication){
+        User user = (User) authentication.getPrincipal();
+        return Mono.just(ResponseUtils.success(user));
     }
     @RequestMapping("test")
     public Mono<Response> test(Authentication authentication) throws Exception {

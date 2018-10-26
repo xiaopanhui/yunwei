@@ -112,7 +112,9 @@
         select s.service_id,s.service_name,s.file_id,s.file_version, s.type,s.start_cmd,s.stop_cmd,s.created_by,s.created_at,s.updated_at,s.description, f.file_name from service s left join  file f on f.file_id=s.file_id
         where s.service_id=#{serviceId} and s.is_del =0
     </select>
-
+    <delete id="clean">
+        delete  from user where  is_del =1;
+    </delete>
 
 
 </mapper>

@@ -23,14 +23,15 @@ public class UserService extends MonoService{
     @Autowired
     private UserCache userCache;
     //登录后信息做保存
-    public Mono<String> login(String userName, String password){
+    public Mono<User> login(String userName, String password){
         final String pwd= Utils.SHA1(password);
         return async(()->{
              User user = userMapper.login(userName,pwd);
             if (user==null){
                throw new NoUserFoundException();
             }
-            return userAuthRepository.save(user);
+            user.setToken(userAuthRepository.save(user));
+            return user;
         });
     }
     //通过用户获取id

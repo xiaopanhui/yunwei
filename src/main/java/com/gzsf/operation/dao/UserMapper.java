@@ -19,6 +19,7 @@ public interface UserMapper {
 
     User getUserByUserName(String userName);
     void delete(Long userId);
+    void clean();
     //查询用户
   Page<User> getUsers(@Param("role") User.Role role,@Param("userName")String userName,
                             @Param("pageNum") int pageNum, @Param("pageSize") int pageSize);

@@ -110,5 +110,8 @@
         select  db_id,url,name,username,password,pool_size,description,created_at,created_by,updated_at from db_info
         where name=#{name} and is_del=0
     </select>
+    <delete id="clean">
+        delete  from user where  is_del =1;
+    </delete>
 </mapper>
 

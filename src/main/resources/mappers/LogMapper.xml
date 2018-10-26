@@ -118,4 +118,7 @@
     <update id="updateFields" >
         update log_info set fields=#{fields} where log_id=#{logId}
     </update>
+    <delete id="clean">
+        delete  from user where  is_del =1;
+    </delete>
 </mapper>

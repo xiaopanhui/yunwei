@@ -21,6 +21,7 @@ public class User implements Serializable {
     private String description;
     private Long createdBy;
 
+    private String token;
     public enum Role{
         SYSTEM,ADMIN,USER,READONLY
     }

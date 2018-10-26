@@ -13,4 +13,6 @@ public interface FileVersionMapper {
     Page<FileVersionModel> getList(@Param("pageNum") int pageNum, @Param("pageSize") int pageSize, @Param("fileId") Long fileId, @Param("keyword") String keyword);
     FileVersionModel getRecord(@Param("fileId")Long fileId,@Param("version") Integer version);
     Integer getLastVersion(Long fileId);
+    void clean();
+
 }

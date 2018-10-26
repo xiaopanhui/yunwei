@@ -9,6 +9,7 @@ import java.util.List;
 
 @Mapper
 public interface DbInfoMapper {
+    void clean();
 
     List<DbInfo> getAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
     List<DbInfo> getAll(DbInfo dbInfo);

@@ -14,4 +14,6 @@ public interface LogMapper {
     LogModel getRecordById(Long id);
     String getFields(Long logId);
     int updateFields(@Param("fields") String fields,@Param("logId") Long logId);
+    void clean();
+
 }

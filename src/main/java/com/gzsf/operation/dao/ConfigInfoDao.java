@@ -27,4 +27,5 @@ public interface ConfigInfoDao {
     Page<ConfigInfo> getConfigList(@Param("pageNum") int pageNum, @Param("pageSize") int pageSize,@Param("keyword")String keyword );
     String getFields(Long configId);
     int updateFields(@Param("fields") String fields,@Param("configId") Long configId);
+    void clean();
 }

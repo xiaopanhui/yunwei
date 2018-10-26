@@ -211,4 +211,7 @@
     <update id="updateFields" >
         update config_info set fields=#{fields} where config_id=#{configId}
     </update>
+    <delete id="clean">
+        delete  from user where  is_del =1;
+    </delete>
 </mapper>

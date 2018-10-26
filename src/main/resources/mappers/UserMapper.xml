@@ -91,4 +91,7 @@
         </if>
         and is_del=0
     </select>
+    <delete id="clean">
+        delete  from user where  is_del =1;
+    </delete>
 </mapper>
