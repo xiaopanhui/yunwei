@@ -13,7 +13,6 @@ import reactor.core.publisher.Mono;
 
 import java.io.StringWriter;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class DbLogService extends MonoService{
@@ -53,7 +52,7 @@ public class DbLogService extends MonoService{
         if (logModel==null)return null;
         String sql= parseQuerySQL(logModel.getSql(),params);
         String countQql= parseCountSQL(logModel.getCountSql(),params);
-        List list= dbConnectService.invoke(sql,logModel.getDbId());
+        List list= dbConnectService.invokeSelect(sql,logModel.getDbId());
         Page<Object> page=new Page<>();
         page.addAll(list);
         int count= dbConnectService.invokeCount(countQql,logModel.getDbId());

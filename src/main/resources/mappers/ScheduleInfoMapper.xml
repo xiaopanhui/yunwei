@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gzsf.operation.dao.ScheduleInfoMapper">
+    <update id="update" parameterType="com.gzsf.operation.model.ScheduleInfo" >
+        UPDATE  schedule_info
+        <set>
+            <if test="scheduleName != null">
+                schedule_name = #{scheduleName},
+            </if>
+            <if test="timerType != null">
+                timer_type = #{timerType},
+            </if>
+            <if test="timerValue != null">
+                timer_value = #{timerValue},
+            </if>
+            <if test="taskType != null">
+                task_type = #{taskType},
+            </if>
+            <if test="taskValue != null">
+                `task_value` = #{taskValue},
+            </if>
+            <if test="extra != null">
+                extra = #{extra},
+            </if>
+            <if test="updatedAt != null">
+                updated_at = #{updatedAt},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+        </set>
+        where schedule_id = #{scheduleId}  and is_del=0
+    </update>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="scheduleId" parameterType="com.gzsf.operation.model.ScheduleInfo">
+        insert into  schedule_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="scheduleName != null">
+                schedule_name ,
+            </if>
+            <if test="timerType != null">
+                timer_type ,
+            </if>
+            <if test="timerValue != null">
+                timer_value,
+            </if>
+            <if test="taskType != null">
+                task_type ,
+            </if>
+            <if test="taskValue != null">
+                `task_value`,
+            </if>
+            <if test="extra != null">
+                extra ,
+            </if>
+            <if test="updatedAt != null">
+                updated_at,
+            </if>
+            <if test="createdBy != null">
+                created_by,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="scheduleName != null">
+                #{scheduleName},
+            </if>
+            <if test="timerType != null">
+                 #{timerType},
+            </if>
+            <if test="timerValue != null">
+               #{timerValue},
+            </if>
+            <if test="taskType != null">
+                 #{taskType},
+            </if>
+            <if test="taskValue != null">
+                #{taskValue},
+            </if>
+            <if test="extra != null">
+                #{extra},
+            </if>
+            <if test="updatedAt != null">
+                 #{updatedAt},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy},
+            </if>
+            <if test="description != null">
+                #{description},
+            </if>
+        </trim>
+    </insert>
+    <update id="delete">
+        update  schedule_info set is_del=1 where schedule_id=#{scheduleId}
+    </update>
+
+
+
+    <select id="getList" resultType="com.gzsf.operation.model.ScheduleInfo">
+        select schedule_id,schedule_name,timer_type,timer_value,task_type,task_value,extra,description,created_at,created_at,updated_at  from   schedule_info
+        where is_del =0
+        <if test="keyword !=null and keyword!=''">
+            and  schedule_name like '%${keyword}%' or description like '%${keyword}%'
+        </if>
+    </select>
+
+    <select id="getItemById" resultType="com.gzsf.operation.model.ScheduleInfo">
+        select schedule_id,schedule_name,timer_type,timer_value,task_type,task_value,extra,description,created_at,created_at,updated_at  from   schedule_info
+        where schedule_id= #{scheduleId} and is_del =0
+    </select>
+    <delete id="clean">
+        delete  from  schedule_info where  is_del =1;
+    </delete>
+
+
+</mapper>

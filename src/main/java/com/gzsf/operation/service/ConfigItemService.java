@@ -63,7 +63,7 @@ public class ConfigItemService extends MonoService {
         }
         String selectSQL= String.format(this.selectSQLTemple,stringBuffer.toString(),configInfo.getTableName(),(pageNum-1)*pageSize,pageSize);
         String countSQL= String.format(this.countSQLTemple,configInfo.getTableName());
-        List list= dbConnectService.invoke(selectSQL,configInfo.getDbId());
+        List list= dbConnectService.invokeSelect(selectSQL,configInfo.getDbId());
         page.addAll(list);
         int count=dbConnectService.invokeCount(countSQL,configInfo.getDbId());
         page.setTotal(count);

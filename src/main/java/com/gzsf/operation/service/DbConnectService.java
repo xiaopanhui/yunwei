@@ -69,7 +69,7 @@ public class DbConnectService {
         }
     }
 
-    public List invoke(String sql,Long dbId) {
+    public List invokeSelect(String sql, Long dbId) {
         Connection connection = getConnect(dbId);
         if (connection==null)return null;
         PreparedStatement statement= null;
@@ -98,7 +98,10 @@ public class DbConnectService {
         }
         logger.info("database query done");
         return result;
+    }
 
+    public Boolean invoke(String sql, Long dbId) throws Exception {
+        return invokeInsert(sql, dbId);
     }
 
     public Integer invokeCount(String sql,Long dbId) throws Exception{
