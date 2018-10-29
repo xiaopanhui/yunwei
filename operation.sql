@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `config_info` (
   `description` varchar(200) NOT NULL DEFAULT '' COMMENT '描述',
   PRIMARY KEY (`config_id`),
   UNIQUE KEY `config_info_name_uindex` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 数据导出被取消选择。
 -- 导出  表 operation.db_info 结构
@@ -39,14 +39,14 @@ CREATE TABLE IF NOT EXISTS `db_info` (
   `description` varchar(200) NOT NULL DEFAULT '' COMMENT '描述',
   `pool_size` int(11) NOT NULL DEFAULT 1 COMMENT '连接池大小',
   `password` varchar(50) NOT NULL DEFAULT '' COMMENT '密码',
-  `username` varchar(30) NOT NULL DEFAULT '''''' COMMENT '用户名',
+  `username` varchar(30) NOT NULL DEFAULT '' COMMENT '用户名',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL,
   `created_by` int(11) NOT NULL DEFAULT 0,
   `is_del` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`db_id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='数据库信息';
+) ENGINE=InnoD DEFAULT CHARSET=utf8 COMMENT='数据库信息';
 
 -- 数据导出被取消选择。
 -- 导出  表 operation.file 结构
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `file` (
   `is_del` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`file_id`),
   UNIQUE KEY `file_file_name_uindex` (`file_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='上传文件表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='上传文件表';
 
 -- 数据导出被取消选择。
 -- 导出  表 operation.file_version 结构
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `file_version` (
   `is_del` tinyint(1) NOT NULL DEFAULT 0,
   `file_name` varchar(100) DEFAULT NULL COMMENT '文件名',
   PRIMARY KEY (`file_version_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 数据导出被取消选择。
 -- 导出  表 operation.idcard_list 结构
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `idcard_list` (
   `description` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idcard_list_idcard_uindex` (`idcard`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='身份证黑名单';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='身份证黑名单';
 
 -- 数据导出被取消选择。
 -- 导出  表 operation.log_field 结构
@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `log_info` (
   `count_sql` text DEFAULT NULL,
   PRIMARY KEY (`log_id`),
   UNIQUE KEY `log_info_name_uindex` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='日志信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='日志信息';
 
 -- 数据导出被取消选择。
 -- 导出  表 operation.proxy_info 结构
@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `proxy_info` (
   `proxy_id` int(11) NOT NULL AUTO_INCREMENT,
   `request_url` varchar(200) DEFAULT NULL,
   `target_url` varchar(200) DEFAULT NULL,
-  `method` varchar(10) DEFAULT 'NULL',
+  `method` varchar(10) DEFAULT 'GET',
   `white_list` text DEFAULT NULL,
   `description` varchar(200) DEFAULT NULL,
   `name` varchar(100) NOT NULL,
@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `proxy_info` (
   PRIMARY KEY (`proxy_id`),
   UNIQUE KEY `proxy_info_name_uindex` (`name`),
   UNIQUE KEY `proxy_info_request_url_uindex` (`request_url`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- 数据导出被取消选择。
 -- 导出  表 operation.proxy_log 结构
@@ -153,11 +153,45 @@ CREATE TABLE IF NOT EXISTS `proxy_log` (
   `url` varchar(100) DEFAULT NULL,
   `ip` varchar(50) DEFAULT NULL,
   `request_params` text DEFAULT NULL,
-  `response_data` text DEFAULT 'NULL',
+  `response_data` text DEFAULT '',
   `status` varchar(100) DEFAULT NULL COMMENT '请求状态',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='请求日志';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='请求日志';
+
+-- 数据导出被取消选择。
+-- 导出  表 operation.schedule_info 结构
+DROP TABLE IF EXISTS `schedule_info`;
+CREATE TABLE IF NOT EXISTS `schedule_info` (
+  `schedule_id` int(11) NOT NULL AUTO_INCREMENT,
+  `schedule_name` varchar(100) NOT NULL COMMENT '定时任务名称',
+  `timer_type` int(11) DEFAULT NULL COMMENT '定时类型',
+  `timer_value` varchar(100) DEFAULT NULL,
+  `task_type` int(11) DEFAULT NULL COMMENT '任务类型',
+  `task_value` varchar(1000) DEFAULT NULL,
+  `description` varchar(200) not null DEFAULT '',
+  `extra` varchar(1000) DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT '2010-01-01 00:00:00' ,
+  `is_del` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`schedule_id`),
+  UNIQUE KEY ` schedule_info_schedule_name_uindex` (`schedule_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 数据导出被取消选择。
+-- 导出  表 operation.schedule_log 结构
+DROP TABLE IF EXISTS `schedule_log`;
+CREATE TABLE IF NOT EXISTS `schedule_log` (
+  `log_id` int(11) NOT NULL AUTO_INCREMENT,
+  `schedule_id` int(11) DEFAULT NULL,
+  `schedule_name` varchar(100) DEFAULT NULL,
+  `execute` varchar(1000) NOT NULL,
+  `log` varchar(300) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`log_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 数据导出被取消选择。
 -- 导出  表 operation.service 结构
@@ -177,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `service` (
   `is_del` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`service_id`),
   UNIQUE KEY `service_service_name_uindex` (`service_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='服务表';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='服务表';
 
 -- 数据导出被取消选择。
 -- 导出  表 operation.user 结构
@@ -186,15 +220,15 @@ CREATE TABLE IF NOT EXISTS `user` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(50) DEFAULT NULL COMMENT '用户名',
   `role` tinyint(4) DEFAULT NULL COMMENT '角色',
-  `password` varchar(40) DEFAULT 'NULL' COMMENT '密码',
+  `password` varchar(40)  COMMENT '密码',
   `description` varchar(200) NOT NULL DEFAULT '' COMMENT '描述',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '2010-01-01 00:00:00',
   `created_by` int(11) NOT NULL DEFAULT 0,
   `is_del` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否删除',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_name` (`user_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- 数据导出被取消选择。
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
