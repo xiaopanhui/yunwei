@@ -54,11 +54,11 @@ public class FileService extends MonoService {
 
     public Mono<Page> getVersionList(Long fileId,
                                      Integer pageNum,
-                                      Integer pageSize,
-                             String keyword){
+                                     Integer pageSize,
+                                     String keyword){
         return  async(()-> fileVersionMapper.getList(pageNum,pageSize,fileId,keyword));
     }
-
+    //上传文件
     public Mono saveFile(FilePart filePart,String updateLog,Long fileId,Long userId){
         return async(()->{
 
@@ -82,17 +82,17 @@ public class FileService extends MonoService {
         return async(()-> fileCache.getFileVersion(fileId,version)).map(it ->{
             FileContent fileContent=new FileContent();
             fileContent.setName(it.getFileName());
-           try {
-               File file=new File(fileUtils.getFilePath(fileId,it.getVersion()));
-               FileInputStream stream=new FileInputStream(file);
-               int size= stream.available();
-               byte[] bytes=new byte[size];
-               stream.read(bytes);
-               fileContent.setContent(bytes);
-               return fileContent;
-           }catch (Exception e){
-               return fileContent;
-           }
+            try {
+                File file=new File(fileUtils.getFilePath(fileId,it.getVersion()));
+                FileInputStream stream=new FileInputStream(file);
+                int size= stream.available();
+                byte[] bytes=new byte[size];
+                stream.read(bytes);
+                fileContent.setContent(bytes);
+                return fileContent;
+            }catch (Exception e){
+                return fileContent;
+            }
         });
     }
 

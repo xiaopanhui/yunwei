@@ -50,11 +50,4 @@ public class DbInfoCache {
     public void delete(Long dbId){
         dbInfoMapper.delete(dbId);
     }
-
-
-    @Cacheable(value = "dbInfo",key = "#dbId")
-    public DbInfo getRecord(Long dbId){
-        return dbInfoMapper.getRecordById(dbId);
-    }
-
 }

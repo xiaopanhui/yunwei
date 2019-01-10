@@ -2,23 +2,28 @@ package com.gzsf.operation.controller;
 
 
 import com.gzsf.operation.ResponseUtils;
-import com.gzsf.operation.bean.DbLogQuery;
 import com.gzsf.operation.model.ConfigInfo;
 import com.gzsf.operation.model.User;
 import com.gzsf.operation.service.ConfigInfoService;
 import com.gzsf.operation.service.ConfigItemService;
-import org.apache.ibatis.annotations.Delete;
+import org.apache.poi.util.IOUtils;
+import org.apache.poi.util.SystemOutLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.buffer.DefaultDataBufferFactory;
+import org.springframework.http.codec.multipart.FilePart;
+import org.springframework.http.codec.multipart.FormFieldPart;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Mono;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Map;
-import java.util.function.Consumer;
 
 @RestController
 public class ConfigInfoController {
@@ -28,7 +33,7 @@ public class ConfigInfoController {
     @Autowired
     private ConfigItemService configItemService;
 
-        @GetMapping("/config/{id}")
+    @GetMapping("/config/{id}")
     public  Mono getByConfigInfoId(@PathVariable("id") Long id){
         return configInfoService.getByConfigInfoId(id).map(it -> ResponseUtils.success(it))
                 .onErrorReturn(ResponseUtils.notFound())
@@ -38,7 +43,7 @@ public class ConfigInfoController {
     @PreAuthorize("hasAnyAuthority('USER')")
     @PatchMapping("/config")
     public  Mono update(@RequestBody ConfigInfo configInfo){
-        return   configInfoService.update(configInfo.getConfigId(),configInfo).map(it->ResponseUtils.success(it))
+        return configInfoService.update(configInfo.getConfigId(),configInfo).map(it->ResponseUtils.success(it))
                 .doOnError(throwable -> logger.error("update", throwable));
     }
 
@@ -70,9 +75,11 @@ public class ConfigInfoController {
         return configItemService.getConfigFields(id).map(ResponseUtils::success);
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping("config/fields/{id}")
-    @PreAuthorize("hasAnyAuthority('USER')")
+//    @PreAuthorize("hasAnyAuthority('USER')")
     public Mono updateLogFields(@PathVariable("id") Long id,@RequestBody String fields){
+        System.out.println(55);
         return configItemService.updateConfigFields(fields,id).map(ResponseUtils::success);
     }
 
@@ -81,7 +88,7 @@ public class ConfigInfoController {
             @PathVariable("id") Long id,
             @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
             @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize
-            ){
+    ){
         return configItemService.getConfig(id,pageNum,pageSize).map(ResponseUtils::successPage);
     }
 
@@ -89,8 +96,8 @@ public class ConfigInfoController {
     public Mono addCongItem(
             @PathVariable("id") Long id,
             @RequestBody Map<String,Object> body
-            ){
-            return this.configItemService.addCongItem(id,body).map(ResponseUtils::success);
+    ){
+        return this.configItemService.addCongItem(id,body).map(ResponseUtils::success);
     }
     @PostMapping("config/config/{id}/del")
     public Mono deleteCongItem(
@@ -106,6 +113,21 @@ public class ConfigInfoController {
             @RequestBody Map<String,Object> body
     ){
         return this.configItemService.upateCongItem(id,body).map(ResponseUtils::success);
+    }
+
+    @PostMapping(value = "config/import")
+    public Mono getFile(@RequestPart("file") FilePart file, @RequestPart("id")FormFieldPart configId) throws IOException {
+        String path = "/data/import/"+file.filename();
+        File f = new File(path);
+        if(!f.getParentFile().exists()){
+            f.getParentFile().mkdirs();
+        }
+        f.createNewFile();
+        file.transferTo(f);
+        long id =Long.parseLong(configId.value());
+        FileInputStream input = new FileInputStream(f);
+        MultipartFile mf = new MockMultipartFile("file", f.getName(), "application/vnd.ms-excel", IOUtils.toByteArray(input));
+        return configItemService.uploadFile(id,mf).map(ResponseUtils::success);
     }
 
 }

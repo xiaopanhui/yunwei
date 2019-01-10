@@ -10,6 +10,7 @@ import com.gzsf.operation.model.FieldItem;
 import com.gzsf.operation.model.FieldItems;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -150,6 +151,43 @@ public class ConfigItemService extends MonoService {
             }
             String sql= String.format(this.deleteSQLTemple,configInfo.getTableName(),condition);
             return dbConnectService.invokeUpdate(sql,configInfo.getDbId());
+        });
+    }
+
+    //上传
+    public Mono<Boolean> uploadFile(long configId, MultipartFile file){
+        return async(() -> {
+            boolean f = true;
+            for(Map<String,Object> body:Utils.getMap(file)){
+                ConfigInfo configInfo = configInfoCache.getByConfigInfoId(configId);
+                String fieldStr= this.configInfoCache.getFields(configId);
+                FieldItems fieldItems = Utils.StringToLogItems(fieldStr);
+                StringBuffer keyBuffer=new StringBuffer();
+                StringBuffer valueBuffer=new StringBuffer();
+                for (FieldItem item:fieldItems){
+                    if (item.getType() == FieldItem.Type.KEY){
+                        continue;
+                    }
+                    if (!body.containsKey(item.getKey())){
+                        continue;
+                    }
+                    keyBuffer.append("`")
+                            .append(item.getKey())
+                            .append("`,");
+                    valueBuffer
+                            .append("'")
+                            .append(body.get(item.getKey()).toString().replace("'","\\'"))
+                            .append("',");
+
+                }
+                keyBuffer.deleteCharAt(keyBuffer.length()-1);
+                valueBuffer.deleteCharAt(valueBuffer.length()-1);
+                String sql= String.format(this.insertSQLTemple,configInfo.getTableName(),keyBuffer,valueBuffer);
+                System.out.println(body);
+                System.out.println(sql);
+                f = dbConnectService.invokeInsert(sql,configInfo.getDbId());
+            }
+            return f;
         });
     }
 }

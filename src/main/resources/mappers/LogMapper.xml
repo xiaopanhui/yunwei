@@ -121,4 +121,7 @@
     <delete id="clean">
         delete  from user where  is_del =1;
     </delete>
+    <delete id="logdel">
+        truncate table ${log_table};
+    </delete>
 </mapper>

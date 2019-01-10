@@ -47,7 +47,7 @@ public class FileCache {
 
     @Cacheable(value = "file_version",key = "#fileId+'_'+#version")
     public FileVersionModel getFileVersion(Long fileId,Integer version){
-        return fileVersionMapper.getRecord(fileId,version);
+            return fileVersionMapper.getRecord(fileId,version);
     }
 
     @CacheEvict(value = "file_version",key = "#fileVersionModel.fileId+'_0'")

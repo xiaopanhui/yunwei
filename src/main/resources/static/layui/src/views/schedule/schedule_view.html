@@ -1,0 +1,80 @@
+<title>日志管理</title>
+
+<div class="layui-card layadmin-header">
+	<div class="layui-breadcrumb" lay-filter="breadcrumb">
+		<a lay-href="">主页</a>
+		<a lay-href="schedule/schedule_list">定时任务</a>
+		<a id="schedule_Name"></a>
+	</div>
+</div>
+<input type="text" id="fileId" style="display: none">
+<div class="layui-fluid">
+	<div class="layui-card">
+		<div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="app-schedule-view">
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<button class="layui-btn layuiadmin-btn-comm" <a lay-href="schedule/schedule_list"></a>
+						<i class="layui-icon layui-icon-prev layuiadmin-button-btn"></i>
+					</button>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">时间范围</label>
+					<div class="layui-input-inline" style="width: 300px;">
+						<input type="text" name= "dateTime" class="layui-input" id="test-laydate-range-datetime" placeholder=" - ">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<div class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-app-scheduleview-search">
+              			<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+           			</div>
+				</div>
+				<div class="layui-inline">
+                    <button type="reset" class="layui-btn layuiadmin-btn-list scheduleview_opt" data-type="flushkey">
+                        清空搜索
+                    </button>
+                </div>
+			</div>
+		</div>
+
+		<div class="layui-card-body">
+			<table id="LAY-schedule-schedule-view" lay-filter="LAY-schedule-schedule-view"></table>
+		</div>
+	</div>
+</div>
+<script src="/layui/src/controller/axios.js"></script>
+<script>
+	layui.use('contlist', layui.factory('contlist')).use(['admin', 'contlist', 'table', 'laydate'], function() {
+		var $ = layui.$,
+			admin = layui.admin,
+			view = layui.view,
+			table = layui.table,
+			form = layui.form,
+			router = layui.router(),
+			laydate = layui.laydate,
+            search = router.search
+		document.getElementById("schedule_Name").innerHTML = "<cite>"+decodeURI(search.scheduleName)+"</cite>"
+		form.render(null, 'app-schedule-view');
+
+		var ins1 = laydate.render({
+			elem: '#test-laydate-range-datetime',
+			type: 'datetime',
+			format: 'yyyy-MM-dd HH:mm:ss',
+			range: '/',
+		});
+
+		//监听搜索
+		form.on('submit(LAY-app-scheduleview-search)', function(data) {
+			var field = data.field;
+			var dateTime = field.dateTime.split('/')
+			var startTime = dateTime[0].trim()
+			var endTime = dateTime[1].trim()
+			//执行重载
+			table.reload('LAY-schedule-schedule-view', {
+				where: {
+					"startTime": startTime,
+					"endTime": endTime
+				}
+			});
+		});
+	});
+</script>

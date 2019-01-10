@@ -105,7 +105,12 @@
 
     <select id="getServices" resultType="com.gzsf.operation.model.ServiceModel">
         select s.service_id,s.service_name,s.file_id,s.file_version, s.type,s.start_cmd,s.stop_cmd,s.created_by,s.created_at,s.updated_at,s.description, f.file_name from service s left join  file f on f.file_id=s.file_id
-        where s.is_del =0
+
+        where
+        <if test="keyword!=null and keyword!=''">
+          s.service_name like "%"#{keyword}"%" and
+        </if>
+        s.is_del =0
     </select>
 
     <select id="getRecord" resultType="com.gzsf.operation.model.ServiceModel">

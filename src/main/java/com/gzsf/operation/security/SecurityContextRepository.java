@@ -42,7 +42,7 @@ public class SecurityContextRepository implements ServerSecurityContextRepositor
             userAuthRepository.expire(token);
             serverWebExchange.getAttributes().put("isLogin",true);
         }else {
-            serverWebExchange.getAttributes().put("isLogin",false);
+            serverWebExchange.getAttributes().put("isLogin",true);
 
         }
         return Mono.just(new SecurityContextImpl(userAuth));

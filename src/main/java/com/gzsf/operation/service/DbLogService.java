@@ -31,6 +31,7 @@ public class DbLogService extends MonoService{
           stringWriter.append(" limit ");
           stringWriter.append(String.valueOf((params.getPageNum() - 1) * params.getPageSize()));
           stringWriter.append(" , ").append(String.valueOf(params.getPageSize()));
+          System.out.println(stringWriter);
           return stringWriter.toString();
       }catch (Exception e){
           throw  new SQLFormatException(e);

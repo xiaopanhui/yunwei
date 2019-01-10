@@ -29,7 +29,6 @@ public class CleanService {
     @Scheduled(cron = "0 0 0 * * ?")
     public void clean(){
         userMapper.clean();
-        userMapper.clean();
         serviceMapper.clean();
         logMapper.clean();
         fileMapper.clean();

@@ -1,0 +1,320 @@
+<title>配置管理</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a lay-href="configinfo/config_list">配置管理</a>
+        <!--<a id="config_Name"><cite></cite></a>-->
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="app-config-view">
+            <div class="layui-inline">
+                <a lay-href="configinfo/config_list">
+                <button class="layui-btn layuiadmin-btn-comm">
+                <i class="layui-icon layui-icon-prev layuiadmin-button-btn"></i>
+                </a>
+                </button>
+            </div>
+            <div class="layui-inline">
+                <div class="layui-btn layuiadmin-btn-list configview_opt" data-type="add">
+                    <i class="layui-icon layui-icon-add-1 layuiadmin-button-btn"></i>
+                </div>
+                <div class="layui-btn layuiadmin-btn-list configview_opt" data-type="import">
+                    批量导入
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-card-body">
+            <div id="view"></div>
+            <div id="laypag"></div>
+            <script type="text/html" id="table-config-view">
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit" title="编辑"><i
+                        class="layui-icon layui-icon-edit"></i></a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" title="删除"><i
+                        class="layui-icon layui-icon-delete"></i></a>
+            </script>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="table_init">
+    <table id="LAY-config-view-it" lay-filter="LAY-config-view">
+        <thead>
+        <tr>
+            {{# layui.each(d[0], function(index, item){ }}
+            <th lay-data="{field:'{{item.key}}', minWidth: 100}">{{item.name}}</th>
+            {{# });}}
+            <th lay-data="{title: '操作', toolbar: '#table-config-view', width: 150, align: 'center', fixed: 'right'}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {{# layui.each(d[1], function(index, item){ }}
+        <tr>
+            {{# layui.each(d[0], function(i, it){}}
+            <td>{{item[it.key]}}</td>
+            {{# }) }}
+        </tr>
+        {{# }); }}
+        </tbody>
+    </table>
+</script>
+<script src="/layui/src/controller/axios.js"></script>
+<script>
+    layui.use('contlist', layui.factory('contlist')).use(['admin', 'contlist', 'table', 'laypage', 'upload'], function () {
+        var $ = layui.$,
+            admin = layui.admin,
+            laypage = layui.laypage,
+            view = layui.view,
+            table = layui.table,
+            upload = layui.upload,
+            form = layui.form,
+            laytpl = layui.laytpl,
+            router = layui.router(),
+            search = router.search
+        //document.getElementById("config_Name").innerHTML = "<cite>"+decodeURI(search.configName)+"</cite>"
+        var show_message = function (msg, type, index) {
+            layer.msg(msg, {
+                offset: '15px',
+                icon: type,
+                time: 1000
+            }, function () {
+                layer.close(index);
+            });
+        }
+        var resolve_res = function () {
+            var res = arguments[0]
+            var table_render = arguments[1]
+            var option = arguments[2]
+            var index = arguments[3]
+            var obj = ""
+            if (arguments.length == 5) {
+                obj = arguments[4]
+            }
+            if (res.status == 200 && res.data.status == 0) {
+
+                show_message(option + "成功", 1, index)
+                if (obj != "") {
+                    obj.del()
+                }
+            } else if (res.status == 200 && res.data.status == 500) {
+                show_message("登录状态失效", 5, index)
+            } else if (res.status == 200 && res.data.status == 403) {
+                show_message("权限不足", 5, index)
+            } else {
+                show_message("系统错误", 2, index)
+            }
+        }
+        form.render(null, 'app-config-view');
+        table_init = document.getElementById("table_init")
+        var tpl = table_init.innerHTML
+        var table_view = document.getElementById("view")
+        var headers = {
+            'headers': {
+                "Authorization": JSON.parse(window.localStorage.getItem("layuiAdmin")).token
+            }
+        }
+        var load_data = function (pageNum, pageSize) {
+            axios.get("/config/fields/" + search.configId, headers)
+                .then(res => {
+                    if (res.status==200&& res.data.status== 403) {
+                        layer.msg("权限不足", {
+                            offset: '15px',
+                            icon: 2,
+                            time: 1000
+                        }, function () {
+                        });
+                    }else{
+                        var d1 = res.data.data
+                        var d = []
+                        d.push(d1)
+                        axios.get("/config/db/" + search.configId + "?pageNum=" + pageNum + "&pageSize=" + pageSize, headers)
+                            .then(res => {
+                                var d2 = res.data.data
+                                d.push(d2)
+                                laytpl(tpl).render(d, function (html) {
+                                    table_view.innerHTML = html;
+                                })
+                                table.init('LAY-config-view', {limit: pageSize})
+                            })
+                            .catch(err => {
+                                alert(JSON.stringify(err))
+                            })
+                    }
+                })
+                .catch(err => {
+                    alert(JSON.stringify(err))
+                })
+        }
+        axios.get("/config/db/" + search.configId, headers)
+            .then(res => {
+                var total = res.data.total
+                var pag = laypage.render({
+                    elem: 'laypag'
+                    , count: total
+                    , limit: 10
+                    , prev: '<i class="layui-icon layui-icon-left"></i>'
+                    , next: '<i class="layui-icon layui-icon-right"></i>'
+                    , limits: [10, 20, 30, 40, 50]
+                    , layout: ['prev', 'page', 'next', 'skip', 'count', 'limit']
+                    , jump: function (obj, first) {
+                        load_data(obj.curr, obj.limit)
+                    }
+                });
+                return pag
+            })
+            .catch(err => {
+            })
+        //监听搜索
+        form.on('submit(LAY-app-configview-search)', function (data) {
+            var field = data.field;
+
+            //执行重载
+            table.reload('LAY-config-view', {
+                where: field
+            });
+        });
+
+
+        var configview_active = {
+            import: function(){
+                admin.popup({
+                    title: '批量导入',
+                    area: ['550px', '350px'],
+                    id: 'LAY-popup-content-add',
+                    success: function (layero, index) {
+                        view(this.id).render('file/file_upload').done(function () {
+                            form.render(null, 'layuiadmin-app-form-list');
+                            upload.render({
+                                elem: '#file'
+                                , url: 'config/import'
+                                , accept: 'file'
+                                , auto: false
+                                ,before: function (obj) {
+                                    alert(obj)
+                                }
+                                ,data: {
+                                    id: function () {
+                                        return $('#configId').val();
+                                    }
+                                }
+                                , headers: {Authorization: JSON.parse(window.localStorage.getItem("layuiAdmin")).token}
+                                , bindAction: '#file1'
+                                , done: function (res) {
+                                    layer.msg("上传成功", {
+                                        offset: '15px',
+                                        icon: 1,
+                                        time: 1000
+                                    }, function () {
+                                    });
+                                    layui.table.reload('LAY-file-file-view'); //重载表格
+                                    layer.close(index); //执行关闭
+                                }
+                            });
+                        });
+                    }
+                });
+            },
+            add: function (othis) {
+                admin.popup({
+                    title: '添加配置',
+                    area: '550px',
+                    offset: '100px',
+                    id: 'LAY-popup-content-add',
+                    success: function (layero, index) {
+                        view(this.id).render('configinfo/config_view_form').done(function () {
+                            form.render(null, 'layuiadmin-app-form-list');
+
+                            //监听提交
+                            form.on('submit(layuiadmin-app-form-submit)', function (data) {
+                                var field = data.field; //获取提交的字段
+                                var headers = {
+                                    'headers': {
+                                        "Authorization": JSON.parse(window.localStorage.getItem("layuiAdmin")).token
+                                    }
+                                }
+                                axios.post('/config/config/' + search.configId, field, headers)
+                                    .then(res => {
+                                        load_data(1, 10)
+                                        resolve_res(res, "test", "添加配置", index)
+                                    })
+                                    .catch(err => {
+                                        alert(err)
+                                    })
+                                return false
+                                layui.table.reload('LAY-config-view'); //重载表格
+                                layer.close(index); //执行关闭
+                            });
+                        });
+                    }
+                });
+            }
+        };
+
+        $('.layui-btn.layuiadmin-btn-list.configview_opt').on('click', function () {
+            var type = $(this).data('type');
+            configview_active[type] ? configview_active[type].call(this) : '';
+        });
+
+        //监听工具条
+        table.on('tool(LAY-config-view)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'del') {
+                layer.confirm('确定删除此配置？', function (index) {
+                    var headers = {
+                        'headers': {
+                            "Authorization": JSON.parse(window.localStorage.getItem("layuiAdmin")).token
+                        }
+                    }
+                    axios.post('/config/config/' + search.configId + '/del', data, headers)
+                        .then(res => {
+                            load_data(1, 10)
+                            resolve_res(res, "test", "删除配置", index)
+                        })
+                        .catch(err => {
+                            alert(err)
+                        });
+                    obj.del();
+                    layer.close(index);
+                });
+            } else if (obj.event === 'edit') {
+                admin.popup({
+                    title: '修改配置',
+                    area: '550px',
+                    offset: '100px',
+                    id: 'LAY-popup-content-comm',
+                    success: function (layero, index) {
+                        view(this.id).render('configinfo/config_view_form', data).done(function () {
+                            form.render(null, 'layuiadmin-form-comment');
+
+                            //监听提交
+                            form.on('submit(layuiadmin-app-form-submit)', function (data) {
+                                var field = data.field; //获取提交的字段
+                                var headers = {
+                                    'headers': {
+                                        "Authorization": JSON.parse(window.localStorage.getItem("layuiAdmin")).token
+                                    }
+                                }
+                                axios.patch('/config/config/' + search.configId, field, headers)
+                                    .then(res => {
+                                            load_data(1, 10)
+                                            resolve_res(res, "test", "修改配置", index)
+                                        }
+                                    )
+                                    .catch(err => {
+                                            alert(err)
+                                        }
+                                    )
+                                return false
+                                layui.table.reload('LAY-config-view'); //重载表格
+                                layer.close(index); //执行关闭
+                            });
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>

@@ -1,0 +1,169 @@
+<div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">*服务名</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="serviceName" style="width: 350px;" value="{{ d.params.serviceName || '' }}" lay-verify="required" placeholder="请输入服务名" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <script type="text/html" template>
+            <input type="text" name="serviceId" style="display: none" value="{{ d.params.serviceId || '' }}">
+            <input type="text" name="createdAt" style="display: none" value="{{ d.params.createdAt || '' }}">
+            <input type="text" name="updatedAt" style="display: none" value="{{ d.params.updatedAt || '' }}">
+            <input type="text" name="createdBy" style="display: none" value="{{ d.params.createdBy || '' }}">
+            <input type="text" name="fileName" style="display: none" value="{{ d.params.fileName || '' }}">
+            <input type="text" name="pid" style="display: none" value="{{ d.params.pid || '' }}">
+            <input type="text" name="status" style="display: none" value="{{ d.params.status || '' }}">
+            <input type="text" id="ver" style="display: none" value="{{ d.params.fileVersion || '' }}">
+            <input type="text" id="fid" style="display: none" value="{{ d.params.fileId || '' }}">
+        </script>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">*文件</label>
+        <div class="layui-input-inline">
+            <div class="" style="width: 350px;">
+                <div id="file_view"></div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">*版本</label>
+        <div class="layui-input-inline">
+            <div class="" style="width: 350px;">
+                <div id="version_view"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">*服务类型</label>
+        <div class="layui-input-block">
+            <input type="radio" name="type" value="JAR" title="Java 程序">
+            <input type="radio" name="type" value="EXE" title="可执行程序">
+            <input type="radio" name="type" value="PY2" title="Python2 脚本">
+            <input type="radio" name="type" value="PY3" title="Python3 脚本">
+            <input type="radio" name="type" value="SHELL" title="shell 脚本">
+            <input type="radio" name="type" value="OTHER" title="其他服务">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">启动命令</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <textarea name="startCmd" style="width: 350px; height: 100px;" autocomplete="off" class="layui-textarea">{{d.params.startCmd||''}}</textarea>
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">停止命令</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <textarea name="stopCmd" style="width: 350px; height: 100px;" autocomplete="off" class="layui-textarea">{{d.params.stopCmd||''}}</textarea>
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">说明</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <textarea name="description" style="width: 350px; height: 100px;" autocomplete="off" class="layui-textarea">{{d.params.description||''}}</textarea>
+            </script>
+        </div>
+    </div>
+    <script type="text/html" id='file_se'>
+        <select name="fileId" id="fileId" lay-verify="required" lay-filter="file_se_fil">
+            <option value="">请选择文件</option>
+            {{# layui.each(d, function(index, item){ }}
+            <option value="{{d[index].fileId}}">{{d[index].fileName}}</option>
+            {{# }); }}
+        </select>
+    </script>
+    <script type="text/html" id="version_se">
+        <select name="fileVersion" id="version" lay-verify="required">
+            <option value="">请选择版本</option>
+            <option value="{{d[d.length-1].version}}">最新版</option>
+            {{# layui.each(d, function(index, item){ }}
+            <option value="{{d[index].version}}">{{d[index].version}}</option>
+            {{# }); }}
+        </select>
+    </script>
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-inline">
+            <input type="button" lay-submit lay-filter="service-layuiadmin-app-form-submit" value="确认" class="layui-btn">
+        </div>
+    </div>
+    <script src="/layui/src/controller/axios.js"></script>
+    <script>
+        layui.use(['laytpl', 'jquery', 'form'], function () {
+            var laytpl = layui.laytpl;
+            var form = layui.form;
+            var headers = {
+                'headers': {
+                    "Authorization": JSON.parse(window.localStorage.getItem("layuiAdmin")).token
+                }
+            }
+            axios.get('/file', headers)
+                .then(res => {
+                    var total = res.data.total
+                    axios.get('/file?pageNum=1&pageSize=' + total, headers)
+                        .then(res => {
+                            JSON.stringify()
+                            var data = res.data.data;
+                            var file_se = document.getElementById('file_se')
+                            var getTpl = file_se.innerHTML
+                            var view = document.getElementById('file_view')
+                            laytpl(getTpl).render(data, function (html) {
+                                view.innerHTML = html;
+                            });
+                            form.render('select')
+                            var fileId = document.getElementById('fid').value
+                            var version = document.getElementById('ver').value
+                            if(fileId != ""){
+                                render_version(fileId)
+                                setTimeout(function () {
+                                    document.getElementById('fileId').value = fileId
+                                    document.getElementById('version').value = version
+                                    form.render('select')
+                                },70)
+                            }
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        })
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+            var render_version = function(value){
+                axios.get('/file/' + value + '/version', headers)
+                    .then(res => {
+                        var total = res.data.total
+                        axios.get('/file/' + value + '/version?pageNum=1&pageSize=' + total, headers)
+                            .then(res => {
+                                var data = res.data.data;
+                                var version_se = document.getElementById('version_se')
+                                var getTpl = version_se.innerHTML
+                                var view = document.getElementById('version_view')
+                                laytpl(getTpl).render(data, function (html) {
+                                    view.innerHTML = html;
+                                });
+                                form.render('select')
+                            })
+                            .catch(err => {
+
+                            })
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            }
+            form.on('select(file_se_fil)', function (data) {
+                render_version(data.value)
+            });
+        })
+    </script>
+</div>

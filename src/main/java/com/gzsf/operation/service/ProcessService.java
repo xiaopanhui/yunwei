@@ -71,8 +71,10 @@ public class ProcessService extends MonoService {
             }
         }
         String path=String.format("/clibs/%s_%d/libprocess.%s",arc, Platform.is64Bit()?64:32,ext);
+        System.out.println("path:"+path);
         processLibrary =  Native.loadLibrary(path,ProcessLibrary.class);
     }
+    //保存写入pid
     private void save(Long serviceId,Long pid){
         if (pid==0)return;
         pidMap.put(serviceId,pid);
@@ -91,6 +93,12 @@ public class ProcessService extends MonoService {
 
         });
     }
+
+
+
+
+
+    //执行运行，返回pid，
     public Mono startService(final Long serviceId) {
         return async(() -> {
             ServiceModel serviceModel = serviceCache.getRecord(serviceId);
@@ -105,11 +113,16 @@ public class ProcessService extends MonoService {
                 throw new ServiceRunningException();
             }
             String cmd = getStartCmd(serviceModel, fileVersionModel.getVersion());
+            System.out.println(cmd);
             String workDir = fileUtils.getWordDirPath(serviceId);
+            System.out.println(workDir);
             File workDirFile = new File(workDir);
             workDirFile.mkdirs();
+            System.out.println( workDirFile.mkdirs());
             Long pid = this.runCmd(cmd, workDir);
+            System.out.println(pid+"pid");
             save(serviceId, pid);
+            System.out.println(pid);
             return pid;
         });
     }
@@ -124,9 +137,9 @@ public class ProcessService extends MonoService {
             if (fileVersionModel == null) {
                 throw new NoFileFoundException();
             }
-            if (pidMap.containsKey(serviceId)){
-                throw new ServiceRunningException();
-            }
+//            if (pidMap.containsKey(serviceId)){
+////                throw new ServiceRunningException();
+////            }
             String cmd= serviceModel.getStopCmd();
             if (Utils.isEmpty(cmd)){
                 if(!pidMap.containsKey(serviceId)){
@@ -163,7 +176,7 @@ public class ProcessService extends MonoService {
         }
     }
 
-
+    //获取启动的类型
     private String getStartCmd(ServiceModel serviceModel, int realVersion) throws Exception{
         String cmd=serviceModel.getStartCmd();
         String filePath= fileUtils.getFilePath(serviceModel.getFileId(),realVersion);

@@ -1,0 +1,66 @@
+<title>配置管理</title>
+
+<div class="layui-card layadmin-header">
+	<div class="layui-breadcrumb" lay-filter="breadcrumb">
+		<a lay-href="">主页</a>
+		<a><cite>配置管理</cite></a>
+	</div>
+</div>
+
+<div class="layui-fluid">
+	<div class="layui-card">
+		<form class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="app-config-list">
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">关键字</label>
+					<div class="layui-input-inline">
+						<input type="text" name="keyword" id="keyword" placeholder="请输入" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<div class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-app-configlist-search">
+              			<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            		</div>
+				</div>
+                <div class="layui-inline">
+                    <button type="reset" class="layui-btn layuiadmin-btn-list config_opt" data-type="flushkey">
+                        清空搜索
+                    </button>
+                </div>
+				<div class="layui-inline">
+					<div class="layui-btn layuiadmin-btn-list config_opt" data-type="add">
+						<i class="layui-icon layui-icon-add-1 layuiadmin-button-btn"></i>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<div class="layui-card-body">
+			<table id="LAY-configinfo-config-list" lay-filter="LAY-configinfo-config-list"></table>
+			<script type="text/html" id="table-configinfo-list">
+				<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit" title="编辑"><i class="layui-icon layui-icon-edit"></i></a>
+				<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" title="删除"><i class="layui-icon layui-icon-delete"></i></a>
+				<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="item" title="配置字段"><i class="layui-icon layui-icon-util"></i></a>
+				<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="view" title="查看配置项"><i class="layui-icon layui-icon-search"></i></a>
+			</script>
+		</div>
+	</div>
+</div>
+<script src="/layui/src/controller/axios.js"></script>
+<script>
+	layui.use('contlist', layui.factory('contlist')).use(['admin', 'contlist', 'table'], function() {
+		var $ = layui.$,
+			admin = layui.admin,
+			view = layui.view,
+			table = layui.table,
+			form = layui.form;
+		form.render(null, 'app-config-list');
+
+		form.on('submit(LAY-app-configlist-search)', function(data) {
+			var field = data.field;
+			table.reload('LAY-configinfo-config-list', {
+				where: field
+			});
+		});
+	});
+</script>

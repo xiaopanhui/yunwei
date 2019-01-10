@@ -34,16 +34,6 @@ public class DbInfoService extends MonoService {
         return async(()-> dbInfoMapper.getList(pageNum,pageSize,keyword));
     }
 
-//    public Mono<DbInfo> save(DbInfo dbInfo){
-//        return async(()->dbInfoCache.save(dbInfo));
-//    }
-
-    /**
-     * 修改
-     * @param id
-     * @param dbInfo
-     * @return
-     */
     public Mono<DbInfo> update(Long id,DbInfo dbInfo) {
         return async(()->{
             DbInfo dbInfo1= dbInfoCache.getByDbInfoId(id);
@@ -56,11 +46,6 @@ public class DbInfoService extends MonoService {
         });
     }
 
-    /**
-     * 添加
-     * @param
-     * @return
-     */
     public Mono add(DbInfo dbInfo) {
         return async(()->{
             DbInfo dbInfo1 = dbInfoMapper.getByDbInfoName(dbInfo.getName());
@@ -74,16 +59,10 @@ public class DbInfoService extends MonoService {
         });
     }
 
-    /**
-     * 删除
-     * @param id
-     * @return
-     */
     public Mono delete(Long id){
         return async(()->{
             dbInfoCache.delete(id);
             return true;
         });
     }
-
 }

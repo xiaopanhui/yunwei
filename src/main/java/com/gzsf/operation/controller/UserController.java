@@ -20,7 +20,7 @@ public class UserController {
     private UserService userService;
     private final Logger logger= LoggerFactory.getLogger(getClass());
 
-    @PostMapping("login")
+    @PostMapping(value="login",produces = "application/json;charset=UTF-8")
     public Mono<Response<User>> login(@RequestBody LoginBean bean){
         return userService
                 .login(bean.getUserName(),bean.getPassword())
@@ -62,7 +62,7 @@ public class UserController {
         if (body.getRole()!=null &&body.getRole().ordinal()< User.Role.USER.ordinal()){
             body.setRole(null);
         }
-        if (user.getRole()== User.Role.ADMIN || user.getUserId().equals(body.getUserId())){
+            if (user.getRole()== User.Role.ADMIN || user.getUserId().equals(body.getUserId())){
             return userService.updateUser(body).map(it -> ResponseUtils.success(it))
                     .doOnError(throwable -> logger.error("changeUser", throwable));
         }

@@ -15,5 +15,5 @@ public interface LogMapper {
     String getFields(Long logId);
     int updateFields(@Param("fields") String fields,@Param("logId") Long logId);
     void clean();
-
+    void logdel(@Param("log_table")String log_table);
 }

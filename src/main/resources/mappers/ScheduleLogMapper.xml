@@ -71,7 +71,7 @@
         select  schedule_id,schedule_name,status, `execute`,log,created_at,log_id  from   schedule_log
         where schedule_id = #{scheduleId}
         <if test="endTime != null and startTime != null">
-            and created_at between  #{endTime} and #{startTime}
+            and created_at &gt;= #{startTime} and created_at &lt;= #{endTime}
         </if>
         order by created_at desc
     </select>

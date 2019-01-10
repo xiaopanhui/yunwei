@@ -23,7 +23,7 @@ public class WebSecurityConfig {
             ServerHttpSecurity http)
     {
         return http.authorizeExchange()
-                .pathMatchers("/login","/add","/public/**","/api/**","/user/*","/test","/user").permitAll()
+                .pathMatchers("/login","/config/*","/add","/public/**","/api/**","/user/*","/test","/user","/index","/static/**","/layui/**","/").permitAll()
                 .anyExchange().authenticated()
                 .and()
                 .securityContextRepository(securityContextRepository)
@@ -37,8 +37,6 @@ public class WebSecurityConfig {
                 .accessDeniedHandler(accessDeniedHandler)
                .and().build();
     }
-
-
     @Bean
     public ReactiveUserDetailsService reactiveUserDetailsService()
     {

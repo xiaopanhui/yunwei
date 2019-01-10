@@ -1,0 +1,59 @@
+<div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list"style="padding: 20px 30px 0 0;">
+    <div id="it_view"></div>
+    <div class="layui-form-item">
+      <label class="layui-form-label"></label>
+      <div class="layui-input-inline">
+        <input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" value="确认" class="layui-btn">
+      </div>
+    </div>
+  </div>
+<script type="text/html" template>
+    {{# for (var k in d.params){ }}
+    <input style="display:none" id="{{k}}1" value="{{d.params[k]}}">
+    {{# }  }}
+</script>
+<script type="text/html" id="form_it">
+    {{# layui.each(d, function(index, item){ }}
+    <div class="layui-form-item">
+        <label class="layui-form-label">*{{item.name}}</label>
+        <div class="layui-input-inline">
+                <input type="text" name="{{item.key}}" id="{{item.key}}" {{item.type=='KEY'?'disabled':'enabled'}} style="width: 350px" value = "" lay-verify="required" placeholder="请输入{{item.name}}" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    {{# }) }}
+</script>
+<script src="/layui/src/controller/axios.js"></script>
+<script>
+    layui.use('contlist', layui.factory('contlist')).use(['admin', 'contlist', 'table', 'laypage'], function() {
+        var laytpl = layui.laytpl,
+            router = layui.router(),
+            search = router.search;
+        form_it = document.getElementById("form_it")
+		var tpl = form_it.innerHTML
+		var it_view = document.getElementById("it_view")
+		var headers = {
+			'headers':{
+				"Authorization":JSON.parse(window.localStorage.getItem("layuiAdmin")).token
+			}
+		}
+        axios.get("/config/fields/"+search.configId, headers)
+        .then(res => {
+            var data = res.data.data
+            var key = document.getElementById(data[0].key+"1")
+            if(key == null){
+                data = data.slice(1)
+            }
+            laytpl(tpl).render(data, function(html) {
+                it_view.innerHTML = html;
+            });
+            for(var i in data){
+                var it = document.getElementById(data[i].key+"1")
+                var ite = document.getElementById(data[i].key)
+                ite.value = it.value
+            }
+        })
+        .catch(err => {
+        })
+    })
+</script>
+

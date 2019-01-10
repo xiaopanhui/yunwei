@@ -1,14 +1,28 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10Mb
+      max-request-size: 10Mb
+      enabled: true
   datasource:
     driver-class-name: org.gjt.mm.mysql.Driver
-    password: operation
+    password: 123
     url: jdbc:mysql://127.0.0.1:3306/operation?characterEncoding=utf-8&useSSL=false
-    username: operation
+    username: root
   cache:
     redis:
       time-to-live: 30m
   jackson:
     default-property-inclusion: non_null
+  thymeleaf:
+    prefix: classpath:/templates/start/
+    suffix: .html
+    mode: HTML5
+    encoding: UTF-8
+  mvc:
+    static-path-pattern: /**
+  resources:
+    static-locations: classpath:/static,classpath:/public,classpath:/resources,classpath:/META-INF/resources
 mybatis:
   configuration:
     auto-mapping-behavior: full
@@ -18,7 +32,7 @@ mybatis:
   mapper-locations: classpath*:mappers/*.xml
   type-aliases-package: com.gzsf.operation.model
 server:
-  port: 5000
+  port: 5005
 pagehelper:
   helperDialect: mysql
   reasonable: true
@@ -28,3 +42,4 @@ pagehelper:
   pageSizeZero: true
 logging:
   file: logs/operatetion.log
+  

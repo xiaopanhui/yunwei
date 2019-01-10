@@ -1,0 +1,73 @@
+
+
+<title>服务管理</title>
+
+<div class="layui-card layadmin-header">
+	<div class="layui-breadcrumb" lay-filter="breadcrumb">
+		<a lay-href="">主页</a>
+		<a><cite>服务管理</cite></a>
+		<a><cite>服务列表</cite></a>
+	</div>
+</div>
+
+<div class="layui-fluid">
+	<div class="layui-card">
+		<div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="app-content-list">
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">关键字</label>
+					<div class="layui-input-inline">
+						<input type="text" name="keyword" id="keyword" placeholder="请输入" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-inline">
+					<button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-app-contlist-search">
+              <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            </button>
+				</div>
+				<div class="layui-inline">
+					<button onclick="document.getElementById('keyword').value=''" class="layui-btn layuiadmin-btn-comm">清空搜索</button>
+				</div>
+				<div class="layui-inline">	
+					<button class="layui-btn layuiadmin-btn-list service_opt" data-type="add">
+						<i class="layui-icon layui-icon-add-1 layuiadmin-button-btn"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="layui-card-body">
+			<table id="LAY-service-service-list" lay-filter="LAY-service-service-list"></table>
+			<script type="text/html" id="table-service-list">
+				<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit" title="编辑"><i class="layui-icon layui-icon-edit"></i></a>
+				<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" title="删除"><i class="layui-icon layui-icon-delete"></i></a>
+				<a class="layui-btn layui-btn-normal layui-btn-xs s_status" lay-event="start" title="启动程序"><i class="layui-icon layui-icon-play"></i></a>
+			</script>
+		</div>
+	</div>
+</div>
+<script src="/layui/src/controller/axios.js"></script>
+<script>
+
+	layui.use('contlist', layui.factory('contlist')).use(['admin', 'contlist', 'table'], function() {
+		var $ = layui.$,
+			admin = layui.admin,
+			view = layui.view,
+			table = layui.table,
+			form = layui.form;
+
+		form.render(null, 'app-content-list');
+
+		//监听搜索
+		form.on('submit(LAY-app-contlist-search)', function(data) {
+			var field = data.field;
+
+			table.reload('LAY-service-service-list', {
+				where: field
+			});
+		});
+
+
+
+	});
+</script>

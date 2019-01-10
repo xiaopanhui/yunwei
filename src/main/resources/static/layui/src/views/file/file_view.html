@@ -1,0 +1,183 @@
+<title>文件管理</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>服务管理</cite></a>
+        <a lay-href="file/file_list">文件管理</a>
+        <a id="file_Name"></a>
+    </div>
+</div>
+<input type="text" id="fileId" style="display: none">
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="app-content-list">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <a lay-href="/file/file_list" class="layui-btn layuiadmin-btn-list" style="color: #FFF">
+                        <i class="layui-icon layui-icon-prev layuiadmin-button-btn"></i>
+                    </a>
+                </div>
+                <div class="layui-inline">
+                    <!--添加-->
+                    <button class="layui-btn layuiadmin-btn-list upload_opt" data-type="add">
+                        <i class="layui-icon layui-icon-add-1 layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-card-body">
+            <table id="LAY-file-file-view" lay-filter="LAY-file-file-view"></table>
+            <script type="text/html" id="table-file-view">
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="download" id="download"><i
+                        class="layui-icon layui-icon-download-circle"></i>下载</a>
+            </script>
+        </div>
+    </div>
+</div>
+<script src="/layui/src/controller/axios.js"></script>
+<script>
+    layui.use('contlist', layui.factory('contlist')).use(['admin', 'contlist', 'table', 'upload'], function () {
+        var $ = layui.$,
+            admin = layui.admin,
+            view = layui.view,
+            table = layui.table,
+            form = layui.form,
+            upload = layui.upload
+            router = layui.router(),
+            search = router.search
+
+        $("#fileId").val(search.fileId)
+        $("#fileVesion").val(search.fileVesion)
+
+        document.getElementById("file_Name").innerHTML = "<cite>"+decodeURI(search.fileName)+"</cite>"
+
+        //查看文件列表
+        table.render({
+            elem: '#LAY-file-file-view',//html找id
+            url: '/file/' + $("#fileId").val() + '/version'
+            , parseData: function (res) { //res 即为原始返回的数据
+                return {
+                    "code": res.status, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.total, //解析数据长度
+                    "data": res.data //解析数据列表
+                };
+            },
+            cols: [
+                [{
+                    field: 'version',
+                    width: 250,
+                    title: '版本号'
+                }, {
+                    field: 'fileName',
+                    width: 250,
+                    title: '文件名'
+                }, {
+                    field: 'createdAt',
+                    width: 250,
+                    title: '创建日期',
+                    sort: true
+                }, {
+                    field: 'updateLog',
+                    title: '描述',
+                    minWidth: 100
+                }, {
+                    title: '操作',
+                    width: 200,
+                    align: 'center',
+                    fixed: 'right',
+                    toolbar: '#table-file-view'
+                }]
+            ],
+            page: true,
+            limit: 10,
+            limits: [10, 15, 20, 25, 30],
+            text: '对不起，加载出现异常！'
+        });
+
+        form.render(null, 'app-content-list');
+        //监听搜索
+        form.on('submit(LAY-app-contlist-search)', function (data) {
+            var field = data.field;
+
+            //执行重载
+            table.reload('LAY-file-file-view', {
+                where: field
+            });
+        });
+
+        var upload_active = {
+            add: function (othis) {
+                admin.popup({
+                    title: '上传文件',
+                    area: ['550px', '350px'],
+                    id: 'LAY-popup-content-add',
+                    success: function (layero, index) {
+                        view(this.id).render('file/file_upload').done(function () {
+                            form.render(null, 'layuiadmin-app-form-list');
+                            upload.render({
+                                elem: '#file'
+                                , url: '/file/' + $("#fileId").val() + '/version'
+                                , accept: 'file'
+                                , auto: false
+                                , data: {
+                                    updateLog: function () {
+                                        return $('#description').val();
+                                    }
+                                }
+                                , headers: {Authorization: JSON.parse(window.localStorage.getItem("layuiAdmin")).token}
+                                , bindAction: '#file1'
+                                , done: function (res) {
+                                    layer.msg("上传成功", {
+                                        offset: '15px',
+                                        icon: 1,
+                                        time: 1000
+                                    }, function () {
+                                    });
+                                    layui.table.reload('LAY-file-file-view'); //重载表格
+                                    layer.close(index); //执行关闭
+                                }
+                            });
+                        });
+                    }
+                });
+            }
+        };
+
+        $('.layui-btn.layuiadmin-btn-list.upload_opt').on('click', function () {
+
+            var type = $(this).data('type');
+            upload_active[type] ? upload_active[type].call(this) : '';
+        });
+        table.on('tool(LAY-file-file-view)', function (obj) {
+            if (obj.event == "download") {
+                var headers = {
+                    'headers': {
+                        "Authorization": JSON.parse(window.localStorage.getItem("layuiAdmin")).token
+                    },
+                    'responseType': "blob"
+                }
+                axios.get("/file/" + search.fileId + "/version/" + obj.data.version + "/file", headers)
+                    .then(res => {
+                        let url = URL.createObjectURL(new Blob(res.body))
+                        let link = document.createElement('a')
+                        link.style.display = 'none'
+                        link.href = url
+                        link.setAttribute('download', res.headers.filename)
+                        link.click()
+                        layer.msg("下载成功", {
+                            offset: '15px',
+                            icon: 1,
+                            time: 1000
+                        }, function () {
+                        });
+                    })
+                    .catch(err => {
+                        alert(err)
+                    })
+            }
+        })
+    });
+</script>

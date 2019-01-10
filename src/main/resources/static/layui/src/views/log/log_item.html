@@ -1,0 +1,220 @@
+<div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
+	<div id='view'>
+	</div>
+	<script type="text/html" id="form_item">
+		{{# layui.each(d.data, function(index, item){ }}
+		<div class="layui-form-item">
+			<div class="layui-input-inline">
+				<input type="text" id="{{item.key.name}}{{index}}" name="{{item.key.name}}{{index}}"
+					   value="{{item.key.value}}" lay-verify="required" placeholder="字段名称" autocomplete="off"
+					   class="layui-input">
+			</div>
+			<div class="layui-input-inline">
+				<input type="text" id="{{item.name.name}}{{index}}" name="{{item.name.name}}{{index}}"
+					   value="{{item.name.value}}" lay-verify="required" placeholder="显示名称" autocomplete="off"
+					   class="layui-input">
+			</div>
+			<div class="layui-input-inline">
+				<select id="{{item.type.name}}{{index}}" name="{{item.type.name}}{{index}}" lay-verify="required">
+					<option value="">字段类型</option>
+					{{# layui.each(item.type.value, function(index, it){ }}
+					<option value="{{item.type.key[index]}}">{{it}}</option>
+					{{# }); }}
+				</select>
+			</div>
+			<div class="layui-input-inline" style="width: 65px">
+				<input id="{{item.show.name}}{{index}}" lay-filter="{{item.show.name}}{{index}}" type="checkbox" name="{{item.show.name}}{{index}}" lay-skin="switch" lay-text="显示|隐藏" checked>
+			</div>
+			<div style="height: 38px; display: inline-block;line-height: 38px;">
+				<button id="isshow{{index}}" class="layui-btn layui-btn-normal layui-btn-sm delete"
+						style="vertical-align: middle;margin-bottom: 3px;">
+					{{item.opt}}
+				</button>
+			</div>
+		</div>
+		{{# }); }}
+	</script>
+	<div class="layui-form-item">
+		<div class="layui-input-inline">
+			<input type="text" style="border:0px;background-color:#FFF" disabled>
+		</div>
+		<div class="layui-input-inline">
+			<input type="text" style="border:0px;background-color:#FFF" disabled>
+		</div>
+		<div class="layui-input-inline">
+			<input type="text" style="border:0px;background-color:#FFF" disabled>
+		</div>
+		<div class="layui-input-inline" style="width: 65px">
+			<input type="text" style="border:0px;background-color:#FFF;width:26px" disabled>
+		</div>
+		<button id='' class="layui-btn layui-btn-normal layui-btn-sm append">
+			添加
+		</button>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label"></label>
+		<div class="layui-input-inline">
+			<input type="button" lay-submit lay-filter="onsub" value="确认" class="layui-btn">
+		</div>
+	</div>
+	<script type="text/html" template>
+		<input type="hidden" id="hid" value="{{ d.params.logId || '' }}">
+	</script>
+	<script src="/layui/src/controller/axios.js"></script>
+	<script>
+		layui.use(['laytpl', 'jquery', 'form'], function() {
+			var laytpl = layui.laytpl;
+			var form = layui.form;
+			var $ = layui.$;
+			var formvalue = []
+            var data = {
+                data: [{
+                    key: {
+                        name: 'key',
+                        value: ''
+                    },
+                    name: {
+                        name: 'name',
+                        value: ''
+                    },
+					show: {
+                        name: 'show',
+						value: ''
+					},
+                    type: {
+                        name: 'type',
+                        value: ['主键', 'JSON', '字符串', '日期', 'Base64图片', '图片地址'],
+                        key: ['KEY', 'JSON', 'TEXT', 'DATE', 'IAMGE_BASE64', 'IMAGE_URL']
+                    },
+                    opt: '移除'
+                }]
+            }
+
+            function resolve(key, name) {
+                var a = {
+                    key: {
+                        name: 'key',
+                        value: key
+                    },
+                    name: {
+                        name: 'name',
+                        value: name
+                    },
+                    show: {
+                        name: 'show',
+                        value: ''
+                    },
+                    type: {
+                        name: 'type',
+                        value: ['主键', 'JSON', '字符串', '日期', 'Base64图片', '图片地址'],
+                        key: ['KEY', 'JSON', 'TEXT', 'DATE', 'IAMGE_BASE64', 'IMAGE_URL']
+                    },
+                    opt: '移除'
+                }
+                return a;
+            }
+
+            var form_item = document.getElementById('form_item');
+            var getTpl = form_item.innerHTML;
+            var view = document.getElementById('view');
+            laytpl(getTpl).render(data, function (html) {
+                view.innerHTML = html;
+            });
+            setTimeout(function () {
+                var headers = {
+                    'headers':{
+                        "Authorization":JSON.parse(window.localStorage.getItem("layuiAdmin")).token
+                    }
+                };
+                axios.get('/log/fields/'+document.getElementById('hid').value, headers)
+                    .then(res => {
+                        var d = res.data.data;
+                        ////
+                        if (d.length > 0){
+                            for(var i=0;i < d.length;i++){
+                                if(i==0){
+                                    data.data[0].key.value = d[i].key;
+                                    data.data[0].name.value = d[i].name;
+                                }else{
+                                    data.data.push(resolve(d[i].key, d[i].name))
+                                }
+                            }
+                            laytpl(getTpl).render(data, function (html) {
+                                view.innerHTML = html;
+                            });
+                            for(var i=0;i < d.length;i++){
+                                $("#type"+i).val(d[i].type)
+								if(d[i].show) {
+                                    $("#show" + i).attr("checked", "checked");
+                                }else{
+                                    $("#show" + i).removeAttr("checked");
+								}
+                            }
+                            form.render();
+                        }
+                    })
+                    .catch(err => {
+                        console.log(JSON.stringify(err))
+                    })
+            },50)
+
+            function getdata() {
+                var d = data.data
+                var base = []
+                for (var i = 0; i < d.length; i++) {
+                    var list = {}
+                    var key = document.getElementById("key" + i)
+                    var name = document.getElementById("name" + i)
+                    var type = document.getElementById("type" + i)
+                    var show = document.getElementById("show" + i)
+                    list["key"] = key.value
+                    list["name"] = name.value
+                    list["type"] = type.value
+                    list["show"] = show.checked
+                    base.push(list)
+                }
+                formvalue = base
+            }
+
+            function initdata() {
+                var d = data.data
+                for (var i in formvalue) {
+                    var item1 = document.getElementById("key" + i)
+                    var item2 = document.getElementById("name" + i)
+                    var item3 = document.getElementById("type" + i)
+                    item1.value = formvalue[i]["key"]
+                    item2.value = formvalue[i]['name']
+                    $("select[name='" + item3.name + "']").val(formvalue[i]["type"]);
+                    if(formvalue[i]["show"]) {
+                        $("#show" + i).attr("checked", "checked");
+                    }else{
+                        $("#show" + i).removeAttr("checked");
+					}
+                }
+                form.render();
+            }
+
+            $('#layuiadmin-app-form-list').on('click', '.delete', function (e) {
+                getdata()
+                var f = e.target.id
+                var index = parseInt(f.substring(6))
+				data.data.pop()
+                formvalue.splice(index, 1)
+                laytpl(getTpl).render(data, function (html) {
+                    view.innerHTML = html;
+                });
+                form.render();
+                initdata()
+            })
+            $('#layuiadmin-app-form-list').on('click', '.append', function (e) {
+                getdata()
+                data.data.push(resolve("", ""))
+                laytpl(getTpl).render(data, function (html) {
+                    view.innerHTML = html;
+                });
+                form.render();
+                initdata()
+            })
+        });
+	</script>
+</div>

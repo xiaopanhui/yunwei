@@ -1,0 +1,59 @@
+<div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
+	<div class="layui-form-item">
+		<label class="layui-form-label">*数据库名</label>
+		<div class="layui-input-inline">
+			<script type="text/html" template>
+				<input type="text" name="name" style="width: 350px;" value="{{d.params.name||''}}" lay-verify="required" placeholder="请输入数据库名" autocomplete="off" class="layui-input">
+			</script>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">*连接字符串</label>
+		<div class="layui-input-inline">
+			<script type="text/html" template>
+				<input type="text" name="url" style="width: 350px;" value="{{d.params.url ||''}}" lay-verify="required" placeholder="请输入连接字符串" autocomplete="off" class="layui-input">
+			</script>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">*用户名</label>
+		<div class="layui-input-inline">
+			<script type="text/html" template>
+				<input type="text" name="username" style="width: 350px;" value="{{d.params.username||''}}" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+			</script>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">*密码</label>
+		<div class="layui-input-inline">
+			<script type="text/html" template>
+				<input type="text" name="password" style="width: 350px;" value="{{ d.params.password || '' }}" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+			</script>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">*连接池大小</label>
+		<div class="layui-input-inline">
+			<script type="text/html" template>
+				<input type="text" name="poolSize" style="width: 50px;" value="{{d.params.poolSize||''}}" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+			</script>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">描述</label>
+		<div class="layui-input-inline">
+			<script type="text/html" template>
+				<textarea name="description" style="width: 350px; height: 100px;" autocomplete="off" class="layui-textarea">{{d.params.description||''}}</textarea>
+			</script>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label"></label>
+		<div class="layui-input-inline">
+			<input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" value="确认" class="layui-btn">
+		</div>
+	</div>
+	<script type="text/html" template>
+		<input type="hidden" name="dbId" value="{{ d.params.dbId || '' }}">
+	</script>
+</div>

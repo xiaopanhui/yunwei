@@ -23,8 +23,11 @@ public class LogService extends MonoService {
     @Autowired
     private ObjectMapper mapper;
 
-    public Mono<LogModel> save(LogModel model){
-        return async(()->logCache.save(model));
+    public Mono<LogModel> save(LogModel model) {
+        return async(() -> {
+            logCache.save(model);
+            return logCache.updateCache(model);
+        });
     }
 
     public Mono<Page> getList(Integer pageNum,
@@ -59,5 +62,11 @@ public class LogService extends MonoService {
         return async(()->logCache.getRecord(id));
     }
 
-
+    public Mono<Boolean> log_del(String log_table){
+        return async(
+                ()->{logMapper.logdel(log_table);
+                    return true;
+                }
+        );
+    }
 }

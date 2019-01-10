@@ -1,0 +1,30 @@
+<div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list" style="padding: 20px 30px 0 0;">
+	<script type="text/html" template>
+		<input type="text" name="fileId" style="display: none" value="{{ d.params.fileId || '' }}" placeholder="" autocomplete="off" class="layui-input">
+	</script>
+	<div class="layui-form-item">
+		<label class="layui-form-label">*文件名</label>
+		<div class="layui-input-inline">
+			<script type="text/html" template>
+				<input type="text" name="fileName" style="width: 350px;" value="{{ d.params.fileName || '' }}" lay-verify="required" placeholder="请输入文件名" autocomplete="off" class="layui-input">
+			</script>
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label">说明</label>
+		<div class="layui-input-block">
+			<script type="text/html" template>
+				<textarea name="description" placeholder="请输入文件说明" style="width: 350px; height: 100px;" autocomplete="off" class="layui-textarea">{{d.params.description||''}}</textarea>
+			</script>
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label"></label>
+		<div class="layui-input-inline">
+			<input type="button" lay-submit lay-filter="layuiadmin-app-form-submit" value="确认" class="layui-btn">
+		</div>
+	</div>
+
+</div>

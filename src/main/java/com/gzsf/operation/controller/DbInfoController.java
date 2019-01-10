@@ -42,20 +42,6 @@ public class DbInfoController {
 //                .onErrorReturn(ResponseUtils.nameExists())
 //                .doOnError(throwable -> logger.error("addDbInfo",throwable));
     }
-//    @PostMapping("/db")
-//    @PreAuthorize("hasAnyAuthority('USER')")
-//    public Mono add(@RequestBody DbInfo dbInfo, Authentication authentication){
-//        dbInfo.setDbId(null);
-//        User user= (User) authentication.getPrincipal();
-//        dbInfo.setCreatedBy(user.getUserId());
-//        return dbInfoService
-//                .save(dbInfo)
-//                .map(ResponseUtils::success)
-//                .onErrorResume(e ->{
-//                    logger.error("dbInfo add ",e);
-//                    return Mono.just(ResponseUtils.recordExists());
-//                });
-//    }
 
     @GetMapping("/db/{id}")
     public Mono getByDbInfoId(@PathVariable("id") Long id) {
@@ -64,19 +50,18 @@ public class DbInfoController {
                 .doOnError(throwable -> logger.error("getByConfigInfoId", throwable));
     }
 
-
     /**
      * 修改
      * @param
      * @return
      */
     @PatchMapping("/db")
+    @PreAuthorize("hasAnyAuthority('USER')")
     public  Mono update(@RequestBody DbInfo dbInfo){
         return dbInfoService.update(dbInfo.getDbId(),dbInfo).map(it->ResponseUtils.success(it));
 //                .onErrorReturn(ResponseUtils.accessDenied())
 //                .doOnError(throwable -> logger.error("update", throwable));
     }
-
 
     /**
      * 删除
@@ -94,4 +79,3 @@ public class DbInfoController {
                 });
     }
 }
-

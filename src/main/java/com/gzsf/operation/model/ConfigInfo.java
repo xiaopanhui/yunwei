@@ -11,7 +11,7 @@ public class ConfigInfo implements Serializable {
     private Long configId;
     //服务id
     private Long serviceId;
-    //名称
+    //配置名称
     private String name;
     //数据库连接信息
     private Long dbId;

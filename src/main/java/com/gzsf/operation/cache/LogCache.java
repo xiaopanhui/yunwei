@@ -30,6 +30,11 @@ public class LogCache {
         return model;
     }
 
+    @CachePut(value = "log",key = "#model.logId")
+    public LogModel updateCache(LogModel model){
+        return model;
+    }
+
     @CacheEvict(value = "log",key = "#id")
     public boolean delete(Long id){
         return logMapper.delete(id)==1;

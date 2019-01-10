@@ -3,6 +3,7 @@ package com.gzsf.operation.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gzsf.operation.ResponseUtils;
 import com.gzsf.operation.bean.DbLogQuery;
+import com.gzsf.operation.bean.Db_table;
 import com.gzsf.operation.model.LogModel;
 import com.gzsf.operation.model.User;
 import com.gzsf.operation.service.DbLogService;
@@ -89,5 +90,8 @@ public class LogController {
         return dbLogService.getLogs(id,query).map(ResponseUtils::successPage)
                 .doOnError(throwable -> logger.error("getDbLog",throwable));
     }
-
+    @PostMapping("/logdel")
+    public  Mono logdel(@RequestBody Db_table db_table){
+        return logService.log_del(db_table.getLog_table()).doOnError(throwable -> logger.error("deleteDbLog",throwable)).map(ResponseUtils::success);
+    }
 }

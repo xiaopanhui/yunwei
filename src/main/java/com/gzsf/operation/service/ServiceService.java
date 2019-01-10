@@ -27,9 +27,9 @@ public class ServiceService extends MonoService {
     private ServiceCache serviceCache;
     @Autowired
     private ProcessService processService;
-    public Mono<Page> getList(int pageNum, int pageSize){
+    public Mono<Page> getList(int pageNum, int pageSize, String keyword){
         return async(()->{
-                    Page<ServiceModel> s= serviceMapper.getServices(pageNum, pageSize);
+                    Page<ServiceModel> s= serviceMapper.getServices(pageNum, pageSize, keyword);
                     for (ServiceModel item:s){
                         item.setStatus(processService.getPid(item.getServiceId())!=0);
                     }

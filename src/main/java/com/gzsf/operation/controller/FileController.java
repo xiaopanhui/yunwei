@@ -74,11 +74,11 @@ public class FileController {
         return fileService.delete(fileId)
                 .map(it->{
                     if (it){
-                      return   ResponseUtils.success(null);
+                        return   ResponseUtils.success(null);
                     }else {
-                     return    ResponseUtils.systemError();
+                        return    ResponseUtils.systemError();
                     }
-        })
+                })
                 .doOnError(it-> logger.error("create File",it));
     }
 
@@ -88,18 +88,19 @@ public class FileController {
             @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
             @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize,
             @RequestParam(value = "keyword",required = false) String keyword
-            ){
+    ){
         return fileService.getVersionList(fileId,pageNum, pageSize, keyword)
                 .map(ResponseUtils::successPage)
                 .doOnError(it->logger.error("getVersionList",it));
     }
+
     @PostMapping("/file/{id}/version")
     public Mono updateFile(
             @PathVariable("id") Long fileId,
             Authentication authentication,
             @RequestPart("file") FilePart filePart,
             @RequestPart(value = "updateLog" ,required = false)FormFieldPart updateLog
-            )
+    )
     {
         User user= (User) authentication.getPrincipal();
         String updateInfo=updateLog==null?null:updateLog.value();

@@ -3,8 +3,10 @@ package com.gzsf.operation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gzsf.operation.model.FieldItem;
 import com.gzsf.operation.model.FieldItems;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -12,10 +14,8 @@ import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
+
 
 public class Utils {
     private final static ObjectMapper mapper=new ObjectMapper();
@@ -93,7 +93,7 @@ public class Utils {
         }
         StringWriter stringWriter = new StringWriter();
         Velocity.evaluate(context,stringWriter,"vtlTemple",temple);
-        return stringWriter.toString();
+        return stringWriter.toString().replace("{","").replace("}","");
     }
 
     public static FieldItems StringToLogItems(String string){
@@ -113,5 +113,41 @@ public class Utils {
         } catch (IOException e) {
         }
         return result;
+    }
+
+    public static List<Map<String, Object>> getMap(MultipartFile file){
+        List<Map<String, Object>> res = new ArrayList<>();
+        String fileName = file.getOriginalFilename();
+        if (!fileName.contains("xls") && !fileName.contains("xlsx")) {
+        } else {
+            Workbook wb = null;
+            try {
+                wb = WorkbookFactory.create(file.getInputStream());
+                Sheet sheet = wb.getSheetAt(0);
+                Row row = sheet.getRow(sheet.getFirstRowNum());
+                List<String> list = new ArrayList<>();
+                Iterator cells = row.cellIterator();
+                while (cells.hasNext()){
+                    Cell cell = (Cell) cells.next();
+                    cell.setCellType(CellType.STRING);
+                    list.add(cell.getStringCellValue());
+                }
+                for (int i = sheet.getFirstRowNum()+1; i <= sheet.getLastRowNum(); i++) {
+                    Map<String,Object> map = new HashMap<>();
+                    Row row1 = sheet.getRow(i);
+                    Iterator cells1 = row1.cellIterator();
+                    int flag = 0;
+                    while (cells1.hasNext()){
+                        Cell cell = (Cell) cells1.next();
+                        cell.setCellType(CellType.STRING);
+                        map.put(list.get(flag),cell.getStringCellValue());
+                        flag++;
+                    }
+                    res.add(map);
+                }
+            }catch (IOException e) {
+            }
+        }
+        return res;
     }
 }

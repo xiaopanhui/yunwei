@@ -1,0 +1,107 @@
+<script type="text/html" template>
+	<link rel="stylesheet" href="{{ layui.setter.base }}style/login.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
+
+	<div class="layadmin-user-login-main">
+		<div class="layadmin-user-login-box layadmin-user-login-header">
+			<h2>公安前置平台</h2>
+		</div>
+		<div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+			<div class="layui-form-item">
+				<label class="layadmin-user-login-icon layui-icon layui-icon-username" for="LAY-user-login-username"></label>
+				<input type="text" name="userName" id="LAY-user-login-username" lay-verify="required" placeholder="用户名" class="layui-input">
+			</div>
+			<div class="layui-form-item">
+				<label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-password"></label>
+				<input type="password" name="password" id="LAY-user-login-password" lay-verify="required" placeholder="密码" class="layui-input">
+			</div>
+			<div class="layui-form-item">
+				<button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-login-submit">登 录</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="layui-trans layadmin-user-login-footer">
+		<span>Copyright © 贵州盛方 Inc. All rights reserved</span>
+	</div>
+
+
+</div>
+<script src="/layui/src/controller/axios.js"></script>
+<script>
+//	layui.use(['form','jquery','layer'],function() {
+//		var form = layui.form;
+//		var layer = layui.layer;
+//		var $ = jQuery =layui.$;
+//		var username = $("#username");
+//		var password = $("#password");
+//		form.on('submit(lform)',function(data) {
+//			$.ajax({
+//				type:"post",
+//				url:"/login",
+//				data:{username:username.val(),password:password.val()},
+//				success:function(data) {
+//					if(data == "error") {
+//						layer.open({
+//							title:'错误',
+//							content:'用户名或密码错误'
+//						});
+//					} else {
+//						
+//					}
+//				}
+//			});
+//		})
+//	})
+	
+	layui.use(['admin', 'form', 'user'], function() {
+		var $ = layui.$,
+			setter = layui.setter,
+			admin = layui.admin,
+			form = layui.form,
+			router = layui.router(),
+			search = router.search;
+		form.render();
+
+		//提交
+		form.on('submit(LAY-user-login-submit)', function(obj) {
+			axios.post('/login',obj.field)
+			.then(res => {
+				if(res.status==200&&res.data.status==0){
+					window.localStorage.setItem("user", JSON.stringify(res.data.data))
+					layui.data(setter.tableName, {
+						key: setter.request.tokenName,
+						value: res.data.data.token
+					});
+					layer.msg('登入成功', {
+						offset: '15px',
+						icon: 1,
+						time: 1000
+					}, function() {
+						location.hash = search.redirect ? decodeURIComponent(search.redirect) : '/';
+					});
+				}
+				else if(res.status==200&&res.data.status==100){
+					layer.msg('请检查用户名或密码', {
+						offset: '15px',
+						icon: 2,
+						time: 1000
+					}, function() {
+					});
+				}else{
+					layer.msg('系统错误', {
+						offset: '15px',
+						icon: 5,
+						time: 1000
+					}, function() {
+					});
+				}
+			})
+			.catch(err => {
+				alert(JSON.stringify(err))
+			})
+		});
+	});
+</script>

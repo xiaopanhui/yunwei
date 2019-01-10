@@ -1,8 +1,6 @@
 package com.gzsf.operation.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
-
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;

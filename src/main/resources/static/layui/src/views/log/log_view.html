@@ -1,0 +1,267 @@
+<title>日志管理</title>
+<style>
+    p {
+        word-wrap: break-word;
+        word-break: break-all;
+        overflow: hidden;
+    }
+</style>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a lay-href="log/log_list">日志管理</a>
+        <a><cite>数据库日志</cite></a>
+        <a id="log_Name"></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="app-log-view">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-comm"
+                    <a lay-href="log/log_list"></a>
+                    <i class="layui-icon layui-icon-prev layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">时间范围</label>
+                    <div class="layui-input-inline" style="width: 300px;">
+                        <input type="text" name="dateTime" class="layui-input" id="test-laydate-range-datetime"
+                               placeholder=" - ">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">关键字</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="keyword" id="keyword" placeholder="请输入" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-app-contlist-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+                <div class="layui-inline">
+                    <button onclick="document.getElementById('keyword').value=''" class="layui-btn layuiadmin-btn-comm">
+                        清空搜索
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-card-body">
+            <div id="view"></div>
+            <div id="laypag"></div>
+        </div>
+    </div>
+</div>
+<script src="/layui/src/controller/axios.js"></script>
+<script>
+    layui.use('contlist', layui.factory('contlist')).use(['admin', 'contlist', 'table', 'laypage', 'laydate'], function () {
+        var $ = layui.$,
+            admin = layui.admin,
+            laypage = layui.laypage,
+            view = layui.view,
+            table = layui.table,
+            form = layui.form,
+            laytpl = layui.laytpl,
+            router = layui.router(),
+            search = router.search,
+            laydate = layui.laydate
+        document.getElementById("log_Name").innerHTML = "<cite>" + decodeURI(search.logName) + "</cite>"
+        var show_message = function (msg, type, index) {
+            layer.msg(msg, {
+                offset: '15px',
+                icon: type,
+                time: 1000
+            }, function () {
+                layer.close(index);
+            });
+        }
+        var resolve_res = function () {
+            var res = arguments[0]
+            var table_render = arguments[1]
+            var option = arguments[2]
+            var index = arguments[3]
+            var obj = ""
+            if (arguments.length == 5) {
+                obj = arguments[4]
+            }
+            if (res.status == 200 && res.data.status == 0) {
+
+                show_message(option + "成功", 1, index)
+                if (obj != "") {
+                    obj.del()
+                }
+            } else if (res.status == 200 && res.data.status == 500) {
+                show_message("登录状态失效", 5, index)
+            } else if (res.status == 200 && res.data.status == 403) {
+                show_message("权限不足", 5, index)
+            } else {
+                show_message("系统错误", 2, index)
+            }
+        }
+
+        form.render(null, 'app-log-view');
+        table_init = document.getElementById("table_init")
+        var tpl = table_init.innerHTML
+        var table_view = document.getElementById("view")
+        var headers = {
+            'headers': {
+                "Authorization": JSON.parse(window.localStorage.getItem("layuiAdmin")).token
+            }
+        }
+        var load_data = function (pageNum, pageSize, startTime, endTime, keyword) {
+            axios.get("/log/fields/" + search.logId, headers)
+                .then(res => {
+                    if (res.status == 200 && res.data.status == 403) {
+                        layer.msg("权限不足", {
+                            offset: '15px',
+                            icon: 2,
+                            time: 1000
+                        }, function () {
+                        });
+                    } else {
+                        var d1 = res.data.data
+                        var d = []
+                        d.push(d1.filter(item => item.show))
+                        var params = "?pageNum=" + pageNum + "&pageSize=" + pageSize
+                        if (startTime != "") {
+                            params += "&startTime=" + startTime + "&endTime=" + endTime
+                        }
+                        if (keyword != "") {
+                            params += "&keyword=" + keyword
+                        }
+                        axios.get("/log/db/" + search.logId + params, headers)
+                            .then(res => {
+                                var d2 = res.data.data
+                                d.push(d2)
+                                laytpl(tpl).render(d, function (html) {
+                                    table_view.innerHTML = html;
+                                })
+                                table.init('LAY-log-log-view', {limit: pageSize});
+                                table.on('tool(LAY-log-log-view)', function (obj) {
+                                    var len = Object.keys(obj.data).length;
+                                    var text = '';
+                                    var tr = parseInt(obj.tr.selector.slice(-3, -2));
+                                    var key = Object.keys(d2[tr]);
+                                    var tag_list = document.getElementsByClassName('s_show');
+                                    for (var i in tag_list) {
+                                        if (tr == i) {
+                                            if (tag_list[i].value == 1) {
+                                                tag_list[i].value = 2
+                                                tag_list[i].innerHTML = '<i style="margin: 0" class="layui-icon layui-icon-down"></i>';
+                                                $(obj.tr.selector).after("<tr id='ap" + tr + "'><td colspan='" + len + "' style='padding-left: 100px'>" + text + "</td></tr>")
+                                            } else {
+                                                tag_list[i].value = 1
+                                                tag_list[i].innerHTML = '<i style="margin: 0" class="layui-icon layui-icon-right"></i>';
+                                                $("#ap" + tr).remove()
+                                            }
+                                        }
+                                    }
+                                })
+                            })
+                            .catch(err => {
+                                alert(err)
+                            })
+                    }
+                })
+                .catch(err => {
+                    alert(JSON.stringify(err))
+                })
+        }
+        axios.get("/log/db/" + search.logId, headers)
+            .then(res => {
+                var total = res.data.total
+                var pag = laypage.render({
+                    elem: 'laypag'
+                    , count: total
+                    , limit: 10
+                    , prev: '<i class="layui-icon layui-icon-left"></i>'
+                    , next: '<i class="layui-icon layui-icon-right"></i>'
+                    , limits: [10, 20, 30, 40, 50]
+                    , layout: ['prev', 'page', 'next', 'skip', 'count', 'limit']
+                    , jump: function (obj, first) {
+                        load_data(obj.curr, obj.limit, "", "", "")
+                    }
+                });
+            })
+            .catch(err => {
+
+            })
+
+        var ins1 = laydate.render({
+            elem: '#test-laydate-range-datetime',
+            type: 'datetime',
+            format: 'yyyy-MM-dd HH:mm:ss',
+            range: '/',
+        });
+
+        //监听搜索
+        form.on('submit(LAY-app-contlist-search)', function (data) {
+            var field = data.field;
+            var dateTime = field.dateTime.split('/')
+            var startTime = ""
+            var endTime = ""
+            if (dateTime != "") {
+                startTime = dateTime[0].trim()
+                endTime = dateTime[1].trim()
+            }
+            var keyword = document.getElementById('keyword').value
+            load_data(1, 10, startTime, endTime, keyword)
+            return false
+        });
+    });
+</script>
+<script type="text/html" id="log_view_tool">
+    <button style="border: 0px" class="layui-btn layui-btn-primary layui-btn-xs layui-btn-radius s_show"
+            lay-event="show" value="1"><i style="margin: 0" class="layui-icon layui-icon-right"></i></button>
+</script>
+<script type="text/html" id="table_init">
+    <table id="LAY-log-log-view-it" lay-filter="LAY-log-log-view">
+        <thead>
+        <tr>
+            <th lay-data="{toolbar: '#log_view_tool', width: 100, align: 'center'}"></th>
+            {{# layui.each(d[0], function(index, item){ }}
+            <th lay-data="{field:'{{item.key}}', minWidth: 100}">{{item.name}}</th>
+            {{# });}}
+        </tr>
+        </thead>
+        <tbody>
+        {{# layui.each(d[1], function(index, item){ var result = item; }}
+        <tr>
+            <td></td>
+            {{# layui.each(d[0], function(i, it){}}
+            {{# if(it.key.split('.') != it.key){
+                var keys = it.key.split('.');
+                var flag = true;
+                var length = keys.length;
+                var index = 0;
+                for (var ite in keys) {
+                    if(flag){
+                        result = JSON.parse(result[keys[ite]]);
+                        flag = false;
+                    }else{
+                        if(index!=length){
+                            result = result[keys[ite]];
+                        }
+                    }
+                    index++;
+                }
+            }}}
+            {{# alert(result)}}
+            {{# if('string' === typeof result){ }}
+            <td>{{result}}</td>
+            {{# }else{}}
+            <td>{{item[it.key]}}</td>
+            {{# }}}
+            {{# }) }}
+        </tr>
+        {{# }); }}
+        </tbody>
+    </table>
+</script>
+

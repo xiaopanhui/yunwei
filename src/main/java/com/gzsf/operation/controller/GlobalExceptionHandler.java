@@ -65,9 +65,9 @@ public class GlobalExceptionHandler {
         return Mono.just(ResponseUtils.systemError());
     }
 
-    @ResponseBody
-    @RequestMapping("**")
-    public Mono<Response> statusError(ServerHttpRequest req){
-        return Mono.just(ResponseUtils.notFound());
-    }
+//    @ResponseBody
+//    @RequestMapping("**")
+//    public Mono<Response> statusError(ServerHttpRequest req){
+//        return Mono.just(ResponseUtils.notFound());
+//    }
 }
